@@ -1,0 +1,18 @@
+{
+  "app_name": "Food Delivery",
+  "menu": {
+    "menu_guest": "Guest",
+    "menu_home": "Home",
+    "menu_notifications": "Notifications",
+    "menu_my_orders": "My Orders",
+    "menu_favorite_foods": "Favorite Foods",
+    "menu_app_preferences": "Application Preferences",
+    "menu_help_support": "Help Support",
+    "menu_settings": "Settings",
+    "menu_languages": "Languages",
+    "menu_light_mode": "Light Mode",
+    "menu_dark_mode": "Dark Mode",
+    "menu_login": "Login",
+    "menu_logout": "Logout"
+  },
+}
