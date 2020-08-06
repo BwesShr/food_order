@@ -1,11 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:food_order/generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:food_order/src/model/food.dart';
 import 'package:food_order/src/route_generator.dart';
 import 'package:food_order/src/utils/app_config.dart' as config;
 import 'package:food_order/src/utils/color_theme.dart';
 import 'package:food_order/src/utils/images.dart';
-import 'package:food_order/src/utils/local_strings.dart';
 
 class FoodTile extends StatelessWidget {
   Food food;
@@ -27,7 +28,7 @@ class FoodTile extends StatelessWidget {
           Navigator.of(context).pushNamed(foodRoute, arguments: food);
         },
         child: Container(
-          padding: EdgeInsets.all(_appConfig.horizontalPadding(5)),
+          padding: EdgeInsets.all(_appConfig.horizontalPadding(3)),
           decoration: BoxDecoration(
             color: Theme.of(context).backgroundColor,
             border: Border.all(color: Colors.grey.withOpacity(0.3)),
@@ -77,7 +78,8 @@ class FoodTile extends StatelessWidget {
                       text: '',
                       children: <TextSpan>[
                         TextSpan(
-                          text: '$currency${food.price}',
+                          text: LocaleKeys.currency
+                              .tr(namedArgs: {'amount': '${food.price}'}),
                           style: Theme.of(context).textTheme.headline2.copyWith(
                                 fontSize: _appConfig.textSize(3.5),
                                 decoration: food.discountPrice != 0
@@ -88,7 +90,9 @@ class FoodTile extends StatelessWidget {
                         TextSpan(text: ' '),
                         food.discountPrice != 0
                             ? TextSpan(
-                                text: '$currency${food.discountPrice}',
+                                text: LocaleKeys.currency.tr(namedArgs: {
+                                  'amount': '${food.discountPrice}'
+                                }),
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline2
@@ -107,7 +111,7 @@ class FoodTile extends StatelessWidget {
                       border: Border.all(color: Colors.grey.withOpacity(0.3)),
                     ),
                     child: Text(
-                      action_add,
+                      LocaleKeys.action_add.tr(),
                       style: Theme.of(context)
                           .textTheme
                           .bodyText2
