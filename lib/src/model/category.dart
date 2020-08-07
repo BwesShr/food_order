@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Category {
   int id;
   String name;
@@ -7,10 +9,10 @@ class Category {
   Category.empty();
 
   Category({
-    this.id,
-    this.name,
-    this.slug,
-    this.image,
+    @required this.id,
+    @required this.name,
+    @required this.slug,
+    @required this.image,
   });
 
   Category.fromJSON(Map<String, dynamic> jsonMap)

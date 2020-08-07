@@ -1,6 +1,6 @@
 import 'package:food_order/src/controller/splash_screen_controller.dart';
+import 'package:food_order/src/utils/app_config.dart' as config;
 import 'package:food_order/src/utils/images.dart';
-import 'package:food_order/src/utils/save_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
@@ -13,40 +13,24 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends StateMVC<SplashScreen> {
-  SplashScreenController _con;
-  final _saveData = SaveData();
+  SplashScreenController _controller;
 
   _SplashScreenState() : super(SplashScreenController()) {
-    _con = controller;
+    _controller = controller;
   }
 
   @override
   void initState() {
     super.initState();
 
-    loadData();
-  }
-
-  void loadData() {
-    _con.changePage();
-    // _con.progress.addListener(() {
-    //   double progress = 0;
-
-    //   print('progress: $progress');
-    //   _con.progress.value.values.forEach((_progress) {
-    //     print('progress: $progress');
-    //     progress += _progress;
-    //   });
-    //   if (progress == 100) {
-    //     Navigator.of(context).pushReplacementNamed(walkThroughRoute);
-    //   }
-    // });
+    _controller.changePage();
   }
 
   @override
   Widget build(BuildContext context) {
+    final _appConfig = config.AppConfig(context);
     return Scaffold(
-      key: _con.scaffoldKey,
+      key: _controller.scaffoldKey,
       body: Container(
         decoration: BoxDecoration(
           color: Theme.of(context).scaffoldBackgroundColor,
@@ -59,10 +43,10 @@ class _SplashScreenState extends StateMVC<SplashScreen> {
             children: <Widget>[
               Image.asset(
                 appIcon,
-                width: 150,
+                width: _appConfig.appWidth(40),
                 fit: BoxFit.cover,
               ),
-              SizedBox(height: 50),
+              SizedBox(height: _appConfig.hugeSpace()),
               CircularProgressIndicator(
                 valueColor:
                     AlwaysStoppedAnimation<Color>(Theme.of(context).hintColor),

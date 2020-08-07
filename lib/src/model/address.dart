@@ -5,7 +5,7 @@ class Address {
   String latitude;
   String longitude;
   bool isDefault;
-  String userId;
+  int userId;
 
   Address();
 

@@ -1,31 +1,28 @@
-import 'media.dart';
+import 'package:flutter/material.dart';
 
 class Extra {
-  String id;
+  int id;
   String name;
   double price;
-  Media image;
-  String description;
-  bool checked;
 
-  Extra();
+  Extra.empty();
+
+  Extra({
+    @required this.id,
+    @required this.name,
+    this.price,
+  });
 
   Extra.fromJSON(Map<String, dynamic> jsonMap)
-      : id = jsonMap['id'].toString(),
+      : id = jsonMap['id'],
         name = jsonMap['name'],
-        price = jsonMap['price'] != null ? jsonMap['price'].toDouble() : null,
-        description = jsonMap['description'],
-        checked = false,
-        image = jsonMap['media'] != null
-            ? Media.fromJSON(jsonMap['media'][0])
-            : null;
+        price = jsonMap['price'] != null ? jsonMap['price'].toDouble() : null;
 
   Map toMap() {
     var map = new Map<String, dynamic>();
     map["id"] = id;
     map["name"] = name;
     map["price"] = price;
-    map["description"] = description;
     return map;
   }
 }

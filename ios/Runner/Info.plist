@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>NSLocationAlwaysUsageDescription</key>	
-	<string>I need it </string>	
+	<string>$(FLUTTER_BUILD_NAME) requires this permission to function properly</string>
 	<key>NSLocationWhenInUseUsageDescription</key>	
-	<string>Because</string>
+	<string>$(FLUTTER_BUILD_NAME) requires this permission to function properly</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -45,5 +45,10 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>CFBundleLocalizations</key>
+    <array>
+    	<string>en</string>
+    	<string>np</string>
+    </array>
 </dict>
 </plist>

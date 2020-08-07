@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:food_order/src/model/setting.dart';
 import 'package:food_order/src/utils/api_config.dart';
 import 'package:food_order/src/utils/save_data.dart';

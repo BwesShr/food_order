@@ -1,23 +1,31 @@
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:flutter/material.dart';
+import 'package:food_order/generated/locale_keys.g.dart';
 import 'package:food_order/presentation/app_icons_icons.dart';
-import 'package:food_order/src/utils/local_strings.dart';
+import 'package:food_order/src/controller/home_controller.dart';
+import 'package:food_order/src/utils/app_config.dart' as config;
+import 'package:food_order/src/utils/color_theme.dart';
 import 'package:food_order/src/utils/save_data.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:food_order/src/widget/appbar.dart';
+import 'package:food_order/src/widget/buttons/navbar_icon.dart';
 import 'package:food_order/src/widget/connectivity_check.dart';
 import 'package:food_order/src/widget/drawer_widget.dart';
-import 'package:flutter/material.dart';
+import 'package:mvc_pattern/mvc_pattern.dart';
 
-import 'home/cart_screen.dart';
-import 'home/history_screen.dart';
-import 'home/home_screen.dart';
-import 'home/profile_screen.dart';
-import 'home/search_screen.dart';
+import 'main/cart_screen.dart';
+import 'main/history_screen.dart';
+import 'main/home_screen.dart';
+import 'main/profile_screen.dart';
 
 class MainScreen extends StatefulWidget {
-  int currentTab;
+  MainScreen({
+    Key key,
+    this.currentTab = 0,
+  });
 
-  MainScreen({Key key, this.currentTab}) {
-    currentTab = currentTab != null ? currentTab : 0;
-  }
+  int currentTab;
 
   @override
   _MainScreenState createState() {
@@ -25,20 +33,26 @@ class MainScreen extends StatefulWidget {
   }
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends StateMVC<MainScreen> {
   final GlobalKey _bottomNavigationKey = GlobalKey();
-  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-  Widget _currentPage = HomeScreen();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final _saveData = SaveData();
   Locale locale;
-  String _title;
+
+  HomeController _controller;
+  _MainScreenState() : super(HomeController()) {
+    _controller = controller;
+  }
 
   @override
   void initState() {
-    super.initState();
-    _currentPage = HomeScreen();
-    _selectTab(widget.currentTab);
+    _controller.listenForHomeSlider();
+    _controller.listenForFoodCategory();
+    _controller.listenForTrendingFoods();
+    _controller.listenForCartCount();
+
     _fetchLocale();
+    super.initState();
   }
 
   _fetchLocale() async {
@@ -51,40 +65,6 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   @override
-  void didUpdateWidget(MainScreen oldWidget) {
-    _selectTab(oldWidget.currentTab);
-    super.didUpdateWidget(oldWidget);
-  }
-
-  void _selectTab(int tabItem) {
-    setState(() {
-      widget.currentTab = tabItem;
-      switch (tabItem) {
-        case 0:
-          _title = tab_home;
-          _currentPage = HomeScreen(parentScaffoldKey: scaffoldKey);
-          break;
-        case 1:
-          _title = tab_search;
-          _currentPage = SearchScreen(parentScaffoldKey: scaffoldKey);
-          break;
-        case 2:
-          _title = tab_cart;
-          _currentPage = CartScreen(parentScaffoldKey: scaffoldKey);
-          break;
-        case 3:
-          _title = tab_history;
-          _currentPage = HistoryScreen(parentScaffoldKey: scaffoldKey);
-          break;
-        case 4:
-          _title = tab_profile;
-          _currentPage = ProfileScreen(parentScaffoldKey: scaffoldKey);
-          break;
-      }
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async => false,
@@ -92,64 +72,126 @@ class _MainScreenState extends State<MainScreen> {
         color: Theme.of(context).backgroundColor,
         child: SafeArea(
           child: Scaffold(
-            key: scaffoldKey,
+            key: _scaffoldKey,
             drawer: DrawerWidget(),
-            appBar: AppBar(
-              automaticallyImplyLeading: false,
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              leading: IconButton(
-                icon: Icon(Icons.sort, color: Theme.of(context).buttonColor),
-                onPressed: () => scaffoldKey.currentState.openDrawer(),
-              ),
-              title: Text(
-                _title,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText2
-                    .copyWith(color: Theme.of(context).buttonColor),
-              ),
+            appBar: HomeAppbar(
+              title: _setCurrentPaggeTitle(widget.currentTab),
+              openDrawer: () => _scaffoldKey.currentState.openDrawer(),
             ),
-            body: ConnectivityCheck(child: _currentPage),
+            body: ConnectivityCheck(
+              child: _selectCurrentPage(widget.currentTab),
+            ),
             bottomNavigationBar: CurvedNavigationBar(
-              key: _bottomNavigationKey,
-              color: Theme.of(context).accentColor,
-              buttonBackgroundColor: Theme.of(context).accentColor,
-              backgroundColor: Theme.of(context).primaryColor,
-              animationCurve: Curves.easeInOut,
-              animationDuration: Duration(milliseconds: 400),
-              items: <Widget>[
-                Icon(
-                  AppIcons.ic_home,
-                  color: Theme.of(context).primaryColor,
-                ),
-                Icon(
-                  AppIcons.ic_search,
-                  color: Theme.of(context).primaryColor,
-                ),
-                Icon(
-                  AppIcons.ic_cart,
-                  color: Theme.of(context).primaryColor,
-                  size: 30.0,
-                ),
-                Icon(
-                  AppIcons.ic_history,
-                  color: Theme.of(context).primaryColor,
-                ),
-                Icon(
-                  AppIcons.ic_profile,
-                  color: Theme.of(context).primaryColor,
-                ),
-              ],
-              onTap: (position) {
-                setState(() {
-                  this._selectTab(position);
-                });
-              },
+              index: widget.currentTab,
+              color: Theme.of(context).primaryColor,
+              backgroundColor: Theme.of(context).buttonColor,
+              buttonBackgroundColor: secondaryColor,
+              onTap: (position) => setState(() {
+                widget.currentTab = position;
+              }),
+              items: navBarItems(context),
             ),
           ),
         ),
       ),
+    );
+  }
+
+  String _setCurrentPaggeTitle(int tabItem) {
+    switch (tabItem) {
+      case 0:
+        return LocaleKeys.tab_home.tr();
+      case 1:
+        return LocaleKeys.tab_cart.tr();
+      case 2:
+        return LocaleKeys.tab_history.tr();
+      case 3:
+        return LocaleKeys.tab_profile.tr();
+      default:
+        return LocaleKeys.tab_home.tr();
+    }
+  }
+
+  Widget _selectCurrentPage(int tabItem) {
+    switch (tabItem) {
+      case 0:
+        return HomeScreen(
+          parentScaffoldKey: _scaffoldKey,
+          controller: _controller,
+        );
+      case 1:
+        return CartScreen(
+          parentScaffoldKey: _scaffoldKey,
+        );
+      case 2:
+        return HistoryScreen(
+          parentScaffoldKey: _scaffoldKey,
+        );
+      case 3:
+        return ProfileScreen(
+          parentScaffoldKey: _scaffoldKey,
+        );
+      default:
+        return HomeScreen(
+          parentScaffoldKey: _scaffoldKey,
+          controller: _controller,
+        );
+    }
+  }
+
+  List<Widget> navBarItems(BuildContext context) {
+    final _appConfig = config.AppConfig(context);
+    double size = _appConfig.navBarIconSize();
+
+    return <Widget>[
+      buildIcon(context, size, AppIcons.ic_home, 0),
+      Stack(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.all(_appConfig.extraSmallSpace()),
+            child: buildIcon(context, size, AppIcons.ic_cart, 1),
+          ),
+          Positioned(
+            top: 0.0,
+            right: 0.0,
+            child: Container(
+              padding: EdgeInsets.all(
+                _appConfig.horizontalPadding(0.5),
+              ),
+              decoration: BoxDecoration(
+                color: widget.currentTab == 1 ? secondaryColor : whiteColor,
+                shape: BoxShape.circle,
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).buttonColor,
+                  shape: BoxShape.circle,
+                ),
+                padding: EdgeInsets.all(_appConfig.appWidth(1)),
+                child: Text(
+                  _controller.cartCount.toString(),
+                  style: Theme.of(context).textTheme.bodyText2.copyWith(
+                        color: whiteColor,
+                        fontSize: 10.0,
+                      ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+      buildIcon(context, size, AppIcons.ic_history, 2),
+      buildIcon(context, size, AppIcons.ic_profile, 3),
+    ];
+  }
+
+  Icon buildIcon(BuildContext context, double size, IconData icon, int index) {
+    return Icon(
+      icon,
+      color: widget.currentTab == index
+          ? Theme.of(context).primaryColor
+          : Theme.of(context).accentColor,
+      size: size,
     );
   }
 }

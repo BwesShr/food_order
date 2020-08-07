@@ -64,7 +64,8 @@ class SplashScreenController extends ControllerMVC {
       if (_firstRun) {
         Navigator.of(context).pushReplacementNamed(walkThroughRoute);
       } else {
-        Navigator.of(context).pushReplacementNamed(homeRoute, arguments: 0);
+        Navigator.of(context)
+            .pushReplacementNamed(homeRoute, arguments: {arg_current_tab: 0});
       }
     });
   }

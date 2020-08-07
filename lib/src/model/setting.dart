@@ -20,7 +20,28 @@ class Setting {
   String appVersion;
   bool enableVersion = true;
 
-  Setting();
+  Setting.empty();
+
+  Setting({
+    this.appName,
+    this.defaultTax,
+    this.defaultCurrency,
+    this.currencyRight,
+    this.payPalEnabled,
+    this.stripeEnabled,
+    this.mainColor,
+    this.mainDarkColor,
+    this.secondColor,
+    this.secondDarkColor,
+    this.accentColor,
+    this.accentDarkColor,
+    this.scaffoldDarkColor,
+    this.scaffoldColor,
+    this.googleMapsKey,
+    this.mobileLanguage,
+    this.appVersion,
+    this.enableVersion,
+  });
 
   Setting.fromJSON(Map<String, dynamic> jsonMap) {
     appName = jsonMap['app_name'] ?? null;
@@ -36,7 +57,8 @@ class Setting {
     mobileLanguage.value = Locale(jsonMap['mobile_language'] ?? "en", '');
     appVersion = jsonMap['app_version'] ?? '';
     enableVersion = jsonMap['enable_version'] == null ? false : true;
-    defaultTax = double.tryParse(jsonMap['default_tax']) ?? 0.0; //double.parse(jsonMap['default_tax'].toString());
+    defaultTax = double.tryParse(jsonMap['default_tax']) ??
+        0.0; //double.parse(jsonMap['default_tax'].toString());
     defaultCurrency = jsonMap['default_currency'] ?? '';
     currencyRight = jsonMap['currency_right'] == null ? false : true;
     payPalEnabled = jsonMap['enable_paypal'] == null ? false : true;

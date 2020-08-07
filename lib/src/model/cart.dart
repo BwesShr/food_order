@@ -1,36 +1,59 @@
+import 'package:flutter/material.dart';
+import 'package:food_order/src/model/ingrident.dart';
+
 import 'extra.dart';
 import 'food.dart';
 
 class Cart {
-  String id;
+  int id;
+  int userId;
   Food food;
-  double quantity;
+  int quantity;
+  List<Ingrident> ingridents;
   List<Extra> extras;
-  String userId;
+  bool selected;
 
-  Cart();
+  Cart.empty();
+
+  Cart({
+    @required this.id,
+    @required this.userId,
+    @required this.food,
+    @required this.quantity,
+    @required this.ingridents,
+    @required this.extras,
+    @required this.selected,
+  });
 
   Cart.fromJSON(Map<String, dynamic> jsonMap) {
-    id = jsonMap['id'].toString();
-    quantity =
-        jsonMap['quantity'] != null ? jsonMap['quantity'].toDouble() : 0.0;
-    food =
-        jsonMap['food'] != null ? Food.fromJSON(jsonMap['food']) : new Food();
+    id = jsonMap['id'];
+    quantity = jsonMap['quantity'] != null ? jsonMap['quantity'] : 0;
+    food = jsonMap['food'] != null
+        ? Food.fromJSON(jsonMap['food'])
+        : new Food.empty();
+    ingridents = jsonMap['ingridents'] != null
+        ? List.from(jsonMap['ingridents'])
+            .map((element) => Ingrident.fromJSON(element))
+            .toList()
+        : [];
     extras = jsonMap['extras'] != null
         ? List.from(jsonMap['extras'])
             .map((element) => Extra.fromJSON(element))
             .toList()
         : [];
-    food.price = getFoodPrice();
+    selected = jsonMap['selected'] != null ? jsonMap['selected'] : false;
+    // food.price = getFoodPrice();
   }
 
   Map toMap() {
     var map = new Map<String, dynamic>();
-    map["id"] = id;
-    map["quantity"] = quantity;
-    map["food_id"] = food.id;
-    map["user_id"] = userId;
-    map["extras"] = extras.map((element) => element.id).toList();
+    map['id'] = id;
+    map['user_id'] = userId;
+    map['quantity'] = quantity;
+    map['food_id'] = food.id;
+    map['ingridents'] = ingridents.map((element) => element.id).toList();
+    map['extras'] = extras.map((element) => element.id).toList();
+    map['selected'] = selected;
     return map;
   }
 

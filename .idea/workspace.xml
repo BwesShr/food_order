@@ -1,12 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="4d921508-acb5-4276-9820-1069f5c17c8b" name="Default Changelist" comment="" />
-    <ignored path="$PROJECT_DIR$/.dart_tool/" />
-    <ignored path="$PROJECT_DIR$/.idea/" />
-    <ignored path="$PROJECT_DIR$/.pub/" />
-    <ignored path="$PROJECT_DIR$/build/" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <list default="true" id="4d921508-acb5-4276-9820-1069f5c17c8b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/lib/src/view/language_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/locales/en-US.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/locales/locales.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/locales/ne-Np.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eat.iml" beforeDir="false" afterPath="$PROJECT_DIR$/eat.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/Info.plist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/controller/category_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/controller/category_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/controller/food_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/controller/food_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/controller/home_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/controller/home_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/route_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/route_generator.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/utils/local_strings.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/utils/my_localization.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/view/home/home_food_category.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/view/home/home_food_category.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/view/home/home_trending_food.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/view/home/home_trending_food.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/view/main_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/view/main_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/widget/drawer_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/widget/drawer_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/widget/food_category_tile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/widget/food_category_tile.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/widget/food_tile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/widget/food_tile.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/widget/search_bar_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/widget/search_bar_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -16,26 +46,15 @@
     <option name="testRunner" value="GRADLE" />
     <option name="delegatedBuild" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="RZ8M42J0HQV" />
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/pubspec.yaml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="104">
-              <caret line="72" column="59" selection-start-line="72" selection-start-column="4" selection-end-line="72" selection-end-column="59" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="776cda21" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/pubspec.yaml" />
-      </list>
+  <component name="IgnoredFileRootStore">
+    <option name="generatedRoots">
+      <set>
+        <option value="$PROJECT_DIR$/.idea" />
+      </set>
     </option>
   </component>
   <component name="ProjectFrameBounds">
@@ -44,42 +63,21 @@
     <option name="width" value="719" />
     <option name="height" value="877" />
   </component>
-  <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="PackagesPane" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="eat" type="b2602c69:ProjectViewProjectNode" />
-              <item name="eat" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="eat" type="b2602c69:ProjectViewProjectNode" />
-              <item name="eat" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="eat" type="b2602c69:ProjectViewProjectNode" />
-              <item name="eat" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="CatdeaLogs" />
-      <pane id="Scope" />
-      <pane id="AndroidView" />
-    </panes>
+  <component name="ProjectId" id="1eqK5jrr2K6ePjuUMDFaCBxioS6" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib" />
+    <property name="io.flutter.reload.alreadyRun" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="dart.settings" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
@@ -89,18 +87,6 @@
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
     </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -115,60 +101,30 @@
     </task>
     <servers />
   </component>
-  <component name="ToolWindowManager">
-    <frame x="721" y="23" width="719" height="877" extended-state="0" />
-    <editor active="true" />
-    <layout>
-      <window_info id="Structure" side_tool="true" />
-      <window_info id="Favorites" side_tool="true" />
-      <window_info id="Build Variants" side_tool="true" />
-      <window_info id="Image Layers" />
-      <window_info id="Designer" />
-      <window_info id="Capture Tool" />
-      <window_info id="Resources Explorer" />
-      <window_info id="Captures" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24963072" />
-      <window_info anchor="bottom" id="Dart Analysis" weight="0.3299363" />
-      <window_info anchor="bottom" id="Run" />
-      <window_info anchor="bottom" id="Logcat" />
-      <window_info anchor="bottom" id="TODO" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Debug" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info anchor="bottom" id="Catdea" />
-      <window_info anchor="bottom" id="Messages" visible="true" weight="0.3299363" />
-      <window_info anchor="bottom" id="Android Profiler" show_stripe_button="false" />
-      <window_info anchor="right" id="Device File Explorer" side_tool="true" />
-      <window_info anchor="right" id="Capture Analysis" />
-      <window_info anchor="right" id="Theme Preview" />
-      <window_info anchor="right" id="Flutter Inspector" />
-      <window_info anchor="right" id="Flutter Outline" />
-      <window_info anchor="right" id="Palette&#9;" />
-      <window_info anchor="right" id="Flutter Performance" />
-    </layout>
-  </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="33" selection-start-line="9" selection-start-column="33" selection-end-line="9" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/main.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="25" selection-start-line="2" selection-start-column="16" selection-end-line="2" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pubspec.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="72" column="59" selection-start-line="72" selection-start-column="4" selection-end-line="72" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
+  <component name="WindowStateProjectService">
+    <state width="1398" height="236" key="GridCell.Tab.0.bottom" timestamp="1595053409083">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="236" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1595053409083" />
+    <state width="1398" height="236" key="GridCell.Tab.0.center" timestamp="1595053409082">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="236" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1595053409082" />
+    <state width="1398" height="236" key="GridCell.Tab.0.left" timestamp="1595053409081">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="236" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1595053409081" />
+    <state width="1398" height="236" key="GridCell.Tab.0.right" timestamp="1595053409082">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="236" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1595053409082" />
+    <state x="221" y="63" key="SettingsEditor" timestamp="1595099668939">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="221" y="63" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1595099668939" />
+    <state x="100" y="100" width="1240" height="700" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1595049791311">
+      <screen x="0" y="23" width="1440" height="877" />
+    </state>
+    <state x="100" y="100" width="1240" height="700" key="com.android.tools.idea.avdmanager.AvdListDialog/0.23.1440.877@0.23.1440.877" timestamp="1595049791311" />
   </component>
 </project>

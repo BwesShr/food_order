@@ -3,18 +3,23 @@ import 'restaurant.dart';
 import 'user.dart';
 
 class Review {
-  String id;
+  int id;
   String review;
-  String rate;
+  double rate;
   User user;
 
-  Review();
-  Review.init(this.rate);
+  Review.empty();
+  Review({
+    this.id,
+    this.review,
+    this.rate,
+    this.user,
+  });
 
   Review.fromJSON(Map<String, dynamic> jsonMap) {
-    id = jsonMap['id'].toString();
+    id = jsonMap['id'];
     review = jsonMap['review'];
-    rate = jsonMap['rate'].toString() ?? '0';
+    rate = jsonMap['rate'].toDouble() ?? 0.0;
     user = jsonMap['user'] != null ? User.fromJSON(jsonMap['user']) : null;
   }
 

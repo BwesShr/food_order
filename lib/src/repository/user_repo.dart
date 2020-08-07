@@ -13,10 +13,9 @@ ValueNotifier<User> currentUser = new ValueNotifier(User());
 Address deliveryAddress = new Address();
 
 Future<User> login(User user) async {
-  final String url = '${api_base_url}login';
   final client = new http.Client();
   final response = await client.post(
-    url,
+    login_url,
     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
     body: json.encode(user.toMap()),
   );
@@ -28,10 +27,9 @@ Future<User> login(User user) async {
 }
 
 Future<User> register(User user) async {
-  final String url = '${api_base_url}register';
   final client = new http.Client();
   final response = await client.post(
-    url,
+    register_url,
     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
     body: json.encode(user.toMap()),
   );
@@ -43,10 +41,9 @@ Future<User> register(User user) async {
 }
 
 Future<bool> resetPassword(User user) async {
-  final String url = '${api_base_url}send_reset_link_email';
   final client = new http.Client();
   final response = await client.post(
-    url,
+    reset_password_url,
     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
     body: json.encode(user.toMap()),
   );

@@ -1,23 +1,12 @@
 import 'package:flutter/material.dart';
 
 const primaryColor = Color(0xFFF44336);
-const primaryDarkColor = Color(0xFFD32F2F);
-const accentColor = Color(0xFFFF5252);
-const hintColor = Colors.grey;
-const lightGreyBackgroundColor = Color(0xFFF0F0F0);
+const secondaryColor = Color(0xFF8BC34A);
 
-const primaryTextColor = Color(0xFF212121);
-const secondaryTextColor = Color(0xFFFFFFFF);
-const subTextColor = Color(0xFF787878);
-
-const menuItemColor = Color(0xFFFF5252);
-const backgroundColor = Color(0xBDFFFFFF);
-
+const backgroundColor = Color(0xFFF7F8FA);
 const whiteColor = Color(0xFFFFFFFF);
-const blackColor = Color(0xFF252525);
+const blackColor = Color(0xFF212121);
+const greyColor = Colors.grey;
 const dividerColor = Color(0xFFBDBDBD);
-
-const btnPrimaryColor = Color(0xFFEB374F);
-const btnSecondaryColor = Color(0xFFFFFFFF);
-const btnSplashColor = Color(0xFFD32F2F);
-const btnFocusColor = Color(0xFFCCCCCC);
+const blackTransparentColor = Color(0xF65000000);
+const lightGreyColor = Color(0xFFE4E4E4);

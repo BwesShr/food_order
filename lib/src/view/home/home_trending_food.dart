@@ -1,17 +1,16 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:food_order/generated/locale_keys.g.dart';
+import 'package:food_order/src/controller/home_controller.dart';
 import 'package:food_order/src/model/food.dart';
 import 'package:food_order/src/utils/app_config.dart' as config;
-import 'package:food_order/src/utils/color_theme.dart';
-import 'package:food_order/src/utils/images.dart';
-import 'package:food_order/src/utils/local_strings.dart';
-import 'package:food_order/src/widget/blink_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:food_order/src/widget/food_tile.dart';
-import 'package:food_order/src/widget/no_data.dart';
+import 'package:food_order/src/widget/food/food_tile.dart';
+import 'package:food_order/src/widget/progress_dialog.dart';
 
 class HomeTrendingFood extends StatefulWidget {
-  HomeTrendingFood({Key key, @required this.trendingFoods}) : super(key: key);
-  final List<Food> trendingFoods;
+  HomeTrendingFood({Key key, this.controller}) : super(key: key);
+
+  final HomeController controller;
 
   @override
   _HomeTrendingFoodState createState() => _HomeTrendingFoodState();
@@ -26,35 +25,40 @@ class _HomeTrendingFoodState extends State<HomeTrendingFood> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: _appConfig.horizontalPadding(5),
+          padding: EdgeInsets.only(
+            left: _appConfig.horizontalSpace(),
           ),
           child: Text(
-            most_popular_title,
-            style: Theme.of(context)
-                .textTheme
-                .headline3
-                .copyWith(fontSize: 16.0, fontWeight: FontWeight.bold),
+            LocaleKeys.most_popular_title.tr(),
+            style: Theme.of(context).textTheme.headline2,
           ),
         ),
+        SizedBox(height: _appConfig.smallSpace()),
         Container(
-          width: double.infinity,
-          height: _appConfig.appWidth(60),
-          child: widget.trendingFoods.isEmpty
-              ? NoDataHorizontalList(
-                  size: _appConfig.appWidth(100),
-                  itemCount: 2,
-                )
-              : ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: widget.trendingFoods.length,
-                  itemBuilder: (context, index) {
-                    Food food = widget.trendingFoods[index];
-                    return FoodTile(
-                      food: food,
-                    );
-                  },
-                ),
+          height: _appConfig.appHeight(30),
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: <Widget>[
+              SizedBox(width: _appConfig.horizontalSpace()),
+              widget.controller.trendingFoods.isEmpty
+                  ? FoodHorizontalProgressDialog(
+                      itemCount: 2,
+                      size: _appConfig.appHeight(30),
+                    )
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: widget.controller.trendingFoods.length,
+                      itemBuilder: (context, index) {
+                        Food food = widget.controller.trendingFoods[index];
+                        return FoodTile(
+                          food: food,
+                        );
+                      },
+                    ),
+            ],
+          ),
         ),
       ],
     );

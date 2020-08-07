@@ -1,71 +1,67 @@
-import 'category.dart';
-import 'extra.dart';
+import 'package:flutter/material.dart';
+import 'package:food_order/src/model/extra.dart';
+import 'package:food_order/src/model/review.dart';
+
+import 'ingrident.dart';
 import 'media.dart';
-import 'nutrition.dart';
-import 'restaurant.dart';
-import 'review.dart';
 
 class Food {
   int id;
+  int categoryId;
   String name;
   double price;
-  double discountPrice;
+  double discount;
   Media image;
+  String excerpt;
   String description;
-  String ingredients;
   String weight;
   bool featured;
-  Restaurant restaurant;
-  int category_id;
+  double rating;
+  List<Ingrident> ingridents;
   List<Extra> extras;
   List<Review> foodReviews;
-  List<Nutrition> nutritions;
 
   Food.empty();
   Food({
-    this.id,
-    this.name,
-    this.price,
-    this.discountPrice,
-    this.image,
-    this.description,
-    this.ingredients,
-    this.weight,
-    this.featured,
-    this.restaurant,
-    this.category_id,
-    this.extras,
-    this.foodReviews,
-    this.nutritions,
+    @required this.id,
+    @required this.categoryId,
+    @required this.name,
+    @required this.price,
+    @required this.discount,
+    @required this.image,
+    @required this.excerpt,
+    @required this.description,
+    @required this.weight,
+    @required this.featured,
+    @required this.rating,
+    @required this.ingridents,
+    @required this.extras,
+    @required this.foodReviews,
   });
 
   Food.fromJSON(Map<String, dynamic> jsonMap) {
     try {
       id = jsonMap['id'];
+      categoryId = jsonMap['category_id'];
       name = jsonMap['name'];
       price = jsonMap['price'] != null ? jsonMap['price'].toDouble() : 0.0;
-      discountPrice = jsonMap['discount_price'] != null
-          ? jsonMap['discount_price'].toDouble()
-          : 0.0;
-      description = jsonMap['description'];
-      ingredients = jsonMap['ingredients'];
-      weight = jsonMap['weight'] != null ? jsonMap['weight'].toString() : '';
-      featured = jsonMap['featured'] ?? false;
-      restaurant = jsonMap['restaurant'] != null
-          ? Restaurant.fromJSON(jsonMap['restaurant'])
-          : new Restaurant();
-      category_id = jsonMap['category_id'];
+      discount = jsonMap['discount'] != null ? jsonMap['discount'] : 0;
       image = jsonMap['media'] != null
           ? Media.fromJSON(jsonMap['media'][0])
-          : new Media();
-      extras = jsonMap['extras'] != null
-          ? List.from(jsonMap['extras'])
-              .map((element) => Extra.fromJSON(element))
+          : new Media.empty();
+      excerpt = jsonMap['excerpt'];
+      description = jsonMap['description'];
+      weight = jsonMap['weight'] != null ? jsonMap['weight'].toString() : '';
+      featured = jsonMap['featured'] ?? false;
+      rating = jsonMap['rating'];
+      ingridents = jsonMap['ingredient'] != null
+          ? List.from(jsonMap['ingredient'])
+              .map((element) => Ingrident.fromJSON(element))
               .toList()
           : [];
-      nutritions = jsonMap['nutrition'] != null
-          ? List.from(jsonMap['nutrition'])
-              .map((element) => Nutrition.fromJSON(element))
+      extras = jsonMap['extra'] != null
+          ? List.from(jsonMap['extra'])
+              .map((element) => Extra.fromJSON(element))
               .toList()
           : [];
       foodReviews = jsonMap['food_reviews'] != null
@@ -81,12 +77,17 @@ class Food {
   Map toMap() {
     var map = new Map<String, dynamic>();
     map["id"] = id;
+    map["category_id"] = categoryId;
     map["name"] = name;
     map["price"] = price;
-    map["discountPrice"] = discountPrice;
+    map["discount"] = discount;
+    map["image"] = image;
+    map["excerpt"] = excerpt;
     map["description"] = description;
-    map["ingredients"] = ingredients;
+    map["ingredients"] = ingridents;
     map["weight"] = weight;
+    map["featured"] = featured;
+    map["rating"] = featured;
     return map;
   }
 

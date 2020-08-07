@@ -1,46 +1,40 @@
+import 'package:flutter/material.dart';
+
 class Media {
-  String id;
-  String name;
+  int id;
   String url;
   String thumb;
   String icon;
-  String size;
 
   Media.empty() {
-    url = "";
-    thumb = "";
-    icon = "";
+    url = '';
+    thumb = '';
+    icon = '';
   }
 
   Media({
-    this.id,
-    this.name,
-    this.url,
-    this.thumb,
-    this.icon,
-    this.size,
+    @required this.id,
+    @required this.url,
+    @required this.thumb,
+    @required this.icon,
   });
 
   Media.fromJSON(Map<String, dynamic> jsonMap) {
     try {
-      id = jsonMap['id'].toString();
-      name = jsonMap['name'];
+      id = jsonMap['id'];
       url = jsonMap['url'];
       thumb = jsonMap['thumb'];
       icon = jsonMap['icon'];
-      size = jsonMap['formated_size'];
     } catch (e) {
       //print(jsonMap);
     }
   }
   Map toMap() {
     var map = new Map<String, dynamic>();
-    map["id"] = id;
-    map["name"] = name;
-    map["url"] = url;
-    map["thumb"] = thumb;
-    map["icon"] = icon;
-    map["formated_size"] = size;
+    map['id'] = id;
+    map['url'] = url;
+    map['thumb'] = thumb;
+    map['icon'] = icon;
     return map;
   }
 

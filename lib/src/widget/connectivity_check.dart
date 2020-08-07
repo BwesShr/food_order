@@ -24,14 +24,14 @@ class ConnectivityCheck extends StatelessWidget {
           children: [
             child,
             Positioned(
-              top: 0.0,
+              bottom: 0.0,
               left: 0.0,
               right: 0.0,
               child: connected
                   ? Container()
                   : Container(
                       height: 50.0,
-                      color: Colors.red[300],
+                      color: Theme.of(context).buttonColor,
                       child: Center(
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
