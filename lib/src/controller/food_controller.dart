@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:food_order/generated/locale_keys.g.dart';
 import 'package:food_order/src/model/cart.dart';
 import 'package:food_order/src/model/extra.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:food_order/src/model/food.dart';
 import 'package:food_order/src/model/ingrident.dart';
 import 'package:food_order/src/repository/cart_repo.dart';
 import 'package:food_order/src/repository/food_repo.dart';
+import 'package:food_order/src/utils/color_theme.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+
+import '../route_generator.dart';
 
 class FoodController extends ControllerMVC {
   GlobalKey<ScaffoldState> scaffoldKey;
@@ -69,6 +74,21 @@ class FoodController extends ControllerMVC {
 
   void addToCart(Food food) {
     // TODO: call add food to cart api
+
+    // TODO: on successful show snackbar
+
+    scaffoldKey.currentState?.showSnackBar(SnackBar(
+      content: Text(LocaleKeys.added_to_cart_message.tr()),
+      action: SnackBarAction(
+        label: LocaleKeys.action_goto_cart.tr(),
+        textColor: Theme.of(context).buttonColor,
+        onPressed: () => Navigator.of(context).pushNamedAndRemoveUntil(
+          homeRoute,
+          (Route<dynamic> route) => false,
+          arguments: {arg_current_tab: 1},
+        ),
+      ),
+    ));
   }
 
   addToWishList(Food food) {

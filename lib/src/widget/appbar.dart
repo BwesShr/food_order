@@ -126,15 +126,13 @@ class SliverAppbar extends StatelessWidget with PreferredSizeWidget {
             cartCount: cartCount,
             isShrink: isShrink,
           ),
-          onPressed: () {
-            Navigator.of(context).pushNamedAndRemoveUntil(
-              homeRoute,
-              (Route<dynamic> route) => false,
-              arguments: {
-                arg_current_tab: 1,
-              },
-            );
-          },
+          onPressed: () => Navigator.of(context).pushNamedAndRemoveUntil(
+            homeRoute,
+            (Route<dynamic> route) => false,
+            arguments: {
+              arg_current_tab: 1,
+            },
+          ),
         ),
       ],
     );

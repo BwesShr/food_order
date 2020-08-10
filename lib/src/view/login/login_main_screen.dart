@@ -1,13 +1,13 @@
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/country_picker_cupertino.dart';
 import 'package:country_pickers/country_pickers.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_order/generated/locale_keys.g.dart';
 import 'package:food_order/src/controller/user_controller.dart';
 import 'package:food_order/src/repository/user_repo.dart' as userRepo;
 import 'package:food_order/src/utils/app_config.dart' as config;
-import 'package:easy_localization/easy_localization.dart';
 import 'package:food_order/src/view/login/otp_verify_screen.dart';
 import 'package:food_order/src/view/login/reset_password_screen.dart';
 import 'package:food_order/src/widget/appbar.dart';
@@ -18,7 +18,7 @@ import '../../route_generator.dart';
 import 'login_user_screen.dart';
 import 'mobile_widget.dart';
 import 'register_user_screen.dart';
-import 'send_reset_link_screen.dart';
+import 'reset_password_screen.dart';
 
 class LoginUserScreen extends StatefulWidget {
   @override
@@ -72,7 +72,10 @@ class _LoginUserState extends StateMVC<LoginUserScreen> {
         child: SafeArea(
           child: Scaffold(
             key: _controller.scaffoldKey,
-            appBar: Appbar(title: '', onBackPressed: _onBackPressed),
+            appBar: Appbar(
+              title: '',
+              onBackPressed: _onBackPressed,
+            ),
             body: ConnectivityCheck(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -210,7 +213,7 @@ class _LoginUserState extends StateMVC<LoginUserScreen> {
         );
 
       case 4:
-        return SendResetLinkScreen(
+        return ResetPasswordScreen(
           controller: _controller,
           onResetPassClicked: () {
             setState(() {

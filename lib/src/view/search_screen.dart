@@ -11,6 +11,7 @@ import 'package:food_order/src/utils/functions.dart';
 import 'package:food_order/src/widget/appbar.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:food_order/src/widget/connectivity_check.dart';
 import 'package:food_order/src/widget/image_placeholder.dart';
 import 'package:food_order/src/widget/progress_dialog.dart';
 import 'package:food_order/src/widget/search_filter_widget.dart';
@@ -56,140 +57,146 @@ class _SearchScreenState extends StateMVC<SearchScreen> {
             onApplyPressed: () =>
                 _controller.listenForSearch(_searchController.text),
           ),
-          body: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(
-              horizontal: _appConfig.horizontalSpace(),
-              vertical: _appConfig.verticalSpace(),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: SearchTextForm(
-                        searchController: _searchController,
-                        searchFocus: _searchFocus,
-                        onSubmitData: _controller.listenForSearch,
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () =>
-                          _controller.scaffoldKey.currentState.openEndDrawer(),
-                      child: Container(
-                        padding: EdgeInsets.all(_appConfig.extraSmallSpace()),
-                        child: Icon(
-                          AppIcons.filter,
-                          size: _appConfig.filterIconSize(),
+          body: ConnectivityCheck(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(
+                horizontal: _appConfig.horizontalSpace(),
+                vertical: _appConfig.verticalSpace(),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: SearchTextForm(
+                          searchController: _searchController,
+                          searchFocus: _searchFocus,
+                          onSubmitData: _controller.listenForSearch,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                _controller.isLoading
-                    ? ProgressDialog()
-                    : _controller.foods.length == 0
-                        ? Container()
-                        : ListView.separated(
-                            padding: EdgeInsets.symmetric(
-                              vertical: _appConfig.verticalSpace(),
-                            ),
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
-                            itemCount: _controller.foods.length,
-                            separatorBuilder: (context, index) {
-                              return SizedBox(
-                                  height: _appConfig.extraSmallSpace());
-                            },
-                            itemBuilder: (context, index) {
-                              Food food = _controller.foods[index];
-                              return InkWell(
-                                onTap: () => Navigator.of(context).pushNamed(
-                                    foodRoute,
-                                    arguments: {arg_food_id: food.id}),
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: _appConfig.verticalSpace(),
-                                      horizontal: _appConfig.horizontalSpace()),
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context).primaryColor,
-                                    boxShadow: [
-                                      _appConfig.containerShadow(),
-                                    ],
-                                  ),
-                                  child: Row(
-                                    children: <Widget>[
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5)),
-                                        child: CachedNetworkImage(
-                                          height: _appConfig.appWidth(25),
-                                          width: _appConfig.appWidth(25),
-                                          fit: BoxFit.cover,
-                                          imageUrl: food.image.thumb,
-                                          placeholder: (context, url) =>
-                                              ImagePlaceHolder(),
-                                          errorWidget: (context, url, error) =>
-                                              ImagePlaceHolder(),
+                      GestureDetector(
+                        onTap: () => _controller.scaffoldKey.currentState
+                            .openEndDrawer(),
+                        child: Container(
+                          padding: EdgeInsets.all(_appConfig.extraSmallSpace()),
+                          child: Icon(
+                            AppIcons.filter,
+                            size: _appConfig.filterIconSize(),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  _controller.isLoading
+                      ? ProgressDialog()
+                      : _controller.foods.length == 0
+                          ? Container()
+                          : ListView.separated(
+                              padding: EdgeInsets.symmetric(
+                                vertical: _appConfig.verticalSpace(),
+                              ),
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              itemCount: _controller.foods.length,
+                              separatorBuilder: (context, index) {
+                                return SizedBox(
+                                    height: _appConfig.extraSmallSpace());
+                              },
+                              itemBuilder: (context, index) {
+                                Food food = _controller.foods[index];
+                                return InkWell(
+                                  onTap: () => Navigator.of(context).pushNamed(
+                                      foodRoute,
+                                      arguments: {arg_food_id: food.id}),
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: _appConfig.verticalSpace(),
+                                        horizontal:
+                                            _appConfig.horizontalSpace()),
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).primaryColor,
+                                      boxShadow: [
+                                        _appConfig.containerShadow(),
+                                      ],
+                                    ),
+                                    child: Row(
+                                      children: <Widget>[
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5)),
+                                          child: CachedNetworkImage(
+                                            height: _appConfig.appWidth(25),
+                                            width: _appConfig.appWidth(25),
+                                            fit: BoxFit.cover,
+                                            imageUrl: food.image.thumb,
+                                            placeholder: (context, url) =>
+                                                ImagePlaceHolder(),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    ImagePlaceHolder(),
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(width: _appConfig.smallSpace()),
-                                      Flexible(
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: <Widget>[
-                                                  Text(
-                                                    food.name,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    maxLines: 2,
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .headline3,
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: <Widget>[
-                                                      Text(
-                                                        LocaleKeys.amount_unit
-                                                            .tr(namedArgs: {
-                                                          'amount':
-                                                              '${(food.discount != 0) ? _functions.getDiscountedPrice(food) : food.price}'
-                                                        }),
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .subtitle2
-                                                            .copyWith(
-                                                              color: Theme.of(
-                                                                      context)
-                                                                  .buttonColor,
-                                                            ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
+                                        SizedBox(
+                                            width: _appConfig.smallSpace()),
+                                        Flexible(
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Text(
+                                                      food.name,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      maxLines: 2,
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .headline3,
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: <Widget>[
+                                                        Text(
+                                                          LocaleKeys.amount_unit
+                                                              .tr(namedArgs: {
+                                                            'amount':
+                                                                '${(food.discount != 0) ? _functions.getDiscountedPrice(food) : food.price}'
+                                                          }),
+                                                          style:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .subtitle2
+                                                                  .copyWith(
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .buttonColor,
+                                                                  ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
-                          )
-              ],
+                                );
+                              },
+                            )
+                ],
+              ),
             ),
           ),
         ),

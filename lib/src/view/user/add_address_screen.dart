@@ -9,6 +9,7 @@ import 'package:food_order/src/utils/constants.dart';
 import 'package:food_order/src/utils/validation.dart';
 import 'package:food_order/src/widget/appbar.dart';
 import 'package:food_order/src/widget/buttons/address_type_button.dart';
+import 'package:food_order/src/widget/connectivity_check.dart';
 import 'package:food_order/src/widget/progress_dialog.dart';
 import 'package:food_order/src/widget/text_input_form.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
@@ -81,138 +82,140 @@ class _AddAddressScreenState extends StateMVC<AddAddressScreen> {
           title: LocaleKeys.title_add_address.tr(),
           onBackPressed: _onBackPressed,
         ),
-        body: _controller.isLoading
-            ? ProgressDialog()
-            : ListView(
-                children: <Widget>[
-                  Form(
-                    key: _controller.formKey,
-                    child: ListView(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: _appConfig.horizontalSpace(),
-                      ),
-                      children: <Widget>[
-                        TextInputForm(
-                          label: LocaleKeys.hint_name.tr(),
-                          textController: _nameController,
-                          focusNode: _nameFocus,
-                          nxtFocusNode: _mobileFocus,
-                          keyboardType: TextInputType.text,
-                          inputAction: TextInputAction.next,
-                          validator: textValidator,
+        body: ConnectivityCheck(
+          child: _controller.isLoading
+              ? ProgressDialog()
+              : ListView(
+                  children: <Widget>[
+                    Form(
+                      key: _controller.formKey,
+                      child: ListView(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: _appConfig.horizontalSpace(),
                         ),
-                        SizedBox(height: _appConfig.smallSpace()),
-                        TextInputForm(
-                          label: LocaleKeys.hint_phone_number.tr(),
-                          textController: _mobileController,
-                          focusNode: _mobileFocus,
-                          nxtFocusNode: _cityFocus,
-                          keyboardType: TextInputType.phone,
-                          inputAction: TextInputAction.next,
-                          validator: textValidator,
-                        ),
-                        SizedBox(height: _appConfig.smallSpace()),
-                        TextInputForm(
-                          label: LocaleKeys.hint_city.tr(),
-                          textController: _cityController,
-                          focusNode: _cityFocus,
-                          nxtFocusNode: _addressFocus,
-                          keyboardType: TextInputType.text,
-                          inputAction: TextInputAction.next,
-                          validator: textValidator,
-                        ),
-                        SizedBox(height: _appConfig.smallSpace()),
-                        TextInputForm(
-                          label: LocaleKeys.hint_address.tr(),
-                          textController: _addressController,
-                          focusNode: _addressFocus,
-                          keyboardType: TextInputType.text,
-                          inputAction: TextInputAction.next,
-                          validator: textValidator,
-                        ),
-                        SizedBox(height: _appConfig.smallSpace()),
-                        Divider(thickness: _appConfig.extraSmallSpace()),
-                        SizedBox(height: _appConfig.smallSpace()),
-                        Text(
-                          LocaleKeys.title_address_type.tr(),
-                        ),
-                        SizedBox(height: _appConfig.extraSmallSpace()),
-                        Row(
-                          children: <Widget>[
-                            AddressTypeButton(
-                              icon: Icons.work,
-                              text: LocaleKeys.action_work.tr(),
-                              iconTextColor: _controller
-                                  .textColor(Constants.addressTypeWork),
-                              buttonColor: _controller
-                                  .buttonColor(Constants.addressTypeWork),
-                              onAddressTypePressed: () =>
-                                  _controller.listenAddressTypeClicked(
-                                      Constants.addressTypeWork),
-                            ),
-                            SizedBox(width: _appConfig.smallSpace()),
-                            AddressTypeButton(
-                              icon: Icons.home,
-                              text: LocaleKeys.action_home.tr(),
-                              iconTextColor: _controller
-                                  .textColor(Constants.addressTypeHome),
-                              buttonColor: _controller
-                                  .buttonColor(Constants.addressTypeHome),
-                              onAddressTypePressed: () =>
-                                  _controller.listenAddressTypeClicked(
-                                      Constants.addressTypeHome),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: _appConfig.smallSpace()),
-                        Row(
-                          children: <Widget>[
-                            Expanded(
+                        children: <Widget>[
+                          TextInputForm(
+                            label: LocaleKeys.hint_name.tr(),
+                            textController: _nameController,
+                            focusNode: _nameFocus,
+                            nxtFocusNode: _mobileFocus,
+                            keyboardType: TextInputType.text,
+                            inputAction: TextInputAction.next,
+                            validator: textValidator,
+                          ),
+                          SizedBox(height: _appConfig.smallSpace()),
+                          TextInputForm(
+                            label: LocaleKeys.hint_phone_number.tr(),
+                            textController: _mobileController,
+                            focusNode: _mobileFocus,
+                            nxtFocusNode: _cityFocus,
+                            keyboardType: TextInputType.phone,
+                            inputAction: TextInputAction.next,
+                            validator: textValidator,
+                          ),
+                          SizedBox(height: _appConfig.smallSpace()),
+                          TextInputForm(
+                            label: LocaleKeys.hint_city.tr(),
+                            textController: _cityController,
+                            focusNode: _cityFocus,
+                            nxtFocusNode: _addressFocus,
+                            keyboardType: TextInputType.text,
+                            inputAction: TextInputAction.next,
+                            validator: textValidator,
+                          ),
+                          SizedBox(height: _appConfig.smallSpace()),
+                          TextInputForm(
+                            label: LocaleKeys.hint_address.tr(),
+                            textController: _addressController,
+                            focusNode: _addressFocus,
+                            keyboardType: TextInputType.text,
+                            inputAction: TextInputAction.next,
+                            validator: textValidator,
+                          ),
+                          SizedBox(height: _appConfig.smallSpace()),
+                          Divider(thickness: _appConfig.extraSmallSpace()),
+                          SizedBox(height: _appConfig.smallSpace()),
+                          Text(
+                            LocaleKeys.title_address_type.tr(),
+                          ),
+                          SizedBox(height: _appConfig.extraSmallSpace()),
+                          Row(
+                            children: <Widget>[
+                              AddressTypeButton(
+                                icon: Icons.work,
+                                text: LocaleKeys.action_work.tr(),
+                                iconTextColor: _controller
+                                    .textColor(Constants.addressTypeWork),
+                                buttonColor: _controller
+                                    .buttonColor(Constants.addressTypeWork),
+                                onAddressTypePressed: () =>
+                                    _controller.listenAddressTypeClicked(
+                                        Constants.addressTypeWork),
+                              ),
+                              SizedBox(width: _appConfig.smallSpace()),
+                              AddressTypeButton(
+                                icon: Icons.home,
+                                text: LocaleKeys.action_home.tr(),
+                                iconTextColor: _controller
+                                    .textColor(Constants.addressTypeHome),
+                                buttonColor: _controller
+                                    .buttonColor(Constants.addressTypeHome),
+                                onAddressTypePressed: () =>
+                                    _controller.listenAddressTypeClicked(
+                                        Constants.addressTypeHome),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: _appConfig.smallSpace()),
+                          Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Text(
+                                  LocaleKeys.make_default_address.tr(),
+                                ),
+                              ),
+                              FlutterSwitch(
+                                showOnOff: true,
+                                height: _appConfig.appHeight(4),
+                                activeColor: Theme.of(context).buttonColor,
+                                onToggle: (val) {
+                                  setState(() {
+                                    _controller.address.isDefault = val;
+                                  });
+                                },
+                                value: _controller.address.isDefault == null
+                                    ? false
+                                    : _controller.address.isDefault,
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: _appConfig.smallSpace()),
+                          Divider(thickness: _appConfig.extraSmallSpace()),
+                          SizedBox(height: _appConfig.smallSpace()),
+                          InkWell(
+                            onTap: _controller.removeAddress,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: _appConfig.verticalSpace()),
                               child: Text(
-                                LocaleKeys.make_default_address.tr(),
+                                LocaleKeys.action_delete_address.tr(),
+                                textAlign: TextAlign.start,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .button
+                                    .copyWith(
+                                        color: Theme.of(context).buttonColor),
                               ),
                             ),
-                            FlutterSwitch(
-                              showOnOff: true,
-                              height: _appConfig.appHeight(4),
-                              activeColor: Theme.of(context).buttonColor,
-                              onToggle: (val) {
-                                setState(() {
-                                  _controller.address.isDefault = val;
-                                });
-                              },
-                              value: _controller.address.isDefault == null
-                                  ? false
-                                  : _controller.address.isDefault,
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: _appConfig.smallSpace()),
-                        Divider(thickness: _appConfig.extraSmallSpace()),
-                        SizedBox(height: _appConfig.smallSpace()),
-                        InkWell(
-                          onTap: _controller.removeAddress,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: _appConfig.verticalSpace()),
-                            child: Text(
-                              LocaleKeys.action_delete_address.tr(),
-                              textAlign: TextAlign.start,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .button
-                                  .copyWith(
-                                      color: Theme.of(context).buttonColor),
-                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
+        ),
       ),
     );
   }

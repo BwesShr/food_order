@@ -107,4 +107,8 @@ class CheckoutController extends ControllerMVC {
 
     Navigator.of(context).pushNamed(paymentRoute);
   }
+
+  checkVoucher(String text) {
+    // TODO: validate voucher and recalculate total
+  }
 }

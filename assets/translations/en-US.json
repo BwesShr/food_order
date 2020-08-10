@@ -18,7 +18,9 @@
     "action_readmore": "Read more",
     "action_resend_code": "Resend code",
     "action_verify_code": "Verify code",
+    "action_goto_cart": "Goto cart",
     "action_checkout": "Check out",
+    "action_apply": "Apply",
     "action_apply_filter": "Apply filter",
     "action_clear_filter": "Clear filter",
     "action_proceed": "Proceed",
@@ -61,6 +63,8 @@
     "types": "Any, Vegetarian, Vegan food, Protein"
   },
   "title": {
+    "all_items_title": "All Products",
+    "most_popular_title": "Most Popular",
     "title_product_detail": "Product detail",
     "title_quantity": "Quantity",
     "title_total_price": "Total Price",
@@ -91,10 +95,6 @@
     "subtitle_extra": "Please choose the ingridents you want to add",
     "subtitle_resend_email": "Resent email sent to your mailbox"
   },
-  "home_page": {
-    "all_items_title": "All Products",
-    "most_popular_title": "Most Popular"
-  },
   "hint_text": {
     "hint_search_foods": "What are you looking for?",
     "hint_name": "Full Name",
@@ -103,7 +103,8 @@
     "hint_password_confirm": "Confirm Password",
     "hint_phone_number": "Mobile Number",
     "hint_city": "City",
-    "hint_address": "Address"
+    "hint_address": "Address",
+    "hint_voucher": "Enter voucher code"
   },
   "unit": {
     "weight": "{weight} gm",
@@ -119,6 +120,7 @@
     "welcome_message": "Welcome",
     "trending_food_refreshed_successfuly": "Trending foods refreshed successfully",
     "food_refreshed_successfuly": "Food refreshed successfully",
+    "added_to_cart_message": "Added to cart successfully",
     "category_refreshed_successfuly": "Category refreshed successfully",
     "not_registered_message": "Not registered yet? Please, ",
     "already_registered_message": "Already registered? ",

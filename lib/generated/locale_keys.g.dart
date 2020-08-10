@@ -21,7 +21,9 @@ abstract class LocaleKeys {
   static String action_readmore = 'action_button.action_readmore';
   static String action_resend_code = 'action_button.action_resend_code';
   static String action_verify_code = 'action_button.action_verify_code';
+  static String action_goto_cart = 'action_button.action_goto_cart';
   static String action_checkout = 'action_button.action_checkout';
+  static String action_apply = 'action_button.action_apply';
   static String action_apply_filter = 'action_button.action_apply_filter';
   static String action_clear_filter = 'action_button.action_clear_filter';
   static String action_proceed = 'action_button.action_proceed';
@@ -66,6 +68,8 @@ abstract class LocaleKeys {
   static String filter_types = 'filter.types';
 
   /// title
+  static String all_items_title = 'title.all_items_title';
+  static String most_popular_title = 'title.most_popular_title';
   static String title_product_detail = 'title.title_product_detail';
   static String title_quantity = 'title.title_quantity';
   static String title_total_price = 'title.title_total_price';
@@ -96,10 +100,6 @@ abstract class LocaleKeys {
   static String subtitle_extra = 'subtitle.subtitle_extra';
   static String subtitle_resend_email = 'subtitle.subtitle_resend_email';
 
-  /// home page
-  static String all_items_title = 'home_page.all_items_title';
-  static String most_popular_title = 'home_page.most_popular_title';
-
   /// hint text
   static String hint_search_foods = 'hint_text.hint_search_foods';
   static String hint_name = 'hint_text.hint_name';
@@ -109,6 +109,7 @@ abstract class LocaleKeys {
   static String hint_phone_number = 'hint_text.hint_phone_number';
   static String hint_city = 'hint_text.hint_city';
   static String hint_address = 'hint_text.hint_address';
+  static String hint_voucher = 'hint_text.hint_voucher';
 
   /// unit
   static String weight_unit = 'unit.weight';
@@ -127,6 +128,7 @@ abstract class LocaleKeys {
       'message.trending_food_refreshed_successfuly';
   static String food_refreshed_successfuly =
       'message.food_refreshed_successfuly';
+  static String added_to_cart_message = 'message.added_to_cart_message';
   static String category_refreshed_successfuly =
       'message.category_refreshed_successfuly';
   static String carts_refreshed_successfuly =

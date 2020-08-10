@@ -11,7 +11,6 @@ class TextInputForm extends StatefulWidget {
     @required this.keyboardType,
     @required this.inputAction,
     @required this.validator,
-    this.onSaved,
   }) : super(key: key);
 
   final String label;
@@ -21,7 +20,6 @@ class TextInputForm extends StatefulWidget {
   final TextInputType keyboardType;
   final TextInputAction inputAction;
   final ValueChanged<String> validator;
-  final ValueChanged<String> onSaved;
 
   @override
   _TextInputFormState createState() => _TextInputFormState();
@@ -47,7 +45,6 @@ class _TextInputFormState extends State<TextInputForm> {
           focusNode: widget.focusNode,
           keyboardType: widget.keyboardType,
           validator: widget.validator,
-          onSaved: widget.onSaved,
           textInputAction: widget.inputAction,
           onFieldSubmitted: (value) {
             widget.focusNode.unfocus();

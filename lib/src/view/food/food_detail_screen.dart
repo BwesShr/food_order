@@ -68,14 +68,6 @@ class _FoodDetailScreenState extends StateMVC<FoodDetailScreen>
     }
   }
 
-  @override
-  void dispose() {
-    // SystemChrome.setEnabledSystemUIOverlays(
-    //     [SystemUiOverlay.top, SystemUiOverlay.bottom]);
-    // _scrollController.removeListener(_scrollListener);
-    super.dispose();
-  }
-
   _scrollListener() {
     if (isShrink) {
       SystemChrome.setEnabledSystemUIOverlays(
@@ -106,6 +98,7 @@ class _FoodDetailScreenState extends StateMVC<FoodDetailScreen>
     _imageHeight = _appConfig.sliverImageHeight();
 
     return Scaffold(
+      key: _controller.scaffoldKey,
       body: Stack(
         children: <Widget>[
           ConnectivityCheck(
