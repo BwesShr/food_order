@@ -11,7 +11,6 @@ class Cart {
   int quantity;
   List<Ingrident> ingridents;
   List<Extra> extras;
-  bool selected;
 
   Cart.empty();
 
@@ -22,7 +21,6 @@ class Cart {
     @required this.quantity,
     @required this.ingridents,
     @required this.extras,
-    @required this.selected,
   });
 
   Cart.fromJSON(Map<String, dynamic> jsonMap) {
@@ -41,7 +39,6 @@ class Cart {
             .map((element) => Extra.fromJSON(element))
             .toList()
         : [];
-    selected = jsonMap['selected'] != null ? jsonMap['selected'] : false;
     // food.price = getFoodPrice();
   }
 
@@ -53,7 +50,6 @@ class Cart {
     map['food_id'] = food.id;
     map['ingridents'] = ingridents.map((element) => element.id).toList();
     map['extras'] = extras.map((element) => element.id).toList();
-    map['selected'] = selected;
     return map;
   }
 

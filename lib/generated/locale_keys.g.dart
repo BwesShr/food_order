@@ -17,12 +17,24 @@ abstract class LocaleKeys {
   static String action_forgot_password = 'action_button.action_forgot_password';
   static String action_reset_password = 'action_button.action_reset_password';
   static String action_check_back = 'action_button.action_check_back';
+  static String action_change = 'action_button.action_change';
   static String action_readmore = 'action_button.action_readmore';
   static String action_resend_code = 'action_button.action_resend_code';
   static String action_verify_code = 'action_button.action_verify_code';
   static String action_checkout = 'action_button.action_checkout';
   static String action_apply_filter = 'action_button.action_apply_filter';
   static String action_clear_filter = 'action_button.action_clear_filter';
+  static String action_proceed = 'action_button.action_proceed';
+  static String action_add_address = 'action_button.action_add_address';
+  static String action_delete_address = 'action_button.action_delete_address';
+  static String action_continue = 'action_button.action_continue';
+  static String action_continue_Shopping =
+      'action_button.action_continue_Shopping';
+  static String action_work = 'action_button.action_work';
+  static String action_home = 'action_button.action_home';
+  static String action_cash_on_delivery =
+      'action_button.action_cash_on_delivery';
+  static String action_cash_on_pickup = 'action_button.action_cash_on_pickup';
 
   /// tab item
   static String tab_home = 'tab_item.tab_home';
@@ -67,7 +79,14 @@ abstract class LocaleKeys {
   static String title_extra = 'title.title_extra';
   static String title_description = 'title.title_description';
   static String title_review = 'title.title_review';
-  static String filter_title = 'title.filter_title';
+  static String title_filter = 'title.title_filter';
+  static String title_wishlist = 'title.title_wishlist';
+  static String title_checkout = 'title.title_checkout';
+  static String title_select_address = 'title.title_select_address';
+  static String title_my_address = 'title.title_my_address';
+  static String title_add_address = 'title.title_add_address';
+  static String title_payment_method = 'title.title_payment_method';
+  static String title_address_type = 'title.title_address_type';
 
   /// subtitle
   static String subtitle_phone = 'subtitle.subtitle_phone';
@@ -83,18 +102,24 @@ abstract class LocaleKeys {
 
   /// hint text
   static String hint_search_foods = 'hint_text.hint_search_foods';
-  static String hint_fname = 'hint_text.hint_fname';
-  static String hint_lname = 'hint_text.hint_lname';
+  static String hint_name = 'hint_text.hint_name';
   static String hint_email = 'hint_text.hint_email';
   static String hint_password = 'hint_text.hint_password';
   static String hint_password_confirm = 'hint_text.hint_password_confirm';
+  static String hint_phone_number = 'hint_text.hint_phone_number';
+  static String hint_city = 'hint_text.hint_city';
+  static String hint_address = 'hint_text.hint_address';
 
   /// unit
-  static String weight_unit = 'unit.weight_unit';
-  static String rating = 'unit.rating';
-  static String amount = 'unit.amount';
-  static String total_amount = 'unit.total_amount';
-  static String delivery_amount = 'unit.delivery_amount';
+  static String weight_unit = 'unit.weight';
+  static String rating_unit = 'unit.rating';
+  static String quantity_unit = 'unit.quantity';
+  static String amount_unit = 'unit.amount';
+  static String vat_unit = 'unit.vat';
+  static String subtotal_unit = 'unit.subtotal';
+  static String total_unit = 'unit.total_amount';
+  static String delivery_amount_unit = 'unit.delivery_amount';
+  static String vat_included_unit = 'unit.vat_included';
 
   /// message
   static String welcome_message = 'message.welcome_message';
@@ -115,12 +140,15 @@ abstract class LocaleKeys {
   static String not_received_code = 'message.not_received_code';
   static String no_cart_item = 'message.no_cart_item';
   static String cart_item_empty = 'message.cart_item_empty';
+  static String make_default_address = 'message.make_default_address';
+  static String order_successful_message = 'message.order_successful_message';
 
   /// error message
   static String verify_internet_connection =
       'error_message.verify_internet_connection';
-  static String error_verify_email_settings =
-      'error_message.verify_email_settings';
+  static String verify_email_settings = 'error_message.verify_email_settings';
+  static String default_address_delete = 'error_message.default_address_delete';
+  static String verify_your_quantity = 'error_message.verify_your_quantity';
   static String valid_text = 'error_message.valid_text';
   static String valid_email = 'error_message.valid_email';
   static String vaid_password = 'error_message.vaid_password';

@@ -2,12 +2,12 @@ import 'package:food_order/src/controller/home_controller.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:food_order/src/utils/app_config.dart' as config;
-import 'package:food_order/src/view/home/home_slider_widget.dart';
 import 'package:food_order/src/widget/search_bar_widget.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
-import '../home/home_trending_food.dart';
-import '../home/home_food_category.dart';
+import 'home/home_trending_food.dart';
+import 'home/home_food_category.dart';
+import 'home/home_slider_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({

@@ -20,6 +20,7 @@ class CategoryController extends ControllerMVC {
   }
 
   void listenForFoodsByCategory({int id, String message}) async {
+    // TODO: call get food category api
     await Future.delayed(Duration(seconds: 2));
     setState(() {
       foods = getFoods();

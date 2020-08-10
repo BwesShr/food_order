@@ -6,7 +6,7 @@ import 'package:food_order/src/route_generator.dart';
 import 'package:food_order/src/utils/app_config.dart' as config;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:food_order/src/utils/color_theme.dart';
-import 'package:food_order/src/utils/images.dart';
+import 'package:food_order/src/utils/constants.dart';
 
 class FoodCategoryTile extends StatelessWidget {
   FoodCategoryTile({
@@ -47,7 +47,7 @@ class FoodCategoryTile extends StatelessWidget {
                           color: whiteColor,
                           placeholderBuilder: (BuildContext context) =>
                               Image.asset(
-                            noProductBackground,
+                            AppImages.noProductBackground,
                             fit: BoxFit.cover,
                           ),
                         )
@@ -63,9 +63,9 @@ class FoodCategoryTile extends StatelessWidget {
                             ),
                           ),
                           placeholder: (context, url) =>
-                              Image.asset(noProductBackground),
+                              Image.asset(AppImages.noProductBackground),
                           errorWidget: (context, url, error) =>
-                              Image.asset(noProductBackground),
+                              Image.asset(AppImages.noProductBackground),
                         ),
                 ),
               ),

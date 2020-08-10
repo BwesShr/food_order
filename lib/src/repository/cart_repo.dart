@@ -14,45 +14,52 @@ import 'package:http/http.dart' as http;
 
 import 'user_repo.dart' as userRepo;
 
-Future<Stream<Cart>> getCart() async {
-  final _functions = Functions();
-  User _user = userRepo.currentUser.value;
-  if (_user.apiToken == null) {
-    return new Stream.value(null);
-  }
-  final String url = user_cart_url(_user.apiToken, _user.id);
-
-  final client = new http.Client();
-  final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
-
-  return streamedRest.stream
-      .transform(utf8.decoder)
-      .transform(json.decoder)
-      .map((data) => _functions.getData(data))
-      .expand((data) => (data as List))
-      .map((data) {
-    return Cart.fromJSON(data);
-  });
+getCart() {
+  return getFoodCart();
 }
 
-Future<Stream<int>> getCartCount() async {
-  final _functions = Functions();
-  User _user = userRepo.currentUser.value;
-  if (_user.apiToken == null) {
-    return new Stream.value(0);
-  }
-  final String url = user_cart_count_url(_user.apiToken, _user.id);
-
-  final client = new http.Client();
-  final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
-
-  return streamedRest.stream
-      .transform(utf8.decoder)
-      .transform(json.decoder)
-      .map(
-        (data) => _functions.getIntData(data),
-      );
+getCartCount() {
+  return getFoodCart().length;
 }
+// Future<Stream<Cart>> getCart() async {
+//   final _functions = Functions();
+//   User _user = userRepo.currentUser.value;
+//   if (_user.apiToken == null) {
+//     return new Stream.value(null);
+//   }
+//   final String url = user_cart_url(_user.apiToken, _user.id);
+
+//   final client = new http.Client();
+//   final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
+
+//   return streamedRest.stream
+//       .transform(utf8.decoder)
+//       .transform(json.decoder)
+//       .map((data) => _functions.getData(data))
+//       .expand((data) => (data as List))
+//       .map((data) {
+//     return Cart.fromJSON(data);
+//   });
+// }
+
+// Future<Stream<int>> getCartCount() async {
+//   final _functions = Functions();
+//   User _user = userRepo.currentUser.value;
+//   if (_user.apiToken == null) {
+//     return new Stream.value(0);
+//   }
+//   final String url = user_cart_count_url(_user.apiToken, _user.id);
+
+//   final client = new http.Client();
+//   final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
+
+//   return streamedRest.stream
+//       .transform(utf8.decoder)
+//       .transform(json.decoder)
+//       .map(
+//         (data) => _functions.getIntData(data),
+//       );
+// }
 
 Future<Cart> addCart(Cart cart, bool reset) async {
   User _user = userRepo.currentUser.value;
@@ -115,7 +122,6 @@ List<Cart> getFoodCart() {
       id: 1,
       userId: 1,
       quantity: 2,
-      selected: false,
       ingridents: [
         new Ingrident(
           id: 1,
@@ -141,6 +147,13 @@ List<Cart> getFoodCart() {
         name: 'Pizza Valtellina',
         price: 130,
         discount: 0,
+        excerpt:
+            '<p>A favorite of Minnesotans! The famous Juicy Lucy! Mmmm.</p>',
+        description:
+            '<p>A favorite of Minnesotans! The famous Juicy Lucy! Mmmm. So good. You MUST use American cheese on this to achieve the juiciness in the middle! I like sauteed mushrooms and onions on mine!<br></p>',
+        weight: '245.3',
+        featured: false,
+        rating: 2.5,
         image: new Media(
           id: 1,
           url:
@@ -150,13 +163,6 @@ List<Cart> getFoodCart() {
           icon:
               'https://multi-restaurants.smartersvision.com/storage/app/public/101/conversions/pizza-2802332_1280-icon.jpg',
         ),
-        excerpt:
-            '<p>A favorite of Minnesotans! The famous Juicy Lucy! Mmmm.</p>',
-        description:
-            '<p>A favorite of Minnesotans! The famous Juicy Lucy! Mmmm. So good. You MUST use American cheese on this to achieve the juiciness in the middle! I like sauteed mushrooms and onions on mine!<br></p>',
-        weight: '245.3',
-        featured: false,
-        rating: 2.5,
         ingridents: [
           new Ingrident(
             id: 1,
@@ -219,8 +225,7 @@ List<Cart> getFoodCart() {
             rate: 4,
             user: new User(
               id: 1,
-              fname: 'Barbara',
-              lname: 'Glanz',
+              name: 'Barbara Glanz',
               email: 'manager@demo.com',
               phone: '+136 226 5669',
               address: '2911 Corpening Drive South Lyon, MI 48178',
@@ -242,7 +247,6 @@ List<Cart> getFoodCart() {
       id: 1,
       userId: 1,
       quantity: 1,
-      selected: false,
       ingridents: [
         new Ingrident(
           id: 1,
@@ -278,6 +282,13 @@ List<Cart> getFoodCart() {
         name: 'Chicken Noodle Soup',
         price: 90,
         discount: 0,
+        excerpt:
+            '<p>A favorite of Minnesotans! The famous Juicy Lucy! Mmmm.</p>',
+        description:
+            '<p>A favorite of Minnesotans! The famous Juicy Lucy! Mmmm. So good. You MUST use American cheese on this to achieve the juiciness in the middle! I like sauteed mushrooms and onions on mine!<br></p>',
+        weight: '190',
+        featured: false,
+        rating: 3.0,
         image: new Media(
           id: 1,
           url:
@@ -287,13 +298,6 @@ List<Cart> getFoodCart() {
           icon:
               'https://multi-restaurants.smartersvision.com/storage/app/public/113/conversions/soup-4115245_1280-icon.jpg',
         ),
-        excerpt:
-            '<p>A favorite of Minnesotans! The famous Juicy Lucy! Mmmm.</p>',
-        description:
-            '<p>A favorite of Minnesotans! The famous Juicy Lucy! Mmmm. So good. You MUST use American cheese on this to achieve the juiciness in the middle! I like sauteed mushrooms and onions on mine!<br></p>',
-        weight: '190',
-        featured: false,
-        rating: 3.0,
         ingridents: [
           new Ingrident(
             id: 1,
@@ -356,8 +360,7 @@ List<Cart> getFoodCart() {
             rate: 4,
             user: new User(
               id: 1,
-              fname: 'Barbara',
-              lname: 'Glanz',
+              name: 'Barbara Glanz',
               email: 'manager@demo.com',
               phone: '+136 226 5669',
               address: '2911 Corpening Drive South Lyon, MI 48178',

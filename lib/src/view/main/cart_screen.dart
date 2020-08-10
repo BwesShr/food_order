@@ -7,16 +7,19 @@ import 'package:food_order/src/utils/app_config.dart' as config;
 import 'package:food_order/src/widget/buttons/primary_button.dart';
 import 'package:food_order/src/widget/cart/cart_item_widget.dart';
 import 'package:food_order/src/widget/cart/empty_cart_widget.dart';
+import 'package:food_order/src/widget/checkout_footer.dart';
 import 'package:food_order/src/widget/progress_dialog.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 class CartScreen extends StatefulWidget {
   CartScreen({
     Key key,
-    this.parentScaffoldKey,
+    @required this.parentScaffoldKey,
+    @required this.onContinuShoppingPressed,
   }) : super(key: key);
 
   final GlobalKey<ScaffoldState> parentScaffoldKey;
+  final VoidCallback onContinuShoppingPressed;
 
   @override
   _CartScreenState createState() => _CartScreenState();
@@ -42,18 +45,11 @@ class _CartScreenState extends StateMVC<CartScreen> {
       body: RefreshIndicator(
         onRefresh: _controller.refreshCarts,
         child: _controller.isLoading
-            ? CartProgressDialog(
-                itemCount: _appConfig.appHeight(10).toInt(),
-              )
+            ? ProgressDialog()
             : _controller.carts.length == 0
                 ? EmptyCartWidget(
                     controller: _controller,
-                    onCheckPressed: () {
-                      setState(() {
-                        _controller.isLoading = true;
-                      });
-                      _controller.listenForCarts();
-                    },
+                    onContinuShoppingPressed: widget.onContinuShoppingPressed,
                   )
                 : Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,98 +82,19 @@ class _CartScreenState extends StateMVC<CartScreen> {
                               onWishListPressed: () =>
                                   _controller.addToWishList(cart),
                               onCartSelected: () =>
-                                  _controller.selectCartItem(cart),
+                                  _controller.listenCartClicked(cart),
                             );
                           },
                         ),
                       ),
                       _controller.subTotal != 0
-                          ? Container(
-                              height: 60,
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: _appConfig.horizontalSpace()),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      RichText(
-                                        text: TextSpan(
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .caption,
-                                          children: <TextSpan>[
-                                            TextSpan(
-                                              text: LocaleKeys.delivery_amount
-                                                  .tr(),
-                                            ),
-                                            TextSpan(
-                                              text: ': ',
-                                            ),
-                                            TextSpan(
-                                              text: LocaleKeys.amount.tr(
-                                                  namedArgs: {
-                                                    'amount': _controller
-                                                        .deliveryFee
-                                                        .toStringAsFixed(0)
-                                                  }),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .caption
-                                                  .copyWith(
-                                                    color: Theme.of(context)
-                                                        .buttonColor,
-                                                  ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      RichText(
-                                        text: TextSpan(
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1
-                                              .copyWith(
-                                                fontWeight: FontWeight.w700,
-                                              ),
-                                          children: <TextSpan>[
-                                            TextSpan(
-                                              text:
-                                                  LocaleKeys.total_amount.tr(),
-                                            ),
-                                            TextSpan(
-                                              text: ': ',
-                                            ),
-                                            TextSpan(
-                                              text: LocaleKeys.amount.tr(
-                                                  namedArgs: {
-                                                    'amount': _controller.total
-                                                        .toStringAsFixed(2)
-                                                  }),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1
-                                                  .copyWith(
-                                                    fontWeight: FontWeight.w700,
-                                                    color: Theme.of(context)
-                                                        .buttonColor,
-                                                  ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  PrimaryButton(
-                                    width: _appConfig.appWidth(30),
-                                    text: LocaleKeys.action_checkout.tr(),
-                                    onPressed: _controller.checkOut,
-                                  ),
-                                ],
-                              ),
+                          ? CheckoutFooter(
+                              deliveryFee:
+                                  _controller.deliveryFee.toStringAsFixed(0),
+                              vat: _controller.vat.toString(),
+                              total: _controller.total.toStringAsFixed(2),
+                              buttonText: LocaleKeys.action_checkout.tr(),
+                              onButtonClick: _controller.checkOut,
                             )
                           : Offstage(),
                     ],

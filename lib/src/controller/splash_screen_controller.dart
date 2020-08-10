@@ -56,7 +56,6 @@ class SplashScreenController extends ControllerMVC {
       // Handle notification message
       final dynamic notification = message['notification'];
     }
-    print('splash screen myBackgroundMessageHandler');
   }
 
   Future<void> changePage() async {
@@ -64,8 +63,9 @@ class SplashScreenController extends ControllerMVC {
       if (_firstRun) {
         Navigator.of(context).pushReplacementNamed(walkThroughRoute);
       } else {
-        Navigator.of(context)
-            .pushReplacementNamed(homeRoute, arguments: {arg_current_tab: 0});
+        Navigator.of(context).pushReplacementNamed(homeRoute, arguments: {
+          arg_current_tab: 0,
+        });
       }
     });
   }

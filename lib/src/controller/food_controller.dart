@@ -1,8 +1,7 @@
-import 'package:food_order/generated/locale_keys.g.dart';
+import 'package:flutter/material.dart';
 import 'package:food_order/src/model/cart.dart';
 import 'package:food_order/src/model/extra.dart';
 import 'package:food_order/src/model/food.dart';
-import 'package:flutter/material.dart';
 import 'package:food_order/src/model/ingrident.dart';
 import 'package:food_order/src/repository/cart_repo.dart';
 import 'package:food_order/src/repository/food_repo.dart';
@@ -25,7 +24,9 @@ class FoodController extends ControllerMVC {
     excerpt = true;
   }
 
-  void listenForFood({int foodId, String message}) async {
+  void listenForFoodById({int foodId, String message}) async {
+    // TODO: call food by id api
+
     await Future.delayed(Duration(seconds: 2));
     getFoods().forEach((item) {
       setState(() {
@@ -34,11 +35,14 @@ class FoodController extends ControllerMVC {
     });
   }
 
-  void listenForCart({int foodId, String message}) async {
+  void listenForCartById({int foodId, String message}) async {
+    // TODO: call cart by id api
+
     await Future.delayed(Duration(seconds: 2));
-    getFoodCart().forEach((item) {
+    List<Cart> _carts = getCart();
+    _carts.forEach((item) {
       setState(() {
-        cart = getFoodCart().firstWhere((data) => data.food.id == foodId);
+        cart = _carts.firstWhere((data) => data.food.id == foodId);
         food = cart.food;
         quantity = cart.quantity;
         ingridents.addAll(cart.ingridents);
@@ -48,10 +52,12 @@ class FoodController extends ControllerMVC {
   }
 
   void listenForCartCount({String message}) async {
+    // TODO: call cart count api
+
     await Future.delayed(Duration(seconds: 2));
 
     setState(() {
-      cartCount = getFoodCart().length;
+      cartCount = getCartCount();
     });
   }
 
@@ -61,9 +67,13 @@ class FoodController extends ControllerMVC {
     });
   }
 
-  void addToCart(Food food) {}
+  void addToCart(Food food) {
+    // TODO: call add food to cart api
+  }
 
-  addToFavourite(Food food) {}
+  addToWishList(Food food) {
+    // TODO: call add food to wishlist api
+  }
 
   // void listenForFood({String foodId, String message}) async {
   //   final Stream<Food> stream = await getFood(foodId);
@@ -96,7 +106,7 @@ class FoodController extends ControllerMVC {
     });
   }
 
-  bool checkIngrident(Ingrident ingrident) {
+  bool checkIngridentSelected(Ingrident ingrident) {
     Ingrident existingItem = ingridents
         .firstWhere((item) => item.name == ingrident.name, orElse: () => null);
     if (existingItem != null) {
@@ -106,7 +116,7 @@ class FoodController extends ControllerMVC {
     }
   }
 
-  bool checkExtra(Extra extra) {
+  bool checkExtraSelected(Extra extra) {
     Extra existingItem = extras.firstWhere((item) => item.name == extra.name,
         orElse: () => null);
     if (existingItem != null) {

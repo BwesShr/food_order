@@ -40,7 +40,7 @@ class _FilterDrawerState extends State<FilterDrawerWidget> {
           ListTile(
             dense: true,
             title: Text(
-              LocaleKeys.filter_title.tr(),
+              LocaleKeys.title_filter.tr(),
               style: Theme.of(context).textTheme.headline1,
             ),
           ),
@@ -100,7 +100,7 @@ class _FilterDrawerState extends State<FilterDrawerWidget> {
           ),
           SecondaryButton(
             width: _appConfig.appWidth(70),
-            text: LocaleKeys.action_clear_filter.tr(),
+            text: LocaleKeys.title_wishlist.tr(),
             onPressed: () {
               setState(() {
                 widget.controller.clearFilterData();

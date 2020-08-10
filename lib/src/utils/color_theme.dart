@@ -7,6 +7,6 @@ const backgroundColor = Color(0xFFF7F8FA);
 const whiteColor = Color(0xFFFFFFFF);
 const blackColor = Color(0xFF212121);
 const greyColor = Colors.grey;
-const dividerColor = Color(0xFFBDBDBD);
+const dividerColor = Color(0xFFE4E4E4);
 const blackTransparentColor = Color(0xF65000000);
 const lightGreyColor = Color(0xFFE4E4E4);

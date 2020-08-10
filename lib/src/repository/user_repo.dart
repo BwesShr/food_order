@@ -10,7 +10,7 @@ import '../model/address.dart';
 import '../model/user.dart';
 
 ValueNotifier<User> currentUser = new ValueNotifier(User());
-Address deliveryAddress = new Address();
+Address deliveryAddress = new Address.empty();
 
 Future<User> login(User user) async {
   final client = new http.Client();

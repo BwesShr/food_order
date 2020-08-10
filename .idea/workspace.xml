@@ -7,34 +7,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4d921508-acb5-4276-9820-1069f5c17c8b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/src/view/language_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.flutter-plugins" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/locales/en-US.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/locales/locales.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/locales/ne-Np.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/eat.iml" beforeDir="false" afterPath="$PROJECT_DIR$/eat.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Runner/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/Info.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/controller/category_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/controller/category_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/controller/cart_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/controller/cart_controller.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/controller/food_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/controller/food_controller.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/controller/home_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/controller/home_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/route_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/route_generator.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/utils/local_strings.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/utils/my_localization.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/view/home/home_food_category.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/view/home/home_food_category.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/view/home/home_trending_food.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/view/home/home_trending_food.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/controller/splash_screen_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/controller/splash_screen_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/model/food.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/model/food.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/repository/cart_repo.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/repository/cart_repo.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/view/main_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/view/main_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/widget/drawer_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/widget/drawer_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/widget/food_category_tile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/widget/food_category_tile.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/widget/food_tile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/widget/food_tile.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/widget/search_bar_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/widget/search_bar_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/widget/buttons/navbar_icon.dart" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

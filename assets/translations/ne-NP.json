@@ -14,12 +14,23 @@
     "action_forgot_password": "Forgot Password?",
     "action_reset_password": "Reset Password",
     "action_check_back": "Check back",
+    "action_change": "Change",
     "action_readmore": "Read more",
     "action_resend_code": "Resend code",
     "action_verify_code": "Verify code",
     "action_checkout": "Check out",
     "action_apply_filter": "Apply filter",
-    "action_clear_filter": "Clear filter"
+    "action_clear_filter": "Clear filter",
+    "action_proceed": "Proceed",
+    "action_my_address": "My Address",
+    "action_add_address": "Add Address",
+    "action_delete_address": "Delete Address",
+    "action_continue": "Continue",
+    "action_continue_Shopping": "Continue Shopping",
+    "action_work": "Work",
+    "action_home": "Home",
+    "action_cash_on_delivery": "Cash On Delivery",
+    "action_cash_on_pickup": "Cash On Pickup"
   },
   "tab_item": {
     "tab_home": "Home",
@@ -65,7 +76,13 @@
     "title_extra": "Extra Ingrients",
     "title_description": "Description",
     "title_review": "Review",
-    "filter_title": "Filter"
+    "title_filter": "Filter",
+    "title_wishlist": "Wishlist",
+    "title_checkout": "Checkout",
+    "title_select_address": "Select Address",
+    "title_add_address": "Add Address",
+    "title_payment_method": "Select Payment Method",
+    "title_address_type": "Select a type for address"
   },
   "subtitle": {
     "subtitle_phone": "Enter your mobile phone number and we will send you a confirmation code",
@@ -81,18 +98,24 @@
   },
   "hint_text": {
     "hint_search_foods": "What are you looking for?",
-    "hint_fname": "First Name",
-    "hint_lname": "Last Name",
+    "hint_name": "Full Name",
     "hint_email": "Email Address",
     "hint_password": "Password",
-    "hint_password_confirm": "Confirm Password"
+    "hint_password_confirm": "Confirm Password",
+    "hint_phone_number": "Mobile Number",
+    "hint_city": "City",
+    "hint_address": "Address"
   },
   "unit": {
-    "weight_unit": "{weight} gm",
+    "weight": "{weight} gm",
     "rating": "{rating} rating",
     "amount": "Rs.{amount}",
+    "vat": "VAT ({vat}%)",
+    "quantity": "Qty: {quantity}",
+    "subtotal": "Subtotal ({item} item/s)",
     "total_amount": "Total",
-    "delivery_amount": "Delivery"
+    "delivery_amount": "Delivery",
+    "vat_included": "{vat}% VAT included"
   },
   "message": {
     "welcome_message": "Welcome",
@@ -107,11 +130,15 @@
     "carts_refreshed_successfuly": "Carts refreshed successfully",
     "the_food_was_removed_from_your_cart": "The {foodName} was removed from your cart",
     "no_cart_item": "Please select item(s)",
-    "cart_item_empty": "Your cart is empty"
+    "cart_item_empty": "Your cart is empty",
+    "make_default_address": "Make default address",
+    "order_successful_message": "Your order is successful"
   },
   "error_message": {
     "verify_internet_connection": "Verify your internet connection",
     "verify_email_settings": "Verify your email settings",
+    "default_address_delete": "Sorry you can't delete default address",
+    "verify_your_quantity": "Verify your quantity and click checkout",
     "valid_text": "Should not be empty",
     "valid_email": "Should be a valid email",
     "vaid_password": "Should be more than 6 characters",

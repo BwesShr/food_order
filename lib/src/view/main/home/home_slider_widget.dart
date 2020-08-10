@@ -3,7 +3,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:food_order/src/controller/home_controller.dart';
 import 'package:food_order/src/model/home_slider.dart';
-import 'package:food_order/src/utils/images.dart';
 import 'package:food_order/src/widget/image_placeholder.dart';
 import 'package:url_launcher/url_launcher.dart';
 

@@ -20,8 +20,10 @@ class SecondaryButton extends StatelessWidget {
     return Container(
       width: width == null ? _appConfig.appWidth(100) : width,
       child: FlatButton(
-        color: Theme.of(context).primaryColor,
-        padding: const EdgeInsets.symmetric(vertical: 15.0),
+        color: Colors.transparent,
+        padding: EdgeInsets.symmetric(
+          vertical: _appConfig.verticalSpace(),
+        ),
         onPressed: onPressed,
         child: Text(
           text,

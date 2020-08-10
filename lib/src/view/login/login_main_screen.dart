@@ -9,16 +9,16 @@ import 'package:food_order/src/repository/user_repo.dart' as userRepo;
 import 'package:food_order/src/utils/app_config.dart' as config;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:food_order/src/view/login/otp_verify_screen.dart';
-import 'package:food_order/src/view/login/resend_reset_email_screen.dart';
+import 'package:food_order/src/view/login/reset_password_screen.dart';
 import 'package:food_order/src/widget/appbar.dart';
 import 'package:food_order/src/widget/connectivity_check.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
-import '../route_generator.dart';
-import 'login/login_user_screen.dart';
-import 'login/mobile_widget.dart';
-import 'login/register_user_screen.dart';
-import 'login/reset_password_screen.dart';
+import '../../route_generator.dart';
+import 'login_user_screen.dart';
+import 'mobile_widget.dart';
+import 'register_user_screen.dart';
+import 'send_reset_link_screen.dart';
 
 class LoginUserScreen extends StatefulWidget {
   @override
@@ -26,12 +26,12 @@ class LoginUserScreen extends StatefulWidget {
 }
 
 class _LoginUserState extends StateMVC<LoginUserScreen> {
-  UserController _con;
+  UserController _controller;
   Country _selectedCountry;
   int _selectedIndex;
 
   _LoginUserState() : super(UserController()) {
-    _con = controller;
+    _controller = controller;
   }
   @override
   void initState() {
@@ -41,8 +41,9 @@ class _LoginUserState extends StateMVC<LoginUserScreen> {
     _selectedCountry = CountryPickerUtils.getCountryByPhoneCode('977');
 
     if (userRepo.currentUser.value.apiToken != null) {
-      Navigator.of(context)
-          .pushReplacementNamed(homeRoute, arguments: {arg_current_tab: 0});
+      Navigator.of(context).pushReplacementNamed(homeRoute, arguments: {
+        arg_current_tab: 0,
+      });
     }
   }
 
@@ -70,7 +71,7 @@ class _LoginUserState extends StateMVC<LoginUserScreen> {
         color: Theme.of(context).backgroundColor,
         child: SafeArea(
           child: Scaffold(
-            key: _con.scaffoldKey,
+            key: _controller.scaffoldKey,
             appBar: Appbar(title: '', onBackPressed: _onBackPressed),
             body: ConnectivityCheck(
               child: Column(
@@ -131,9 +132,6 @@ class _LoginUserState extends StateMVC<LoginUserScreen> {
       case 4:
         return LocaleKeys.title_reset_pass.tr();
 
-      case 5:
-        return LocaleKeys.title_reset_pass.tr();
-
       default:
         return '';
     }
@@ -159,8 +157,8 @@ class _LoginUserState extends StateMVC<LoginUserScreen> {
     switch (_selectedIndex) {
       case 0:
         return LoginWidget(
-          controller: _con,
-          onLoginClicked: _con.login,
+          controller: _controller,
+          onLoginClicked: _controller.login,
           onSignUpClicked: () {
             setState(() {
               _selectedIndex = 1;
@@ -174,16 +172,16 @@ class _LoginUserState extends StateMVC<LoginUserScreen> {
         );
 
       case 1:
-        return RegisterUserScreen(
-          controller: _con,
+        return RegisterScreen(
+          controller: _controller,
           onNextClicked: () {
             setState(() {
               _selectedIndex = 2;
             });
           },
           onLoginClicked: () {
-            if (_con.loginFormKey.currentState.validate()) {
-              _con.loginFormKey.currentState.save();
+            if (_controller.loginFormKey.currentState.validate()) {
+              _controller.loginFormKey.currentState.save();
               setState(() {
                 _selectedIndex = 1;
               });
@@ -193,7 +191,7 @@ class _LoginUserState extends StateMVC<LoginUserScreen> {
 
       case 2:
         return MobileWidget(
-          controller: _con,
+          controller: _controller,
           selectedCountry: _selectedCountry,
           openCountryPicker: _openCountryPicker,
           onSubmitClicked: () {
@@ -212,20 +210,13 @@ class _LoginUserState extends StateMVC<LoginUserScreen> {
         );
 
       case 4:
-        return ResetPasswordScreen(
-          controller: _con,
+        return SendResetLinkScreen(
+          controller: _controller,
           onResetPassClicked: () {
             setState(() {
-              _selectedIndex = 5;
+              _controller.resetLiskSend = true;
             });
           },
-        );
-
-      case 5:
-        return ResendResetEmailScreen(
-          controller: _con,
-          email: _con.user.email,
-          onResendEmailClicked: () {},
         );
     }
   }

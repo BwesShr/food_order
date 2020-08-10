@@ -4,9 +4,7 @@ import 'package:food_order/generated/locale_keys.g.dart';
 import 'package:food_order/presentation/app_icons_icons.dart';
 import 'package:food_order/src/controller/user_controller.dart';
 import 'package:food_order/src/utils/app_config.dart' as config;
-import 'package:food_order/src/utils/color_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:food_order/src/utils/images.dart';
 import 'package:food_order/src/utils/validation.dart';
 import 'package:food_order/src/widget/buttons/primary_button.dart';
 import 'package:food_order/src/widget/login/login_text_input.dart';
@@ -30,13 +28,28 @@ class LoginWidget extends StatefulWidget {
 }
 
 class _LoginWidgetSate extends State<LoginWidget> {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final emailFocus = FocusNode();
-  final passwordFocus = FocusNode();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _emailFocus = FocusNode();
+  final _passwordFocus = FocusNode();
 
-  bool emailValidated = false;
-  bool passwordValidated = false;
+  bool _emailValidated;
+  bool _passwordValidated;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _emailValidated = false;
+    _passwordValidated = false;
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,10 +65,10 @@ class _LoginWidgetSate extends State<LoginWidget> {
             LoginTextInput(
               label: LocaleKeys.hint_email.tr(),
               hint: 'johndoe@email.com',
-              validated: emailValidated,
-              textController: emailController,
-              focusNode: emailFocus,
-              nxtFocusNode: passwordFocus,
+              validated: _emailValidated,
+              textController: _emailController,
+              focusNode: _emailFocus,
+              nxtFocusNode: _passwordFocus,
               prefixIcon: AppIcons.mail,
               keyboardType: TextInputType.emailAddress,
               inputAction: TextInputAction.next,
@@ -63,19 +76,19 @@ class _LoginWidgetSate extends State<LoginWidget> {
               onChanged: (input) {
                 setState(() {
                   if (emailValidator(input) == null)
-                    emailValidated = true;
+                    _emailValidated = true;
                   else
-                    emailValidated = false;
+                    _emailValidated = false;
                 });
               },
             ),
-            SizedBox(height: _appConfig.appHeight(2)),
+            SizedBox(height: _appConfig.smallSpace()),
             LoginTextInput(
               label: LocaleKeys.hint_password.tr(),
               hint: '••••••••••',
-              validated: passwordValidated,
-              textController: passwordController,
-              focusNode: passwordFocus,
+              validated: _passwordValidated,
+              textController: _passwordController,
+              focusNode: _passwordFocus,
               prefixIcon: AppIcons.key,
               keyboardType: TextInputType.text,
               inputAction: TextInputAction.done,
@@ -83,13 +96,13 @@ class _LoginWidgetSate extends State<LoginWidget> {
               onChanged: (input) {
                 setState(() {
                   if (passwordValidator(input) == null)
-                    passwordValidated = true;
+                    _passwordValidated = true;
                   else
-                    passwordValidated = false;
+                    _passwordValidated = false;
                 });
               },
             ),
-            SizedBox(height: _appConfig.verticalPadding(5)),
+            SizedBox(height: _appConfig.hugeSpace()),
             Container(
               margin: EdgeInsets.symmetric(
                 horizontal: _appConfig.horizontalPadding(6),
@@ -97,13 +110,13 @@ class _LoginWidgetSate extends State<LoginWidget> {
               child: PrimaryButton(
                 text: LocaleKeys.action_login.tr(),
                 onPressed: () {
-                  widget.controller.user.email = emailController.text;
-                  widget.controller.user.password = passwordController.text;
+                  widget.controller.user.email = _emailController.text;
+                  widget.controller.user.password = _passwordController.text;
                   widget.onLoginClicked();
                 },
               ),
             ),
-            SizedBox(height: _appConfig.appHeight(2)),
+            SizedBox(height: _appConfig.smallSpace()),
             GestureDetector(
               onTap: widget.onResetPassClicked,
               child: Text(
@@ -115,7 +128,7 @@ class _LoginWidgetSate extends State<LoginWidget> {
                     ),
               ),
             ),
-            SizedBox(height: _appConfig.appHeight(1)),
+            SizedBox(height: _appConfig.extraSmallSpace()),
             RichText(
               text: TextSpan(
                 children: <TextSpan>[
@@ -140,7 +153,7 @@ class _LoginWidgetSate extends State<LoginWidget> {
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: _appConfig.appHeight(5)),
+            SizedBox(height: _appConfig.hugeSpace()),
           ],
         ),
       ),

@@ -1,6 +1,6 @@
-import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:food_order/generated/locale_keys.g.dart';
 import 'package:food_order/presentation/app_icons_icons.dart';
 import 'package:food_order/src/controller/home_controller.dart';
@@ -9,7 +9,7 @@ import 'package:food_order/src/utils/color_theme.dart';
 import 'package:food_order/src/utils/save_data.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:food_order/src/widget/appbar.dart';
-import 'package:food_order/src/widget/buttons/navbar_icon.dart';
+import 'package:food_order/src/widget/cart/navbar_cart_icon.dart';
 import 'package:food_order/src/widget/connectivity_check.dart';
 import 'package:food_order/src/widget/drawer_widget.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
@@ -22,15 +22,13 @@ import 'main/profile_screen.dart';
 class MainScreen extends StatefulWidget {
   MainScreen({
     Key key,
-    this.currentTab = 0,
+    @required this.currentTab = 0,
   });
 
   int currentTab;
 
   @override
-  _MainScreenState createState() {
-    return _MainScreenState();
-  }
+  _MainScreenState createState() => _MainScreenState();
 }
 
 class _MainScreenState extends StateMVC<MainScreen> {
@@ -46,12 +44,15 @@ class _MainScreenState extends StateMVC<MainScreen> {
 
   @override
   void initState() {
-    _controller.listenForHomeSlider();
-    _controller.listenForFoodCategory();
-    _controller.listenForTrendingFoods();
-    _controller.listenForCartCount();
+    SystemChrome.setEnabledSystemUIOverlays(
+        [SystemUiOverlay.top, SystemUiOverlay.bottom]);
 
     _fetchLocale();
+    _controller.listenForCartCount();
+    _controller.listenForPromoSlider();
+    _controller.listenForFoodCategory();
+    _controller.listenForTrendingFoods();
+
     super.initState();
   }
 
@@ -66,31 +67,31 @@ class _MainScreenState extends StateMVC<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final _appConfig = config.AppConfig(context);
+
     return WillPopScope(
       onWillPop: () async => false,
-      child: Container(
-        color: Theme.of(context).backgroundColor,
-        child: SafeArea(
-          child: Scaffold(
-            key: _scaffoldKey,
-            drawer: DrawerWidget(),
-            appBar: HomeAppbar(
-              title: _setCurrentPaggeTitle(widget.currentTab),
-              openDrawer: () => _scaffoldKey.currentState.openDrawer(),
-            ),
-            body: ConnectivityCheck(
-              child: _selectCurrentPage(widget.currentTab),
-            ),
-            bottomNavigationBar: CurvedNavigationBar(
-              index: widget.currentTab,
-              color: Theme.of(context).primaryColor,
-              backgroundColor: Theme.of(context).buttonColor,
-              buttonBackgroundColor: secondaryColor,
-              onTap: (position) => setState(() {
-                widget.currentTab = position;
-              }),
-              items: navBarItems(context),
-            ),
+      child: SafeArea(
+        child: Scaffold(
+          key: _scaffoldKey,
+          drawer: DrawerWidget(),
+          appBar: HomeAppbar(
+            title: _setCurrentPaggeTitle(widget.currentTab),
+            openDrawer: () => _scaffoldKey.currentState.openDrawer(),
+          ),
+          body: ConnectivityCheck(
+            child: _selectCurrentPage(widget.currentTab),
+          ),
+          bottomNavigationBar: CurvedNavigationBar(
+            index: widget.currentTab,
+            height: _appConfig.appHeight(7),
+            color: Theme.of(context).primaryColor,
+            backgroundColor: Theme.of(context).buttonColor,
+            buttonBackgroundColor: secondaryColor,
+            onTap: (position) => setState(() {
+              widget.currentTab = position;
+            }),
+            items: navBarItems(context),
           ),
         ),
       ),
@@ -122,6 +123,11 @@ class _MainScreenState extends StateMVC<MainScreen> {
       case 1:
         return CartScreen(
           parentScaffoldKey: _scaffoldKey,
+          onContinuShoppingPressed: () {
+            setState(() {
+              widget.currentTab = 0;
+            });
+          },
         );
       case 2:
         return HistoryScreen(
@@ -140,58 +146,25 @@ class _MainScreenState extends StateMVC<MainScreen> {
   }
 
   List<Widget> navBarItems(BuildContext context) {
-    final _appConfig = config.AppConfig(context);
-    double size = _appConfig.navBarIconSize();
-
     return <Widget>[
-      buildIcon(context, size, AppIcons.ic_home, 0),
-      Stack(
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.all(_appConfig.extraSmallSpace()),
-            child: buildIcon(context, size, AppIcons.ic_cart, 1),
-          ),
-          Positioned(
-            top: 0.0,
-            right: 0.0,
-            child: Container(
-              padding: EdgeInsets.all(
-                _appConfig.horizontalPadding(0.5),
-              ),
-              decoration: BoxDecoration(
-                color: widget.currentTab == 1 ? secondaryColor : whiteColor,
-                shape: BoxShape.circle,
-              ),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).buttonColor,
-                  shape: BoxShape.circle,
-                ),
-                padding: EdgeInsets.all(_appConfig.appWidth(1)),
-                child: Text(
-                  _controller.cartCount.toString(),
-                  style: Theme.of(context).textTheme.bodyText2.copyWith(
-                        color: whiteColor,
-                        fontSize: 10.0,
-                      ),
-                ),
-              ),
-            ),
-          ),
-        ],
+      buildIcon(context, AppIcons.ic_home, 0),
+      NavBarCartIcon(
+        currentTab: widget.currentTab,
+        cartCount: _controller.cartCount,
       ),
-      buildIcon(context, size, AppIcons.ic_history, 2),
-      buildIcon(context, size, AppIcons.ic_profile, 3),
+      buildIcon(context, AppIcons.ic_history, 2),
+      buildIcon(context, AppIcons.ic_profile, 3),
     ];
   }
 
-  Icon buildIcon(BuildContext context, double size, IconData icon, int index) {
+  Icon buildIcon(BuildContext context, IconData icon, int index) {
+    final _appConfig = config.AppConfig(context);
     return Icon(
       icon,
       color: widget.currentTab == index
           ? Theme.of(context).primaryColor
           : Theme.of(context).accentColor,
-      size: size,
+      size: _appConfig.navBarIconSize(),
     );
   }
 }

@@ -2,8 +2,7 @@ import 'media.dart';
 
 class User {
   int id;
-  String fname;
-  String lname;
+  String name;
   String email;
   String password;
   String apiToken;
@@ -20,8 +19,7 @@ class User {
   User.empty();
   User({
     this.id,
-    this.fname,
-    this.lname,
+    this.name,
     this.email,
     this.password,
     this.apiToken,
@@ -33,8 +31,7 @@ class User {
 
   User.fromJSON(Map<String, dynamic> jsonMap) {
     id = jsonMap['id'];
-    fname = jsonMap['first_name'];
-    lname = jsonMap['last_name'];
+    name = jsonMap['name'];
     email = jsonMap['email'];
     apiToken = jsonMap['api_token'];
     deviceToken = jsonMap['device_token'];
@@ -58,8 +55,7 @@ class User {
     var map = new Map<String, dynamic>();
     map['id'] = id;
     map['email'] = email;
-    map['fname'] = fname;
-    map['lname'] = lname;
+    map['name'] = name;
     map['password'] = password;
     map['api_token'] = apiToken;
     if (deviceToken != null) {

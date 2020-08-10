@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_order/src/model/extra.dart';
 import 'package:food_order/src/model/review.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'ingrident.dart';
 import 'media.dart';
@@ -76,18 +77,19 @@ class Food {
 
   Map toMap() {
     var map = new Map<String, dynamic>();
-    map["id"] = id;
-    map["category_id"] = categoryId;
-    map["name"] = name;
-    map["price"] = price;
-    map["discount"] = discount;
-    map["image"] = image;
-    map["excerpt"] = excerpt;
-    map["description"] = description;
-    map["ingredients"] = ingridents;
-    map["weight"] = weight;
-    map["featured"] = featured;
-    map["rating"] = featured;
+    map['id'] = id;
+    map['category_id'] = categoryId;
+    map['name'] = name;
+    map['price'] = price;
+    map['discount'] = discount;
+    map['image'] = image;
+    map['excerpt'] = excerpt;
+    map['description'] = description;
+    map['weight'] = weight;
+    map['featured'] = featured;
+    map['rating'] = rating;
+    map['ingredients'] = ingridents;
+    map['foodReviews'] = foodReviews;
     return map;
   }
 

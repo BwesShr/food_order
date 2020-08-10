@@ -29,7 +29,7 @@ class IngridentGridWidget extends StatelessWidget {
                 horizontal: _appConfig.horizontalPadding(1),
                 vertical: _appConfig.verticalPadding(1)),
             decoration: BoxDecoration(
-              color: controller.checkIngrident(ingrigent)
+              color: controller.checkIngridentSelected(ingrigent)
                   ? Theme.of(context).buttonColor
                   : Theme.of(context).backgroundColor,
               borderRadius: BorderRadius.all(_appConfig.borderRadius()),
@@ -40,7 +40,7 @@ class IngridentGridWidget extends StatelessWidget {
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.caption.copyWith(
                   fontSize: 10.0,
-                  color: controller.checkIngrident(ingrigent)
+                  color: controller.checkIngridentSelected(ingrigent)
                       ? Theme.of(context).primaryColor
                       : Theme.of(context).accentColor),
             ),

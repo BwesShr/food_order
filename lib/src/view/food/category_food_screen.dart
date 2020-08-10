@@ -35,49 +35,46 @@ class _CategoryFoodScreenState extends StateMVC<CategoryFoodScreen> {
   Widget build(BuildContext context) {
     final _appConfig = config.AppConfig(context);
 
-    return Container(
-      color: Theme.of(context).backgroundColor,
-      child: SafeArea(
-        child: Scaffold(
-          appBar: Appbar(
-            title: widget.category.name,
-          ),
-          body: ConnectivityCheck(
-            child: RefreshIndicator(
-              onRefresh: _controller.refreshFood,
-              child: _controller.foods.isEmpty
-                  ? FoodGridProgressDialog(
-                      itemCount: _appConfig.gridItemCount(),
-                    )
-                  : ListView(
-                      children: <Widget>[
-                        SearchBarWidget(),
-                        Container(
-                          margin: EdgeInsets.symmetric(
-                              horizontal: _appConfig.horizontalSpace(),
-                              vertical: _appConfig.verticalSpace()),
-                          child: GridView.builder(
-                            shrinkWrap: true,
-                            physics: ClampingScrollPhysics(),
-                            itemCount: _controller.foods.length,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: (_appConfig.appWidth(50)) /
-                                  (_appConfig.appWidth(60)),
-                            ),
-                            itemBuilder: (context, index) {
-                              Food food = _controller.foods[index];
-
-                              return GridFoodTile(
-                                food: food,
-                              );
-                            },
+    return SafeArea(
+      child: Scaffold(
+        appBar: Appbar(
+          title: widget.category.name,
+        ),
+        body: ConnectivityCheck(
+          child: RefreshIndicator(
+            onRefresh: _controller.refreshFood,
+            child: _controller.foods.isEmpty
+                ? FoodGridProgressDialog(
+                    itemCount: _appConfig.gridItemCount(),
+                  )
+                : ListView(
+                    children: <Widget>[
+                      SearchBarWidget(),
+                      Container(
+                        margin: EdgeInsets.symmetric(
+                            horizontal: _appConfig.horizontalSpace(),
+                            vertical: _appConfig.verticalSpace()),
+                        child: GridView.builder(
+                          shrinkWrap: true,
+                          physics: ClampingScrollPhysics(),
+                          itemCount: _controller.foods.length,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: (_appConfig.appWidth(50)) /
+                                (_appConfig.appWidth(60)),
                           ),
+                          itemBuilder: (context, index) {
+                            Food food = _controller.foods[index];
+
+                            return GridFoodTile(
+                              food: food,
+                            );
+                          },
                         ),
-                      ],
-                    ),
-            ),
+                      ),
+                    ],
+                  ),
           ),
         ),
       ),

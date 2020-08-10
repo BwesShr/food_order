@@ -24,18 +24,21 @@ dependencies:
   # parallax
   parallax_image: ^0.3.1+1
   # navigation bar
-  convex_bottom_bar: ^2.3.0
   curved_navigation_bar: ^0.3.3
-  # drawer
-  flutter_zoom_drawer: ^1.0.4
   # range slider
   flutter_range_slider: ^1.4.0
   # tab bar
   flutter_tab_bar_no_ripple: ^0.1.1
   # swiper page
   flutter_swiper: ^1.1.6
+  # dotted border widget
+  dotted_border: ^1.0.6
+  # toggle switch
+  flutter_switch: ^0.1.1
   # swipe item menu
   flutter_slidable: ^0.5.5
+  # google maps
+  google_maps_flutter: ^0.5.29
   # country picker
   country_pickers: ^1.1.0
   # country flags

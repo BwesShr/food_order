@@ -9,11 +9,11 @@ class EmptyCartWidget extends StatelessWidget {
   EmptyCartWidget({
     Key key,
     @required this.controller,
-    @required this.onCheckPressed,
+    @required this.onContinuShoppingPressed,
   }) : super(key: key);
 
   final CartController controller;
-  final VoidCallback onCheckPressed;
+  final VoidCallback onContinuShoppingPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class EmptyCartWidget extends StatelessWidget {
       width: _appConfig.appWidth(100),
       margin: EdgeInsets.symmetric(
         horizontal: _appConfig.horizontalSpace(),
-        vertical: _appConfig.verticalSpace(),
+        vertical: _appConfig.hugeSpace(),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -31,6 +31,7 @@ class EmptyCartWidget extends StatelessWidget {
         children: <Widget>[
           Container(
             alignment: Alignment.centerLeft,
+            margin: EdgeInsets.only(right: _appConfig.appWidth(40)),
             child: Text(
               LocaleKeys.cart_item_empty.tr(),
               textAlign: TextAlign.start,
@@ -43,8 +44,8 @@ class EmptyCartWidget extends StatelessWidget {
           SizedBox(height: _appConfig.smallSpace()),
           PrimaryButton(
             width: _appConfig.appWidth(50.0),
-            text: LocaleKeys.action_check_back.tr(),
-            onPressed: onCheckPressed,
+            text: LocaleKeys.action_continue_Shopping.tr(),
+            onPressed: onContinuShoppingPressed,
           ),
         ],
       ),

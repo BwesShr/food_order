@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:food_order/generated/locale_keys.g.dart';
 import 'package:food_order/presentation/app_icons_icons.dart';
 import 'package:food_order/src/controller/search_controller.dart';
@@ -14,7 +11,6 @@ import 'package:food_order/src/utils/functions.dart';
 import 'package:food_order/src/widget/appbar.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:food_order/src/widget/food/food_tile.dart';
 import 'package:food_order/src/widget/image_placeholder.dart';
 import 'package:food_order/src/widget/progress_dialog.dart';
 import 'package:food_order/src/widget/search_filter_widget.dart';
@@ -93,9 +89,7 @@ class _SearchScreenState extends StateMVC<SearchScreen> {
                   ],
                 ),
                 _controller.isLoading
-                    ? CartProgressDialog(
-                        itemCount: _appConfig.appHeight(10).toInt(),
-                      )
+                    ? ProgressDialog()
                     : _controller.foods.length == 0
                         ? Container()
                         : ListView.separated(
@@ -167,7 +161,7 @@ class _SearchScreenState extends StateMVC<SearchScreen> {
                                                             .spaceBetween,
                                                     children: <Widget>[
                                                       Text(
-                                                        LocaleKeys.amount
+                                                        LocaleKeys.amount_unit
                                                             .tr(namedArgs: {
                                                           'amount':
                                                               '${(food.discount != 0) ? _functions.getDiscountedPrice(food) : food.price}'

@@ -32,7 +32,20 @@ class _MobileWidgetState extends State<MobileWidget> {
   final _mobileController = TextEditingController();
   final _mobileFocus = FocusNode();
 
-  bool phoneValidated = false;
+  bool _phoneValidated;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _phoneValidated = false;
+  }
+
+  @override
+  void dispose() {
+    _mobileController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +54,7 @@ class _MobileWidgetState extends State<MobileWidget> {
     return Container(
       alignment: Alignment.bottomCenter,
       margin: EdgeInsets.symmetric(
-        horizontal: _appConfig.horizontalPadding(6),
+        horizontal: _appConfig.horizontalSpace(),
       ),
       child: ListView(
         shrinkWrap: true,
@@ -50,7 +63,7 @@ class _MobileWidgetState extends State<MobileWidget> {
             LocaleKeys.title_phone.tr(),
             style: TextStyle(color: Theme.of(context).accentColor),
           ),
-          SizedBox(height: _appConfig.appHeight(2)),
+          SizedBox(height: _appConfig.smallSpace()),
           Row(
             children: <Widget>[
               GestureDetector(
@@ -79,9 +92,9 @@ class _MobileWidgetState extends State<MobileWidget> {
                     onChanged: (input) {
                       setState(() {
                         if (phoneValidator(input) == null)
-                          phoneValidated = true;
+                          _phoneValidated = true;
                         else
-                          phoneValidated = false;
+                          _phoneValidated = false;
                       });
                     },
                     onFieldSubmitted: (value) {
@@ -98,7 +111,7 @@ class _MobileWidgetState extends State<MobileWidget> {
                         color: Theme.of(context).buttonColor,
                         size: 20.0,
                       ),
-                      suffixIcon: phoneValidated
+                      suffixIcon: _phoneValidated
                           ? Icon(
                               Icons.check,
                               color: Colors.green,
@@ -113,12 +126,12 @@ class _MobileWidgetState extends State<MobileWidget> {
               ),
             ],
           ),
-          SizedBox(height: _appConfig.verticalPadding(8)),
+          SizedBox(height: _appConfig.hugeSpace()),
           PrimaryButton(
             text: LocaleKeys.action_next.tr(),
             onPressed: widget.onSubmitClicked,
           ),
-          SizedBox(height: _appConfig.appHeight(5)),
+          SizedBox(height: _appConfig.hugeSpace()),
         ],
       ),
     );

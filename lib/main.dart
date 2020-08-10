@@ -38,6 +38,7 @@ class MyApp extends AppMVC {
             statusBarBrightness: Brightness.light,
             statusBarIconBrightness: Brightness.dark,
             systemNavigationBarColor: whiteColor,
+            systemNavigationBarDividerColor: dividerColor,
             systemNavigationBarIconBrightness: Brightness.dark,
           ));
           return ThemeData(
@@ -50,6 +51,7 @@ class MyApp extends AppMVC {
             hintColor: greyColor,
             cursorColor: blackColor,
             buttonColor: primaryColor,
+            dividerColor: dividerColor,
             splashColor: greyColor.withOpacity(0.5),
             focusColor: greyColor.withOpacity(0.5),
             iconTheme: IconThemeData(
@@ -94,8 +96,9 @@ class MyApp extends AppMVC {
           );
         } else {
           SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-            statusBarBrightness: Brightness.dark,
-            statusBarIconBrightness: Brightness.light,
+            systemNavigationBarDividerColor: dividerColor,
+            statusBarBrightness: Brightness.light,
+            statusBarIconBrightness: Brightness.dark,
             systemNavigationBarColor: blackColor,
             systemNavigationBarIconBrightness: Brightness.light,
           ));
@@ -109,6 +112,7 @@ class MyApp extends AppMVC {
             hintColor: greyColor,
             cursorColor: whiteColor,
             buttonColor: primaryColor,
+            dividerColor: dividerColor,
             splashColor: greyColor.withOpacity(0.3),
             focusColor: greyColor.withOpacity(0.3),
             iconTheme: IconThemeData(

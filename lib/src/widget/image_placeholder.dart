@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_order/src/utils/app_config.dart' as config;
-import 'package:food_order/src/utils/images.dart';
+import 'package:food_order/src/utils/constants.dart';
 
 class ImagePlaceHolder extends StatelessWidget {
   ImagePlaceHolder({
@@ -13,13 +13,10 @@ class ImagePlaceHolder extends StatelessWidget {
 
     return ClipRRect(
       borderRadius: BorderRadius.all(_appConfig.borderRadius()),
-      child: Container(
-        decoration: BoxDecoration(color: Theme.of(context).primaryColor),
-        child: Image.asset(
-          noProductBackground,
-          width: double.infinity,
-          fit: BoxFit.cover,
-        ),
+      child: Image.asset(
+        AppImages.noProductBackground,
+        width: double.infinity,
+        fit: BoxFit.cover,
       ),
     );
   }

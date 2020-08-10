@@ -26,14 +26,14 @@ class AmountWidget extends StatelessWidget {
         children: <TextSpan>[
           (food.discount != 0)
               ? TextSpan(
-                  text: LocaleKeys.amount.tr(namedArgs: {
+                  text: LocaleKeys.amount_unit.tr(namedArgs: {
                     'amount': '${_functions.getDiscountedPrice(food)}'
                   }),
                 )
               : TextSpan(text: ''),
           TextSpan(text: (food.discount != 0) ? '  ' : ''),
           TextSpan(
-            text: LocaleKeys.amount
+            text: LocaleKeys.amount_unit
                 .tr(namedArgs: {'amount': '${food.price.toStringAsFixed(2)}'}),
             style: textStyle.copyWith(
               color: (food.discount != 0)

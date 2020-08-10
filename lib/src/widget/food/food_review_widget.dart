@@ -36,7 +36,7 @@ class ReviewsListWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      '${review.user.fname} ${review.user.lname}',
+                      '${review.user.name}',
                       overflow: TextOverflow.fade,
                       softWrap: false,
                       style: Theme.of(context).textTheme.subtitle2,

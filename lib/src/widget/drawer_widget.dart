@@ -40,8 +40,10 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
               icon: Icons.person,
               title: LocaleKeys.guest,
               onPressed: () {
-                Navigator.of(context).pushReplacementNamed(homeRoute,
-                    arguments: {arg_current_tab: 3});
+                Navigator.of(context)
+                    .pushReplacementNamed(homeRoute, arguments: {
+                  arg_current_tab: 3,
+                });
               },
             ),
           ),
@@ -56,15 +58,16 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
             icon: Icons.fastfood,
             title: LocaleKeys.menu_my_orders,
             onPressed: () {
-              Navigator.of(context).pushReplacementNamed(homeRoute,
-                  arguments: {arg_current_tab: 2});
+              Navigator.of(context).pushReplacementNamed(homeRoute, arguments: {
+                arg_current_tab: 2,
+              });
             },
           ),
           DrawerItem(
             icon: Icons.favorite,
             title: LocaleKeys.menu_favorite_foods,
             onPressed: () {
-              Navigator.of(context).pushNamed(favFoodRoute);
+              Navigator.of(context).pushNamed(wishlistRoute);
             },
           ),
           ListTile(
@@ -140,7 +143,9 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                 userRepo.logout().then((value) {
                   Navigator.of(context).pushNamedAndRemoveUntil(
                       homeRoute, (Route<dynamic> route) => false,
-                      arguments: {arg_current_tab: 0});
+                      arguments: {
+                        arg_current_tab: 0,
+                      });
                 });
               }
             },

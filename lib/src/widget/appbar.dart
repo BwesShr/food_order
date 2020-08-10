@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:food_order/presentation/app_icons_icons.dart';
 import 'package:food_order/src/route_generator.dart';
 import 'package:food_order/src/utils/app_config.dart' as config;
 import 'package:food_order/src/utils/color_theme.dart';
+
+import 'cart/appbar_cart_icon.dart';
 
 class HomeAppbar extends StatelessWidget with PreferredSizeWidget {
   HomeAppbar({
@@ -104,6 +105,7 @@ class SliverAppbar extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final _appConfig = config.AppConfig(context);
+
     return AppBar(
       centerTitle: true,
       elevation: 0.0,
@@ -120,41 +122,17 @@ class SliverAppbar extends StatelessWidget with PreferredSizeWidget {
       ),
       actions: <Widget>[
         IconButton(
-          icon: Stack(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.all(_appConfig.extraSmallSpace()),
-                child: Icon(
-                  AppIcons.ic_cart,
-                  size: _appConfig.appBarIconSize(),
-                  color: isShrink ? Theme.of(context).accentColor : whiteColor,
-                ),
-              ),
-              Positioned(
-                top: 0.0,
-                right: 0.0,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).buttonColor,
-                    shape: BoxShape.circle,
-                  ),
-                  padding: EdgeInsets.all(_appConfig.appWidth(1)),
-                  child: Text(
-                    cartCount.toString(),
-                    style: Theme.of(context).textTheme.bodyText2.copyWith(
-                          color: whiteColor,
-                          fontSize: 10.0,
-                        ),
-                  ),
-                ),
-              ),
-            ],
+          icon: AppBarCartIcon(
+            cartCount: cartCount,
+            isShrink: isShrink,
           ),
           onPressed: () {
             Navigator.of(context).pushNamedAndRemoveUntil(
               homeRoute,
               (Route<dynamic> route) => false,
-              arguments: {arg_current_tab: 1},
+              arguments: {
+                arg_current_tab: 1,
+              },
             );
           },
         ),

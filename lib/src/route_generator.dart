@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:food_order/src/view/food/category_food_screen.dart';
 import 'package:food_order/src/view/food/food_detail_screen.dart';
 import 'package:food_order/src/view/search_screen.dart';
+import 'package:food_order/src/view/user/user_addresses_screen.dart';
+import 'package:food_order/src/view/user/user_wishlist_screen.dart';
+import 'package:food_order/src/view/cart/checkout_screen.dart';
 
-import 'view/language_screen.dart';
-import 'view/login_screen.dart';
+import 'view/cart/payment_screen.dart';
+import 'view/setting/language_screen.dart';
+import 'view/login/login_main_screen.dart';
 import 'view/main_screen.dart';
 import 'view/splash_screen.dart';
+import 'view/user/add_address_screen.dart';
 import 'view/walkthrough_screen.dart';
 
 const splashRoute = '/splash';
@@ -14,9 +19,10 @@ const walkThroughRoute = '/walkthrough';
 const languageRoute = '/language';
 
 const loginRoute = '/user/login';
-const profileRoute = '/user/profile';
-const myOrderRoute = '/user/order';
-const favFoodRoute = '/user/favourite/order';
+
+// const profileRoute = '/user/profile';
+// const myOrderRoute = '/user/order';
+const wishlistRoute = '/user/wishlist/food';
 
 const homeRoute = '/home';
 const searchRoute = '/search';
@@ -28,6 +34,9 @@ const categoryFoodRoute = '/food/category';
 
 const cartRoute = '/Cart';
 const checkoutRoute = '/checkout';
+const myAddressRoute = '/user/address';
+const addAddressRoute = '/user/address/add';
+const paymentRoute = '/user/order/payment';
 
 const helpRoute = '/help';
 const notificationRoute = '/notification';
@@ -38,6 +47,8 @@ String arg_current_tab = 'current_tab';
 String arg_category = 'category';
 String arg_food_id = 'food_id';
 String arg_is_cart = 'is_cart';
+String arg_address_id = 'address_id';
+String arg_is_checkout = 'is_checkout';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -51,21 +62,11 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => SplashScreen());
       case searchRoute:
         return MaterialPageRoute(builder: (_) => SearchScreen());
-//      case '/MobileVerification':
-//        return MaterialPageRoute(builder: (_) => SignUpWidget());
-//      case '/MobileVerification2':
-//        return MaterialPageRoute(builder: (_) => SignUpWidget());
       case loginRoute:
         return MaterialPageRoute(builder: (_) => LoginUserScreen());
       case homeRoute:
         return MaterialPageRoute(
             builder: (_) => MainScreen(currentTab: args[arg_current_tab]));
-//      case '/Details':
-//        return MaterialPageRoute(builder: (_) => DetailsWidget(routeArgument: args as RouteArgument));
-//      case '/Map':
-//        return MaterialPageRoute(builder: (_) => MapWidget(routeArgument: args as RouteArgument));
-//      case '/Menu':
-//        return MaterialPageRoute(builder: (_) => MenuWidget(routeArgument: args as RouteArgument));
       case categoryFoodRoute:
         return MaterialPageRoute(
             builder: (_) => CategoryFoodScreen(category: args[arg_category]));
@@ -98,6 +99,22 @@ class RouteGenerator {
 //        return MaterialPageRoute(builder: (_) => PayPalPaymentWidget(routeArgument: args as RouteArgument));
 //      case '/OrderSuccess':
 //        return MaterialPageRoute(builder: (_) => OrderSuccessWidget(routeArgument: args as RouteArgument));
+      case checkoutRoute:
+        return MaterialPageRoute(builder: (_) => CheckoutScreen());
+      case paymentRoute:
+        return MaterialPageRoute(builder: (_) => PaymentScreen());
+      case myAddressRoute:
+        return MaterialPageRoute(
+            builder: (_) => UserAddressesScreen(
+                  isCheckout: args[arg_is_checkout],
+                ));
+      case addAddressRoute:
+        return MaterialPageRoute(
+            builder: (_) => AddAddressScreen(
+                  addressId: args[arg_address_id],
+                ));
+      case wishlistRoute:
+        return MaterialPageRoute(builder: (_) => UserWishListScreen());
       case languageRoute:
         return MaterialPageRoute(builder: (_) => LanguageScreen());
 //      case '/Help':

@@ -25,9 +25,9 @@ class OtpVerifyScreen extends StatefulWidget {
 }
 
 class _OtpVerifyState extends State<OtpVerifyScreen> {
-  bool _enableCodeButton;
-  int _otpCodeLength;
   String _otpCode = '';
+  int _otpCodeLength;
+  bool _enableCodeButton;
   bool _enableButton;
 
   final _codeController = TextEditingController();
@@ -70,7 +70,7 @@ class _OtpVerifyState extends State<OtpVerifyScreen> {
     return Container(
       alignment: Alignment.bottomCenter,
       margin: EdgeInsets.symmetric(
-        horizontal: _appConfig.horizontalPadding(10),
+        horizontal: _appConfig.horizontalSpace(),
       ),
       child: ListView(
         shrinkWrap: true,
@@ -101,7 +101,7 @@ class _OtpVerifyState extends State<OtpVerifyScreen> {
               }
             },
           ),
-          SizedBox(height: _appConfig.appHeight(5)),
+          SizedBox(height: _appConfig.hugeSpace()),
           _enableCodeButton
               ? RichText(
                   text: TextSpan(
@@ -130,7 +130,7 @@ class _OtpVerifyState extends State<OtpVerifyScreen> {
                   textAlign: TextAlign.start,
                 )
               : Offstage(),
-          SizedBox(height: _appConfig.verticalPadding(2)),
+          SizedBox(height: _appConfig.smallSpace()),
           PrimaryButton(
             text: LocaleKeys.action_verify_code.tr(),
             color: !_enableButton ? Colors.grey : null,
@@ -138,51 +138,9 @@ class _OtpVerifyState extends State<OtpVerifyScreen> {
               if (_enableButton) widget.onCodeVerifyPressed(_otpCode);
             },
           ),
-          SizedBox(height: _appConfig.appHeight(5)),
+          SizedBox(height: _appConfig.hugeSpace()),
         ],
       ),
     );
   }
 }
-
-// class Counter extends StatefulWidget {
-//   Counter({Key key}) : super(key: key);
-
-//   @override
-//   _CounterState createState() {
-//     return _CounterState();
-//   }
-// }
-
-// class _CounterState extends State<Counter> {
-//   int counter = 60;
-//   Timer timer;
-
-//   @override
-//   void initState() {
-//     super.initState();
-
-//     timer = Timer.periodic(Duration(seconds: 1), (time) {
-//       if (counter > 0) {
-//         if (!mounted) return;
-//         setState(() {
-//           counter--;
-//         });
-//       } else {
-//         timer.cancel();
-//       }
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Text(
-//       counter > 0 ? '$counter' : '',
-//       style: TextStyle(
-//         color: colorPrimary,
-//         fontFamily: regularFont,
-//         fontSize: 16.0,
-//       ),
-//     );
-//   }
-// }

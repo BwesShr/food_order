@@ -1,6 +1,6 @@
 import 'package:food_order/src/model/home_slider.dart';
 
-getHomeSlider() {
+getPromolider() {
   return [
     new HomeSlider(
       id: 1,

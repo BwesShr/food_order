@@ -67,6 +67,7 @@ class SearchController extends ControllerMVC {
   }
 
   Future<void> listenForSearch(String value) async {
+    // TODO: call food search api
     setState(() {
       isLoading = true;
     });

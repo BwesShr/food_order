@@ -41,7 +41,7 @@ class ExtraListWidget extends StatelessWidget {
                   extra.name,
                   style: Theme.of(context).textTheme.caption,
                 ),
-                controller.checkExtra(extra)
+                controller.checkExtraSelected(extra)
                     ? Icon(
                         AppIcons.check,
                         color: secondaryColor,

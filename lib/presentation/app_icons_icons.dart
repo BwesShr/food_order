@@ -47,6 +47,7 @@ class AppIcons {
   static const IconData check = IconData(0xe807, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData mail = IconData(0xe808, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData heart_empty_1 = IconData(0xe809, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData cash = IconData(0xe80a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData filter = IconData(0xe80e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData add = IconData(0xe80f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData minus = IconData(0xe810, fontFamily: _kFontFam, fontPackage: _kFontPkg);

@@ -27,12 +27,12 @@ class CartItemWidget extends StatefulWidget {
   }) : super(key: key);
 
   final CartController controller;
-  Cart cart;
-  VoidCallback increment;
-  VoidCallback decrement;
-  VoidCallback onWishListPressed;
-  VoidCallback onDeletePressed;
-  VoidCallback onCartSelected;
+  final Cart cart;
+  final VoidCallback increment;
+  final VoidCallback decrement;
+  final VoidCallback onWishListPressed;
+  final VoidCallback onDeletePressed;
+  final VoidCallback onCartSelected;
 
   @override
   _CartItemWidgetState createState() => _CartItemWidgetState();
@@ -87,12 +87,16 @@ class _CartItemWidgetState extends State<CartItemWidget> {
           children: <Widget>[
             GestureDetector(
               onTap: widget.onCartSelected,
-              child: widget.cart.selected
+              child: widget.controller.checkCartSelected(widget.cart)
                   ? Icon(
                       AppIcons.check,
+                      size: _appConfig.appBarIconSize(),
                       color: secondaryColor,
                     )
-                  : Icon(AppIcons.circle),
+                  : Icon(
+                      AppIcons.circle,
+                      size: _appConfig.appBarIconSize(),
+                    ),
             ),
             SizedBox(width: _appConfig.smallSpace()),
             InkWell(
@@ -147,7 +151,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              LocaleKeys.amount.tr(namedArgs: {
+                              LocaleKeys.amount_unit.tr(namedArgs: {
                                 'amount':
                                     '${(widget.cart.food.discount != 0) ? _functions.getDiscountedPrice(widget.cart.food) : widget.cart.food.price}'
                               }),

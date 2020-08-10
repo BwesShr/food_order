@@ -1,9 +1,7 @@
-import 'package:food_order/generated/locale_keys.g.dart';
 import 'package:food_order/src/model/category.dart';
 import 'package:food_order/src/model/food.dart';
 import 'package:food_order/src/model/home_slider.dart';
 import 'package:food_order/src/repository/cart_repo.dart';
-import 'package:food_order/src/repository/category_repo.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:food_order/src/repository/food_repo.dart';
 import 'package:flutter/material.dart';
@@ -25,19 +23,23 @@ class HomeController extends ControllerMVC {
     cartCount = 0;
     categories.clear();
     trendingFoods.clear();
-    listenForHomeSlider();
+    listenForPromoSlider();
     listenForFoodCategory();
     listenForTrendingFoods();
   }
 
-  void listenForHomeSlider({String message}) async {
+  void listenForPromoSlider({String message}) async {
+    // TODO: call promo slider api
+
     await Future.delayed(Duration(seconds: 4));
     setState(() {
-      sliders = getHomeSlider();
+      sliders = getPromolider();
     });
   }
 
   void listenForFoodCategory({String message}) async {
+    // TODO: call food category api
+
     await Future.delayed(Duration(seconds: 2));
     setState(() {
       categories = getCategories();
@@ -45,6 +47,8 @@ class HomeController extends ControllerMVC {
   }
 
   void listenForTrendingFoods({String message}) async {
+    // TODO: call trending food api
+
     await Future.delayed(Duration(seconds: 2));
     setState(() {
       trendingFoods = getFoods();
@@ -52,10 +56,12 @@ class HomeController extends ControllerMVC {
   }
 
   void listenForCartCount({String message}) async {
+    // TODO: call cart count api
+
     await Future.delayed(Duration(seconds: 2));
 
     setState(() {
-      cartCount = getFoodCart().length;
+      cartCount = getCartCount();
     });
   }
 

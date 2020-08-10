@@ -1,6 +1,6 @@
 import 'package:food_order/src/controller/splash_screen_controller.dart';
 import 'package:food_order/src/utils/app_config.dart' as config;
-import 'package:food_order/src/utils/images.dart';
+import 'package:food_order/src/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
@@ -42,7 +42,7 @@ class _SplashScreenState extends StateMVC<SplashScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Image.asset(
-                appIcon,
+                AppImages.appIcon,
                 width: _appConfig.appWidth(40),
                 fit: BoxFit.cover,
               ),

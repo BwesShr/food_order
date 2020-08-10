@@ -45,7 +45,7 @@ class _LoginTextInputState extends State<LoginTextInput> {
 
     return ListTile(
       contentPadding: EdgeInsets.symmetric(
-        horizontal: _appConfig.horizontalPadding(6),
+        horizontal: _appConfig.horizontalSpace(),
       ),
       title: Text(
         widget.label,

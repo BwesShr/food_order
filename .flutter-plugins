@@ -2,7 +2,9 @@
 connectivity=/Users/beetech/sdk/flutter/.pub-cache/hosted/pub.dartlang.org/connectivity-0.4.9/
 connectivity_for_web=/Users/beetech/sdk/flutter/.pub-cache/hosted/pub.dartlang.org/connectivity_for_web-0.3.0/
 connectivity_macos=/Users/beetech/sdk/flutter/.pub-cache/hosted/pub.dartlang.org/connectivity_macos-0.1.0+3/
+flutter_plugin_android_lifecycle=/Users/beetech/sdk/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-1.0.8/
 flutter_tab_bar_no_ripple=/Users/beetech/sdk/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_tab_bar_no_ripple-0.1.1/
+google_maps_flutter=/Users/beetech/sdk/flutter/.pub-cache/hosted/pub.dartlang.org/google_maps_flutter-0.5.29/
 location=/Users/beetech/sdk/flutter/.pub-cache/hosted/pub.dartlang.org/location-2.5.4/
 path_provider=/Users/beetech/sdk/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-1.6.11/
 path_provider_linux=/Users/beetech/sdk/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_linux-0.0.1+2/
