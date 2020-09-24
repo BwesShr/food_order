@@ -2,10 +2,11 @@ import 'dart:developer';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flag/flag.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_order/generated/locale_keys.g.dart';
 import 'package:food_order/src/utils/app_config.dart' as config;
-import 'package:food_order/src/widget/appbar.dart';
+import 'package:food_order/src/widgets/widget.dart';
 
 class LanguageScreen extends StatelessWidget {
   @override

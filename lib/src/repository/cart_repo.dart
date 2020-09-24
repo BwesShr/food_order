@@ -1,26 +1,29 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:food_order/src/model/cart.dart';
-import 'package:food_order/src/model/extra.dart';
-import 'package:food_order/src/model/food.dart';
-import 'package:food_order/src/model/ingrident.dart';
-import 'package:food_order/src/model/media.dart';
-import 'package:food_order/src/model/review.dart';
-import 'package:food_order/src/model/user.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:food_order/src/repository/static_data.dart';
 import 'package:food_order/src/utils/api_config.dart';
 import 'package:food_order/src/utils/functions.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
+import '../models/model.dart';
 import 'user_repo.dart' as userRepo;
 
-getCart() {
-  return getFoodCart();
+ValueNotifier<int> userCartCount = new ValueNotifier(0);
+
+final _functions = Functions();
+
+Future<List<Cart>> getCart() async {
+  await Future.delayed(Duration(seconds: 3));
+  Response response = Response(userCartData, 200);
+  if (response.statusCode == 200) {
+    var result = json.decode(response.body);
+    return (result['data'] as List).map((data) => Cart.fromJSON(data)).toList();
+  }
 }
 
-getCartCount() {
-  return getFoodCart().length;
-}
 // Future<Stream<Cart>> getCart() async {
 //   final _functions = Functions();
 //   User _user = userRepo.currentUser.value;
@@ -29,8 +32,8 @@ getCartCount() {
 //   }
 //   final String url = user_cart_url(_user.apiToken, _user.id);
 
-//   final client = new http.Client();
-//   final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
+//   final client = new Client();
+//   final streamedRest = await client.send(Request('get', Uri.parse(url)));
 
 //   return streamedRest.stream
 //       .transform(utf8.decoder)
@@ -42,43 +45,65 @@ getCartCount() {
 //   });
 // }
 
-// Future<Stream<int>> getCartCount() async {
-//   final _functions = Functions();
-//   User _user = userRepo.currentUser.value;
-//   if (_user.apiToken == null) {
-//     return new Stream.value(0);
-//   }
-//   final String url = user_cart_count_url(_user.apiToken, _user.id);
+Future<void> getCartCount() async {
+  User _user = userRepo.currentUser.value;
+  if (_user.apiToken == null) {
+    return new Stream.value(0);
+  }
+  Map<String, String> header = _functions.getHeader();
+  // final client = new Client();
+  // final response = await client.get(
+  //   cart_count_url,
+  //   headers: header,
+  // );
+  Response response = Response(cartCountData, 200);
+  if (response.statusCode == 200) {
+    userCartCount.value = json.decode(response.body)['data'];
+    userCartCount.notifyListeners();
+  }
+}
 
-//   final client = new http.Client();
-//   final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
+Future<Map<String, dynamic>> cartCheckout(Order order) async {
+  // final client = new Client();
+  // final response = await client.post(
+  //   cart_count_url,
+  //   headers: getHeader(),
+  //   body: order.toMap(),
+  // );
+  Response response = Response(checkoutData, 200);
+  if (response.statusCode == 200) {
+    return json.decode(response.body);
+  }
+  return null;
+}
 
-//   return streamedRest.stream
-//       .transform(utf8.decoder)
-//       .transform(json.decoder)
-//       .map(
-//         (data) => _functions.getIntData(data),
-//       );
-// }
+Future<Map<String, dynamic>> validateVoucher(String voucher) async {
+  Response response = Response(voucherData, 200);
+  if (response.statusCode == 200) {
+    return json.decode(response.body);
+  }
+  return null;
+}
 
 Future<Cart> addCart(Cart cart, bool reset) async {
   User _user = userRepo.currentUser.value;
   if (_user.apiToken == null) {
     return new Cart.empty();
   }
-  Map<String, dynamic> decodedJSON = {};
   final String resetParam = 'reset=${reset ? 1 : 0}';
   cart.userId = _user.id;
-  final String url = user_add_cart_url(_user.apiToken, resetParam);
-  final client = new http.Client();
+  final String url = user_add_cart_url(resetParam);
+  final client = new Client();
   final response = await client.post(
     url,
-    headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+    headers: _functions.getHeader(),
     body: json.encode(cart.toMap()),
   );
+  Map<String, dynamic> decodedJSON;
   try {
-    decodedJSON = json.decode(response.body)['data'] as Map<String, dynamic>;
-  } on FormatException catch (e) {
+    var result = json.decode(response.body);
+    decodedJSON = result['data'] as Map<String, dynamic>;
+  } on FormatException catch (error) {
     print("The provided string is not valid JSON addCart");
   }
   return Cart.fromJSON(decodedJSON);
@@ -90,11 +115,11 @@ Future<Cart> updateCart(Cart cart) async {
     return new Cart.empty();
   }
   cart.userId = _user.id;
-  final String url = user_update_cart_url(cart.id, _user.apiToken);
-  final client = new http.Client();
+  final String url = user_update_cart_url(cart.id);
+  final client = new Client();
   final response = await client.put(
     url,
-    headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+    headers: _functions.getHeader(),
     body: json.encode(cart.toMap()),
   );
   return Cart.fromJSON(json.decode(response.body)['data']);
@@ -106,277 +131,11 @@ Future<bool> removeCart(Cart cart) async {
   if (_user.apiToken == null) {
     return false;
   }
-  final String _apiToken = 'api_token=${_user.apiToken}';
-  final String url = user_remove_cart_url(cart.id, _user.apiToken);
-  final client = new http.Client();
+  final String url = user_update_cart_url(cart.id);
+  final client = new Client();
   final response = await client.delete(
     url,
-    headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+    headers: _functions.getHeader(),
   );
   return _functions.getBoolData(json.decode(response.body));
-}
-
-List<Cart> getFoodCart() {
-  return [
-    new Cart(
-      id: 1,
-      userId: 1,
-      quantity: 2,
-      ingridents: [
-        new Ingrident(
-          id: 1,
-          name: 'Tomato sauce',
-          price: 50,
-        ),
-        new Ingrident(
-          id: 2,
-          name: 'Mozzarella',
-          price: 50,
-        ),
-      ],
-      extras: [
-        new Extra(
-          id: 3,
-          name: 'Mushrooms',
-          price: 50,
-        ),
-      ],
-      food: new Food(
-        id: 3,
-        categoryId: 1,
-        name: 'Pizza Valtellina',
-        price: 130,
-        discount: 0,
-        excerpt:
-            '<p>A favorite of Minnesotans! The famous Juicy Lucy! Mmmm.</p>',
-        description:
-            '<p>A favorite of Minnesotans! The famous Juicy Lucy! Mmmm. So good. You MUST use American cheese on this to achieve the juiciness in the middle! I like sauteed mushrooms and onions on mine!<br></p>',
-        weight: '245.3',
-        featured: false,
-        rating: 2.5,
-        image: new Media(
-          id: 1,
-          url:
-              'https://multi-restaurants.smartersvision.com/storage/app/public/101/pizza-2802332_1280.jpg',
-          thumb:
-              'https://multi-restaurants.smartersvision.com/storage/app/public/101/conversions/pizza-2802332_1280-thumb.jpg',
-          icon:
-              'https://multi-restaurants.smartersvision.com/storage/app/public/101/conversions/pizza-2802332_1280-icon.jpg',
-        ),
-        ingridents: [
-          new Ingrident(
-            id: 1,
-            name: 'Tomato sauce',
-            price: 50,
-          ),
-          new Ingrident(
-            id: 2,
-            name: 'Mozzarella',
-            price: 50,
-          ),
-          new Ingrident(
-            id: 3,
-            name: 'Mushrooms',
-            price: 50,
-          ),
-          new Ingrident(
-            id: 4,
-            name: 'Pepperoni',
-            price: 50,
-          ),
-          new Ingrident(
-            id: 5,
-            name: 'Stracchino',
-            price: 50,
-          ),
-        ],
-        extras: [
-          new Extra(
-            id: 1,
-            name: 'Tomato sauce',
-            price: 50,
-          ),
-          new Extra(
-            id: 2,
-            name: 'Mozzarella',
-            price: 50,
-          ),
-          new Extra(
-            id: 3,
-            name: 'Mushrooms',
-            price: 50,
-          ),
-          new Extra(
-            id: 4,
-            name: 'Pepperoni',
-            price: 50,
-          ),
-          new Extra(
-            id: 5,
-            name: 'Stracchino',
-            price: 50,
-          ),
-        ],
-        foodReviews: [
-          new Review(
-            id: 1,
-            review:
-                '<p>Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br></p>',
-            rate: 4,
-            user: new User(
-              id: 1,
-              name: 'Barbara Glanz',
-              email: 'manager@demo.com',
-              phone: '+136 226 5669',
-              address: '2911 Corpening Drive South Lyon, MI 48178',
-              image: new Media(
-                id: 67,
-                url:
-                    'https://multi-restaurants.smartersvision.com/storage/app/public/67/user1.jpg',
-                thumb:
-                    'https://multi-restaurants.smartersvision.com/storage/app/public/67/conversions/user1-thumb.jpg',
-                icon:
-                    'https://multi-restaurants.smartersvision.com/storage/app/public/67/conversions/user1-icon.jpg',
-              ),
-            ),
-          ),
-        ],
-      ),
-    ),
-    new Cart(
-      id: 1,
-      userId: 1,
-      quantity: 1,
-      ingridents: [
-        new Ingrident(
-          id: 1,
-          name: 'Tomato sauce',
-          price: 50,
-        ),
-        new Ingrident(
-          id: 2,
-          name: 'Mozzarella',
-          price: 50,
-        ),
-      ],
-      extras: [
-        new Extra(
-          id: 1,
-          name: 'Tomato sauce',
-          price: 50,
-        ),
-        new Extra(
-          id: 2,
-          name: 'Mozzarella',
-          price: 50,
-        ),
-        new Extra(
-          id: 3,
-          name: 'Mushrooms',
-          price: 50,
-        ),
-      ],
-      food: new Food(
-        id: 6,
-        categoryId: 3,
-        name: 'Chicken Noodle Soup',
-        price: 90,
-        discount: 0,
-        excerpt:
-            '<p>A favorite of Minnesotans! The famous Juicy Lucy! Mmmm.</p>',
-        description:
-            '<p>A favorite of Minnesotans! The famous Juicy Lucy! Mmmm. So good. You MUST use American cheese on this to achieve the juiciness in the middle! I like sauteed mushrooms and onions on mine!<br></p>',
-        weight: '190',
-        featured: false,
-        rating: 3.0,
-        image: new Media(
-          id: 1,
-          url:
-              'https://multi-restaurants.smartersvision.com/storage/app/public/113/soup-4115245_1280.jpg',
-          thumb:
-              'https://multi-restaurants.smartersvision.com/storage/app/public/113/conversions/soup-4115245_1280-thumb.jpg',
-          icon:
-              'https://multi-restaurants.smartersvision.com/storage/app/public/113/conversions/soup-4115245_1280-icon.jpg',
-        ),
-        ingridents: [
-          new Ingrident(
-            id: 1,
-            name: 'Tomato sauce',
-            price: 50,
-          ),
-          new Ingrident(
-            id: 2,
-            name: 'Mozzarella',
-            price: 50,
-          ),
-          new Ingrident(
-            id: 3,
-            name: 'Mushrooms',
-            price: 50,
-          ),
-          new Ingrident(
-            id: 4,
-            name: 'Pepperoni',
-            price: 50,
-          ),
-          new Ingrident(
-            id: 5,
-            name: 'Stracchino',
-            price: 50,
-          ),
-        ],
-        extras: [
-          new Extra(
-            id: 1,
-            name: 'Tomato sauce',
-            price: 50,
-          ),
-          new Extra(
-            id: 2,
-            name: 'Mozzarella',
-            price: 50,
-          ),
-          new Extra(
-            id: 3,
-            name: 'Mushrooms',
-            price: 50,
-          ),
-          new Extra(
-            id: 4,
-            name: 'Pepperoni',
-            price: 50,
-          ),
-          new Extra(
-            id: 5,
-            name: 'Stracchino',
-            price: 50,
-          ),
-        ],
-        foodReviews: [
-          new Review(
-            id: 1,
-            review:
-                '<p>Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br></p>',
-            rate: 4,
-            user: new User(
-              id: 1,
-              name: 'Barbara Glanz',
-              email: 'manager@demo.com',
-              phone: '+136 226 5669',
-              address: '2911 Corpening Drive South Lyon, MI 48178',
-              image: new Media(
-                id: 67,
-                url:
-                    'https://multi-restaurants.smartersvision.com/storage/app/public/67/user1.jpg',
-                thumb:
-                    'https://multi-restaurants.smartersvision.com/storage/app/public/67/conversions/user1-thumb.jpg',
-                icon:
-                    'https://multi-restaurants.smartersvision.com/storage/app/public/67/conversions/user1-icon.jpg',
-              ),
-            ),
-          ),
-        ],
-      ),
-    ),
-  ];
 }

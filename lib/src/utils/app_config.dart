@@ -1,7 +1,7 @@
-import 'package:food_order/src/repository/settings_repo.dart' as settingRepo;
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'color_theme.dart';
+import 'constants.dart';
 
 class AppConfig {
   BuildContext _context;
@@ -27,75 +27,43 @@ class AppConfig {
 
   BoxShadow containerShadow() {
     return BoxShadow(
-      color: greyColor.withOpacity(0.1),
+      color: AppColors.greyColor.withOpacity(0.1),
       blurRadius: 5,
       offset: Offset(0, 2),
     );
   }
 
-  double filterIconSize() {
-    return 30;
-  }
+  double appBarIconSize() => 30;
 
-  double searchIconSize() {
-    return 25;
-  }
+  double searchIconSize() => 25;
 
-  double appBarIconSize() {
-    return 25;
-  }
+  double buttonIconSize() => 20;
 
-  double navBarIconSize() {
-    return 30;
-  }
+  double navBarIconSize() => 30;
 
-  double sliverImageHeight() {
-    return _height * 50;
-  }
+  double sliverImageHeight() => _height * 60;
 
-  double horizontalSpace() {
-    return _widthPadding * 6;
-  }
+  double horizontalSpace() => _widthPadding * 6;
 
-  double verticalSpace() {
-    return _heightPadding * 2;
-  }
+  double verticalSpace() => _heightPadding * 2;
 
-  double extraSmallSpace() {
-    return _height * 1;
-  }
+  double extraSmallSpace() => _height * 1;
 
-  double smallSpace() {
-    return _height * 2;
-  }
+  double smallSpace() => _height * 2;
 
-  double bigSpace() {
-    return _heightPadding * 3;
-  }
+  double bigSpace() => _heightPadding * 3;
 
-  double hugeSpace() {
-    return _heightPadding * 5;
-  }
+  double hugeSpace() => _heightPadding * 5;
 
-  double appHeight(double v) {
-    return _height * v;
-  }
+  double appHeight(double v) => _height * v;
 
-  double textSize(double v) {
-    return _width * v;
-  }
+  double textSize(double v) => _width * v;
 
-  double appWidth(double v) {
-    return _width * v;
-  }
+  double appWidth(double v) => _width * v;
 
-  double verticalPadding(double v) {
-    return _heightPadding * v;
-  }
+  double verticalPadding(double v) => _heightPadding * v;
 
-  double horizontalPadding(double v) {
-    return _widthPadding * v;
-  }
+  double horizontalPadding(double v) => _widthPadding * v;
 
   int gridItemCount() {
     double width = appWidth(100);
@@ -105,84 +73,84 @@ class AppConfig {
   }
 }
 
-class AppColors {
-  Color _mainColor = Color(0xFFFFFFFF);
-  Color _mainDarkColor = Color(0xFFe3E3E3E);
-  Color _secondColor = Color(0xFF808080);
-  Color _secondDarkColor = Color(0xFFA3A3A3);
-  Color _accentColor = Color(0xFFD2D2D2);
-  Color _accentDarkColor = Color(0xFFEAEAEA);
-  Color _buttonColor = Color(0xFFFF5656);
-  Color _sbuttonSecondaryColor = Color(0xFFF1F1F1);
+// class AppColors {
+//   Color _mainColor = Color(0xFFFFFFFF);
+//   Color _mainDarkColor = Color(0xFFe3E3E3E);
+//   Color _secondColor = Color(0xFF808080);
+//   Color _secondDarkColor = Color(0xFFA3A3A3);
+//   Color _accentColor = Color(0xFFD2D2D2);
+//   Color _accentDarkColor = Color(0xFFEAEAEA);
+//   Color _buttonColor = Color(0xFFFF5656);
+//   Color _sbuttonSecondaryColor = Color(0xFFF1F1F1);
 
-  Color mainColor(double opacity) {
-    try {
-      return Color(int.parse(
-              settingRepo.setting.value.mainColor.replaceAll("#", "0xFF")))
-          .withOpacity(opacity);
-    } catch (e) {
-      return Color(0xFFCCCCCC).withOpacity(opacity);
-    }
-  }
+//   Color mainColor(double opacity) {
+//     try {
+//       return Color(int.parse(
+//               settingRepo.setting.value.mainColor.replaceAll("#", "0xFF")))
+//           .withOpacity(opacity);
+//     } catch (e) {
+//       return Color(0xFFCCCCCC).withOpacity(opacity);
+//     }
+//   }
 
-  Color secondColor(double opacity) {
-    try {
-      return Color(int.parse(
-              settingRepo.setting.value.secondColor.replaceAll("#", "0xFF")))
-          .withOpacity(opacity);
-    } catch (e) {
-      return Color(0xFFCCCCCC).withOpacity(opacity);
-    }
-  }
+//   Color secondColor(double opacity) {
+//     try {
+//       return Color(int.parse(
+//               settingRepo.setting.value.secondColor.replaceAll("#", "0xFF")))
+//           .withOpacity(opacity);
+//     } catch (e) {
+//       return Color(0xFFCCCCCC).withOpacity(opacity);
+//     }
+//   }
 
-  Color accentColor(double opacity) {
-    try {
-      return Color(int.parse(
-              settingRepo.setting.value.accentColor.replaceAll("#", "0xFF")))
-          .withOpacity(opacity);
-    } catch (e) {
-      return Color(0xFFCCCCCC).withOpacity(opacity);
-    }
-  }
+//   Color accentColor(double opacity) {
+//     try {
+//       return Color(int.parse(
+//               settingRepo.setting.value.accentColor.replaceAll("#", "0xFF")))
+//           .withOpacity(opacity);
+//     } catch (e) {
+//       return Color(0xFFCCCCCC).withOpacity(opacity);
+//     }
+//   }
 
-  Color mainDarkColor(double opacity) {
-    try {
-      return Color(int.parse(
-              settingRepo.setting.value.mainDarkColor.replaceAll("#", "0xFF")))
-          .withOpacity(opacity);
-    } catch (e) {
-      return Color(0xFFCCCCCC).withOpacity(opacity);
-    }
-  }
+//   Color mainDarkColor(double opacity) {
+//     try {
+//       return Color(int.parse(
+//               settingRepo.setting.value.mainDarkColor.replaceAll("#", "0xFF")))
+//           .withOpacity(opacity);
+//     } catch (e) {
+//       return Color(0xFFCCCCCC).withOpacity(opacity);
+//     }
+//   }
 
-  Color secondDarkColor(double opacity) {
-    try {
-      return Color(int.parse(settingRepo.setting.value.secondDarkColor
-              .replaceAll("#", "0xFF")))
-          .withOpacity(opacity);
-    } catch (e) {
-      return Color(0xFFCCCCCC).withOpacity(opacity);
-    }
-  }
+//   Color secondDarkColor(double opacity) {
+//     try {
+//       return Color(int.parse(settingRepo.setting.value.secondDarkColor
+//               .replaceAll("#", "0xFF")))
+//           .withOpacity(opacity);
+//     } catch (e) {
+//       return Color(0xFFCCCCCC).withOpacity(opacity);
+//     }
+//   }
 
-  Color accentDarkColor(double opacity) {
-    try {
-      return Color(int.parse(settingRepo.setting.value.accentDarkColor
-              .replaceAll("#", "0xFF")))
-          .withOpacity(opacity);
-    } catch (e) {
-      return Color(0xFFCCCCCC).withOpacity(opacity);
-    }
-  }
+//   Color accentDarkColor(double opacity) {
+//     try {
+//       return Color(int.parse(settingRepo.setting.value.accentDarkColor
+//               .replaceAll("#", "0xFF")))
+//           .withOpacity(opacity);
+//     } catch (e) {
+//       return Color(0xFFCCCCCC).withOpacity(opacity);
+//     }
+//   }
 
-  Color scaffoldColor(double opacity) {
-    // TODO test if brightness is dark or not
-    try {
-      return Color(int.parse(
-              settingRepo.setting.value.scaffoldColor.replaceAll("#", "0xFF")))
-          .withOpacity(opacity);
-    } catch (e) {
-      return Color(0xFFCCCCCC).withOpacity(opacity);
-    }
-  }
-}
+//   Color scaffoldColor(double opacity) {
+//     // TODO test if brightness is dark or not
+//     try {
+//       return Color(int.parse(
+//               settingRepo.setting.value.scaffoldColor.replaceAll("#", "0xFF")))
+//           .withOpacity(opacity);
+//     } catch (e) {
+//       return Color(0xFFCCCCCC).withOpacity(opacity);
+//     }
+//   }
+// }

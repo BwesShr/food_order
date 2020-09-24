@@ -1,15 +1,12 @@
-import 'package:food_order/generated/locale_keys.g.dart';
-import 'package:food_order/src/controller/walkthrough_controller.dart';
-import 'package:food_order/src/model/walkthrough.dart';
-import 'package:food_order/src/utils/app_config.dart' as config;
 import 'package:easy_localization/easy_localization.dart';
-import 'package:food_order/src/widget/appbar.dart';
-import 'package:food_order/src/widget/buttons/primary_button.dart';
-import 'package:food_order/src/widget/buttons/secondary_button.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:food_order/src/widget/walkthrough/walkthrough_even_item_widget.dart';
-import 'package:food_order/src/widget/walkthrough/walkthrough_odd_item_widget.dart';
+import 'package:food_order/generated/locale_keys.g.dart';
+import 'package:food_order/src/controller/walkthrough_controller.dart';
+import 'package:food_order/src/models/model.dart';
+import 'package:food_order/src/utils/app_config.dart' as config;
+import 'package:food_order/src/widgets/widget.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 class WalkthroughScreen extends StatefulWidget {
@@ -22,17 +19,17 @@ class WalkthroughScreen extends StatefulWidget {
 }
 
 class _WalkthroughScreenState extends StateMVC<WalkthroughScreen> {
-  WalkthroughController _con;
+  WalkthroughController _controller;
 
   _WalkthroughScreenState() : super(WalkthroughController()) {
-    _con = controller;
+    _controller = controller;
   }
 
   @override
   void initState() {
     super.initState();
 
-    _con.listenForWalkThrough();
+    _controller.listenForWalkThrough();
   }
 
   @override
@@ -40,71 +37,58 @@ class _WalkthroughScreenState extends StateMVC<WalkthroughScreen> {
     final _appConfig = config.AppConfig(context);
 
     return Scaffold(
+      backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.transparent,
-        title: Text(''),
+        title: null,
       ),
-      body: Container(
-        height: _appConfig.appHeight(100),
-        child: Column(
-          children: [
-            Expanded(
-              child: _con.walkthroughs.isEmpty
-                  ? Offstage()
-                  : Swiper(
-                      itemCount: _con.walkthroughs.length,
-                      onIndexChanged: (index) {
-                        setState(() {
-                          _con.updatePageIndex(index);
-                        });
-                      },
-                      pagination: SwiperPagination(
-                        builder: DotSwiperPaginationBuilder(
-                          activeColor: Theme.of(context).hintColor,
-                          color: Theme.of(context).hintColor.withOpacity(0.2),
-                        ),
+      body: Column(
+        children: [
+          Expanded(
+            child: _controller.walkthroughs.isEmpty
+                ? Offstage()
+                : Swiper(
+                    loop: false,
+                    autoplayDisableOnInteraction: true,
+                    itemCount: _controller.walkthroughs.length,
+                    onIndexChanged: _controller.updateIndex,
+                    pagination: SwiperPagination(
+                      builder: DotSwiperPaginationBuilder(
+                        activeColor: Theme.of(context).hintColor,
+                        color: Theme.of(context).hintColor.withOpacity(0.2),
                       ),
-                      itemBuilder: (context, index) {
-                        Walkthrough walkthrough = _con.walkthroughs[index];
-                        return index % 2 == 0
-                            ? WalkthroughEvenItemWidget(
-                                walkthrough: walkthrough,
-                              )
-                            : WalkthroughOddItemWidget(
-                                walkthrough: walkthrough);
-                      },
                     ),
+                    itemBuilder: (context, index) {
+                      Walkthrough walkthrough = _controller.walkthroughs[index];
+                      return index % 2 == 0
+                          ? WalkthroughEvenItemWidget(
+                              walkthrough: walkthrough,
+                            )
+                          : WalkthroughOddItemWidget(
+                              walkthrough: walkthrough,
+                            );
+                    },
+                  ),
+          ),
+          SizedBox(height: _appConfig.smallSpace()),
+          PrimaryButton(
+            width: _appConfig.appWidth(80),
+            text: LocaleKeys.action_next.tr(),
+            onPressed: _controller.finishWalkthrough,
+          ),
+          SizedBox(height: _appConfig.smallSpace()),
+          Opacity(
+            opacity: _controller.checkIndex() ? 1 : 0,
+            child: SecondaryButton(
+              width: _appConfig.appWidth(80),
+              text: LocaleKeys.action_skip.tr(),
+              onPressed: () => _controller.checkIndex()
+                  ? _controller.finishWalkthrough()
+                  : null,
             ),
-            SizedBox(height: _appConfig.smallSpace()),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: _appConfig.horizontalSpace(),
-              ),
-              child: PrimaryButton(
-                text: LocaleKeys.action_next.tr(),
-                onPressed: _con.finishWalkthrough,
-              ),
-            ),
-            SizedBox(height: _appConfig.smallSpace()),
-            Opacity(
-              opacity: _con.pageIndex + 1 < _con.walkthroughs.length ? 1 : 0,
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: _appConfig.horizontalSpace(),
-                ),
-                child: SecondaryButton(
-                  text: LocaleKeys.action_skip.tr(),
-                  onPressed: () {
-                    if (_con.pageIndex + 1 < _con.walkthroughs.length) {
-                      _con.finishWalkthrough();
-                    }
-                  },
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

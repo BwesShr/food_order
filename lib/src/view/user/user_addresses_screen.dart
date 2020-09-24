@@ -1,25 +1,19 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_order/generated/locale_keys.g.dart';
 import 'package:food_order/src/controller/address_controller.dart';
-import 'package:food_order/src/model/address.dart';
+import 'package:food_order/src/models/model.dart';
 import 'package:food_order/src/utils/app_config.dart' as config;
 import 'package:easy_localization/easy_localization.dart';
-import 'package:food_order/src/widget/address/add_address_button.dart';
-import 'package:food_order/src/widget/address/user_address_widget.dart';
-import 'package:food_order/src/widget/appbar.dart';
-import 'package:food_order/src/widget/connectivity_check.dart';
-import 'package:food_order/src/widget/progress_dialog.dart';
+import 'package:food_order/src/widgets/widget.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
-import '../../route_generator.dart';
+import '../../route/generated_route.dart';
 
 class UserAddressesScreen extends StatefulWidget {
   UserAddressesScreen({
     Key key,
-    this.isCheckout,
   }) : super(key: key);
-
-  bool isCheckout;
 
   @override
   _UserAddressesScreenState createState() => _UserAddressesScreenState();
@@ -64,7 +58,7 @@ class _UserAddressesScreenState extends StateMVC<UserAddressesScreen> {
                       onAddAddressPressed: () =>
                           Navigator.of(context).pushNamed(
                         addAddressRoute,
-                        arguments: {arg_address_id: 0},
+                        arguments: new RouteArgument(id: 0),
                       ),
                     ),
                     Divider(),
@@ -81,8 +75,7 @@ class _UserAddressesScreenState extends StateMVC<UserAddressesScreen> {
                               Address address = _controller.addresses[index];
                               return GestureDetector(
                                 onTap: () {
-                                  if (widget.isCheckout)
-                                    Navigator.of(context).pop(address);
+                                  Navigator.of(context).pop(address);
                                 },
                                 child: UserAddressWidget(
                                   icon: _controller.addressIcon(address),

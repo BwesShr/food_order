@@ -3,22 +3,20 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:food_order/generated/locale_keys.g.dart';
+import 'package:food_order/src/controller/user_controller.dart';
 import 'package:food_order/src/utils/app_config.dart' as config;
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:food_order/src/widget/buttons/primary_button.dart';
+import 'package:food_order/src/widgets/widget.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OtpVerifyScreen extends StatefulWidget {
   OtpVerifyScreen({
     Key key,
-    @required this.mobileNumber,
-    @required this.onReSendCodePressed,
-    @required this.onCodeVerifyPressed,
+    @required this.controller,
   });
 
-  final String mobileNumber;
-  final VoidCallback onReSendCodePressed;
-  final ValueChanged<String> onCodeVerifyPressed;
+  final UserController controller;
 
   @override
   State<StatefulWidget> createState() => _OtpVerifyState();
@@ -121,7 +119,7 @@ class _OtpVerifyState extends State<OtpVerifyScreen> {
                             color: Theme.of(context).buttonColor),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            widget.onReSendCodePressed();
+                            widget.controller.mobileProcess();
                             _setTimer();
                           },
                       ),
@@ -135,7 +133,9 @@ class _OtpVerifyState extends State<OtpVerifyScreen> {
             text: LocaleKeys.action_verify_code.tr(),
             color: !_enableButton ? Colors.grey : null,
             onPressed: () {
-              if (_enableButton) widget.onCodeVerifyPressed(_otpCode);
+              if (_enableButton) {
+                widget.controller.verifyOtpProcess(_otpCode);
+              }
             },
           ),
           SizedBox(height: _appConfig.hugeSpace()),

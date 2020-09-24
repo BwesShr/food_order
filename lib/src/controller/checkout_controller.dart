@@ -1,47 +1,45 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:food_order/src/model/address.dart';
-import 'package:food_order/src/model/cart.dart';
-import 'package:food_order/src/model/order.dart';
-import 'package:food_order/src/model/order_status.dart';
-import 'package:food_order/src/model/user.dart';
-import 'package:food_order/src/repository/address_repo.dart';
-import 'package:food_order/src/repository/cart_repo.dart';
-import 'package:food_order/src/repository/user_repo.dart';
-import 'package:food_order/src/route_generator.dart';
+import 'package:food_order/src/repository/repository.dart';
+import 'package:food_order/src/route/generated_route.dart';
 import 'package:food_order/src/utils/constants.dart';
+import 'package:food_order/src/utils/functions.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+
+import '../models/model.dart';
 
 class CheckoutController extends ControllerMVC {
   GlobalKey<ScaffoldState> scaffoldKey;
   List<Cart> carts = new List();
-  Address address;
   double vat = 10;
   double taxAmount = 0.0;
   double deliveryFee = 50.0;
   double subTotal = 0.0;
   double total = 0.0;
+  double discount = 0.0;
+  String voucher;
+  String voucherMessage;
   bool isLoading;
+  bool isVoucherLoading;
+  final _functions = Functions();
 
   CheckoutController() {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
     isLoading = true;
-    listenForAddress();
+    isVoucherLoading = false;
+    listenForDeliveryAddress();
     listenForCarts();
   }
 
-  void listenForAddress({String message}) async {
-    // TODO: call default delivery address api
-
-    await Future.delayed(Duration(seconds: 3));
-    setState(() {
-      address = getAddress();
-    });
+  void listenForDeliveryAddress() async {
+    getDeliveryAddress();
   }
 
-  void listenForCarts({String message}) async {
-    await Future.delayed(Duration(seconds: 3));
-
-    carts = getCart();
+  void listenForCarts() async {
+    List<Cart> _carts = await getCart();
+    setState(() {
+      carts.addAll(_carts);
+    });
     calculateSubtotal();
   }
 
@@ -58,13 +56,15 @@ class CheckoutController extends ControllerMVC {
     });
     taxAmount = (subTotal + deliveryFee) * vat / 100;
     total = subTotal + taxAmount + deliveryFee;
+    total -= discount;
     setState(() {
       isLoading = false;
+      isVoucherLoading = false;
     });
   }
 
   IconData addressIcon() {
-    switch (address.type) {
+    switch (deliveryAddress.value.type) {
       case Constants.addressTypeHome:
         return Icons.home;
       case Constants.addressTypeWork:
@@ -75,40 +75,58 @@ class CheckoutController extends ControllerMVC {
   }
 
   String getLocation() {
-    return address.address + ', ' + address.city;
+    return deliveryAddress.value.address + ', ' + deliveryAddress.value.city;
   }
 
   Future<void> changeAddress() async {
-    var _address = await Navigator.of(context).pushNamed(
-      myAddressRoute,
-      arguments: {arg_is_checkout: true},
-    );
+    var _address = await Navigator.of(context).pushNamed(myAddressRoute);
     setState(() {
-      address = _address as Address;
+      deliveryAddress.value = _address as Address;
     });
   }
 
   void proceedPayment() {
     Order _order = new Order.empty();
 
-    // User user;
-    _order.deliveryFee = deliveryFee;
-    _order.tax = vat;
-    _order.deliveryAddress = address;
-    _order.dateTime = DateTime.now();
     OrderStatus orderStatus = OrderStatus.empty();
     orderStatus.id = 1;
-    _order.orderStatus = orderStatus;
-    _order.foodOrders = carts;
-    // TODO: assign user
-    User user = User();
-    _order.user = user;
-    // TODO: call delivery address selection api
 
-    Navigator.of(context).pushNamed(paymentRoute);
+    _order.foodOrders = carts;
+    _order.orderStatus = orderStatus;
+    _order.tax = vat;
+    _order.deliveryFee = deliveryFee;
+    _order.dateTime = DateTime.now();
+    _order.user = currentUser.value;
+    _order.deliveryAddress = deliveryAddress.value;
+
+    cartCheckout(_order).then((response) {
+      if (response != null) {
+        _functions.showMessageWithAction(
+            scaffoldKey, context, response['message']);
+        if (response['status']) {
+          Navigator.of(context).pushNamed(paymentRoute);
+        }
+      }
+    });
   }
 
-  checkVoucher(String text) {
-    // TODO: validate voucher and recalculate total
+  checkVoucher() {
+    validateVoucher(voucher).then((response) {
+      if (response['status']) {
+        switch (response['discount_type']) {
+          case 'percantage':
+            discount = (total * response['discount'].toDouble()) / 100;
+            break;
+          case 'amount':
+            discount = response['discount'];
+            break;
+        }
+        calculateSubtotal();
+      } else {
+        setState(() {
+          voucherMessage = 'Please enter the correct voucher code';
+        });
+      }
+    });
   }
 }

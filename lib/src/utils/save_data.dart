@@ -4,11 +4,17 @@ class SaveData {
   /// save data in shared preference
   String APP_FIRST_RUN = 'app_first_run';
   String APP_THEME = 'app_theme';
+  String CURRENT_USER = 'current_user';
   String SETTING = 'setting';
   String LANGUAGE_CODE = 'language';
 
   /// functions
   SharedPreferences prefs;
+
+  void saveData(String key, bool message) async {
+    prefs = await SharedPreferences.getInstance();
+    prefs.setBool(key, message);
+  }
 
   void saveBool(String key, bool message) async {
     prefs = await SharedPreferences.getInstance();
@@ -28,6 +34,11 @@ class SaveData {
   void saveString(String key, String message) async {
     prefs = await SharedPreferences.getInstance();
     prefs.setString(key, message);
+  }
+
+  Future<dynamic> getData(String key) async {
+    prefs = await SharedPreferences.getInstance();
+    return prefs.get(key);
   }
 
   Future<bool> getBool(String key) async {
@@ -51,7 +62,8 @@ class SaveData {
   }
 
   void removeData(String key) async {
-    prefs.remove(key);
+    prefs = await SharedPreferences.getInstance();
+    if (prefs.containsKey(key)) prefs.remove(key);
   }
 
   Future<bool> checkValue(String key) async {

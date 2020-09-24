@@ -1,11 +1,11 @@
 import 'package:food_order/generated/locale_keys.g.dart';
 import 'package:food_order/src/controller/home_controller.dart';
-import 'package:food_order/src/model/food.dart';
+import 'package:food_order/src/models/model.dart';
 import 'package:food_order/src/utils/app_config.dart' as config;
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:food_order/src/widget/food/food_tile.dart';
-import 'package:food_order/src/widget/progress_dialog.dart';
+import 'package:food_order/src/widgets/widget.dart';
 
 class HomeTrendingFood extends StatefulWidget {
   HomeTrendingFood({Key key, this.controller}) : super(key: key);

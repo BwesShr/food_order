@@ -1,41 +1,38 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:food_order/src/model/setting.dart';
 import 'package:food_order/src/utils/api_config.dart';
+import 'package:food_order/src/utils/functions.dart';
 import 'package:food_order/src/utils/save_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart';
 
-ValueNotifier<Setting> setting = new ValueNotifier(new Setting());
-// LocationData locationData;
-SaveData _saveData;
-SharedPreferences prefs;
+import '../models/model.dart';
+
+ValueNotifier<Setting> appSetting = new ValueNotifier(new Setting());
+SaveData _saveData = SaveData();
+final _functions = Functions();
 
 Future<Setting> initSettings() async {
   Setting _setting;
-  _saveData = SaveData();
-  prefs = await SharedPreferences.getInstance();
-  final response = await http.get(initial_setting_url,
+  final response = await get(initial_setting_url,
       headers: {HttpHeaders.contentTypeHeader: 'application/json'});
-  if (response.statusCode == 200 &&
-      response.headers.containsValue('application/json')) {
+  if (response.statusCode == 200) {
     if (json.decode(response.body)['data'] != null) {
-      await _saveData.saveString(
+      _saveData.saveString(
           _saveData.SETTING, json.encode(json.decode(response.body)['data']));
       _setting = Setting.fromJSON(json.decode(response.body)['data']);
-      if (prefs.containsKey(_saveData.LANGUAGE_CODE)) {
-        _setting.mobileLanguage =
-            new ValueNotifier(Locale(prefs.get(_saveData.LANGUAGE_CODE), ''));
+      if (await _saveData.checkValue(_saveData.LANGUAGE_CODE)) {
+        _setting.mobileLanguage = new ValueNotifier(
+            Locale(await _saveData.getString(_saveData.LANGUAGE_CODE), ''));
       }
-      setting.value = _setting;
-      setting.notifyListeners();
+      appSetting.value = _setting;
+      appSetting.notifyListeners();
     }
   }
   print("initSettings");
-  return setting.value;
+  return appSetting.value;
 }
 
 // Future<LocationData> setCurrentLocation() async {

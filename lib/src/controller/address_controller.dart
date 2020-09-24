@@ -1,13 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_order/generated/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:food_order/src/model/address.dart';
-import 'package:food_order/src/repository/address_repo.dart';
-import 'package:food_order/src/utils/color_theme.dart';
+import 'package:food_order/src/repository/repository.dart';
 import 'package:food_order/src/utils/constants.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
-import '../route_generator.dart';
+import '../models/model.dart';
+import '../route/generated_route.dart';
 
 class AddressController extends ControllerMVC {
   GlobalKey<ScaffoldState> scaffoldKey;
@@ -26,11 +26,11 @@ class AddressController extends ControllerMVC {
     // TODO: call user's address by id api
 
     await Future.delayed(Duration(seconds: 4));
-    List<Address> _addresses = getAddresses();
-    _addresses.forEach((item) {
+    List<Address> addresses = getAddresses();
+    addresses.forEach((item) {
       setState(() {
         isLoading = false;
-        address = _addresses.firstWhere((data) => data.id == addressId);
+        address = addresses.firstWhere((data) => data.id == addressId);
       });
     });
     return address;
@@ -71,14 +71,14 @@ class AddressController extends ControllerMVC {
     if (address.type == addressType)
       return Theme.of(context).buttonColor;
     else
-      return blackColor.withOpacity(0.5);
+      return AppColors.blackColor.withOpacity(0.5);
   }
 
   Color textColor(String addressType) {
     if (address.type == addressType)
       return Theme.of(context).buttonColor;
     else
-      return blackColor;
+      return AppColors.blackColor;
   }
 
   void removeAddress() {
@@ -92,7 +92,7 @@ class AddressController extends ControllerMVC {
   }
 
   void changeAddress(Address _address) {
-    Navigator.of(context)
-        .pushNamed(addAddressRoute, arguments: {arg_address_id: _address.id});
+    Navigator.of(context).pushNamed(addAddressRoute,
+        arguments: new RouteArgument(id: _address.id));
   }
 }

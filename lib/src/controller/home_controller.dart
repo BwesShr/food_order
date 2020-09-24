@@ -1,99 +1,67 @@
-import 'package:food_order/src/model/category.dart';
-import 'package:food_order/src/model/food.dart';
-import 'package:food_order/src/model/home_slider.dart';
-import 'package:food_order/src/repository/cart_repo.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:food_order/src/repository/food_repo.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:food_order/src/repository/slider_repo.dart';
+import 'package:food_order/src/repository/repository.dart';
+import 'package:food_order/src/utils/functions.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+
+import '../models/model.dart';
 
 class HomeController extends ControllerMVC {
   GlobalKey<ScaffoldState> scaffoldKey;
-  List<HomeSlider> sliders = new List();
+  List<HomePromo> promos = new List();
   List<Category> categories = new List();
   List<Food> trendingFoods = new List();
-  int cartCount;
+  final _functions = Functions();
+  // int cartCount;
 
   HomeController() {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
-  }
 
-  Future<void> refreshHome() async {
-    cartCount = 0;
-    categories.clear();
-    trendingFoods.clear();
     listenForPromoSlider();
     listenForFoodCategory();
     listenForTrendingFoods();
+    listenForCartCount();
   }
 
-  void listenForPromoSlider({String message}) async {
-    // TODO: call promo slider api
+  Future<void> refreshHome() async {
+    categories.clear();
+    trendingFoods.clear();
 
-    await Future.delayed(Duration(seconds: 4));
-    setState(() {
-      sliders = getPromolider();
-    });
+    listenForPromoSlider();
+    listenForFoodCategory();
+    listenForTrendingFoods();
+    listenForCartCount();
   }
 
-  void listenForFoodCategory({String message}) async {
-    // TODO: call food category api
-
-    await Future.delayed(Duration(seconds: 2));
-    setState(() {
-      categories = getCategories();
-    });
+  void listenForCartCount() {
+    getCartCount();
   }
 
-  void listenForTrendingFoods({String message}) async {
-    // TODO: call trending food api
+  void listenForPromoSlider() async {
+    // final Stream<HomePromo> stream = await getPromoSlider();
+    // stream.listen((HomePromo _slider) {
+    //   setState(() => promos.add(_slider));
+    // }, onError: (error) {
+    //   // print('promo error: $error');
+    // }, onDone: () {
+    //   // status done
+    //   // _functions.showMessageWithAction(
+    //   //     scaffoldKey, context, LocaleKeys.category_refreshed_successfuly.tr());
+    // });
 
-    await Future.delayed(Duration(seconds: 2));
-    setState(() {
-      trendingFoods = getFoods();
-    });
+    List<HomePromo> _sliders = await getPromoSlider();
+    for (HomePromo _slider in _sliders) {
+      setState(() => promos.add(_slider));
+    }
   }
 
-  void listenForCartCount({String message}) async {
-    // TODO: call cart count api
-
-    await Future.delayed(Duration(seconds: 2));
-
-    setState(() {
-      cartCount = getCartCount();
-    });
+  void listenForFoodCategory() async {
+    List<Category> _categories = await getFoodCategories();
+    setState(() => categories.addAll(_categories));
   }
 
-  // void listenForFoodCategory({String message}) async {
-  //   final Stream<Category> stream = await getFoodCategories();
-  //   stream.listen((Category _category) {
-  //     setState(() => categories.add(_category));
-  //   }, onError: (a) {
-  //     print(a);
-  //     scaffoldKey.currentState.showSnackBar(SnackBar(
-  //       content: Text(LocaleKeys.verify_internet_connection.tr()),
-  //     ));
-  //   }, onDone: () {
-  //     if (message != null) {
-  //       scaffoldKey.currentState.showSnackBar(SnackBar(
-  //         content: Text(message).tr(),
-  //       ));
-  //     }
-  //   });
-  // }
-  // void listenForTrendingFoods({String message}) async {
-  //   final Stream<Food> stream = await getTrendingFoods();
-  //   stream.listen((Food _food) {
-  //     setState(() => trendingFoods.add(_food));
-  //   }, onError: (a) {
-  //     print(a);
-  //   }, onDone: () {
-  //     if (message != null) {
-  //       scaffoldKey.currentState.showSnackBar(SnackBar(
-  //         content: Text(message),
-  //       ));
-  //     }
-  //   });
-  // }
+  void listenForTrendingFoods() async {
+    List<Food> _foods = await getTrendingFoods();
+    setState(() => trendingFoods.addAll(_foods));
+  }
 }

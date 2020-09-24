@@ -1,105 +1,175 @@
-import 'package:flutter/material.dart';
-import 'package:food_order/generated/locale_keys.g.dart';
-import 'package:food_order/src/model/address.dart';
-import 'package:food_order/src/route_generator.dart';
-import 'package:mvc_pattern/mvc_pattern.dart';
+import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:food_order/src/model/user.dart';
-import 'package:food_order/src/repository/user_repo.dart' as repository;
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:food_order/generated/locale_keys.g.dart';
+import 'package:food_order/src/repository/repository.dart';
+import 'package:food_order/src/utils/functions.dart';
+import 'package:mvc_pattern/mvc_pattern.dart';
+
+import '../models/model.dart';
 
 class UserController extends ControllerMVC {
-  User user = new User();
+  User user;
   GlobalKey<FormState> loginFormKey;
   GlobalKey<ScaffoldState> scaffoldKey;
+  final _functions = Functions();
   bool hidePassword;
-  bool resetLiskSend;
-  // FirebaseMessaging _firebaseMessaging;
+  bool isLoading;
+  bool autoValidate;
+  int selectedIndex;
 
   UserController() {
+    user = new User.empty();
     loginFormKey = new GlobalKey<FormState>();
-    this.scaffoldKey = new GlobalKey<ScaffoldState>();
+    scaffoldKey = new GlobalKey<ScaffoldState>();
     hidePassword = true;
-    // _firebaseMessaging = FirebaseMessaging();
-    // _firebaseMessaging.getToken().then((String _deviceToken) {
-    //   user.deviceToken = _deviceToken;
-    // });
+    isLoading = false;
+    autoValidate = false;
+    selectedIndex = 0;
   }
 
-  void login() async {
-    // TODO: call login api
-
-    if (loginFormKey.currentState.validate()) {
-      loginFormKey.currentState.save();
-      repository.login(user).then((value) {
-        //print(value.apiToken);
-        if (value != null && value.apiToken != null) {
-          scaffoldKey.currentState.showSnackBar(SnackBar(
-            content: Text(LocaleKeys.welcome_message.tr() + value.name),
-          ));
-          Navigator.of(scaffoldKey.currentContext)
-              .pushReplacementNamed(homeRoute, arguments: {
-            arg_current_tab: 0,
-          });
-        } else {
-          scaffoldKey.currentState.showSnackBar(SnackBar(
-            content: Text(LocaleKeys.valid_email_password.tr()),
-          ));
-        }
+  runTimer() {
+    Timer(Duration(seconds: 20), () {
+      setState(() {
+        isLoading = false;
       });
-    }
-  }
-
-  void register() async {
-    // TODO: call register api
-
-    if (loginFormKey.currentState.validate()) {
-      loginFormKey.currentState.save();
-      repository.register(user).then((value) {
-        if (value != null && value.apiToken != null) {
-          scaffoldKey.currentState.showSnackBar(SnackBar(
-            content: Text(LocaleKeys.welcome_message.tr() + value.name),
-          ));
-          Navigator.of(context).pushReplacementNamed(homeRoute, arguments: {
-            arg_current_tab: 0,
-          });
-        } else {
-          scaffoldKey.currentState.showSnackBar(SnackBar(
-            content: Text(LocaleKeys.valid_email_password.tr()),
-          ));
-        }
-      });
-    }
-  }
-
-  void resetPassword() {
-    // TODO: call reset password api
-
-// TODO: if successful
-    setState(() {
-      resetLiskSend = true;
+      _functions.showMessageWithAction(
+          scaffoldKey, context, LocaleKeys.connection_timeout.tr());
     });
-    if (loginFormKey.currentState.validate()) {
-      loginFormKey.currentState.save();
-      repository.resetPassword(user).then((value) {
-        if (value != null && value == true) {
-          scaffoldKey.currentState.showSnackBar(SnackBar(
-            content: Text(LocaleKeys.reset_link_sent_to_email),
-            action: SnackBarAction(
-              label: LocaleKeys.action_login,
-              onPressed: () {
-                Navigator.of(scaffoldKey.currentContext)
-                    .pushReplacementNamed('/Login');
-              },
-            ),
-            duration: Duration(seconds: 10),
-          ));
-        } else {
-          scaffoldKey.currentState.showSnackBar(SnackBar(
-            content: Text(LocaleKeys.verify_email_settings),
-          ));
-        }
+  }
+
+  void loginProcess() async {
+    setState(() {
+      isLoading = true;
+    });
+    runTimer();
+    loginRequest(user).then((value) {
+      setState(() {
+        isLoading = false;
       });
-    }
+      if (value['status-code'] == 200) {
+        currentUser.value.auth = true;
+        String message =
+            LocaleKeys.welcome_message.tr() + value['data']['user']['name'];
+        Navigator.of(scaffoldKey.currentContext).pop(message);
+      } else {
+        _functions.showMessageWithAction(
+            scaffoldKey, context, value['message']);
+      }
+    });
+  }
+
+  void registerProcess() async {
+    setState(() {
+      isLoading = true;
+    });
+    runTimer();
+    registerRequest(user).then((value) {
+      if (value['status-code'] == 200) {
+        setState(() {
+          isLoading = false;
+          selectedIndex = 2;
+        });
+        _functions.showMessageWithAction(
+            scaffoldKey, context, LocaleKeys.register_message.tr());
+      } else if (value['status-code'] == 409) {
+        setState(() {
+          isLoading = false;
+          selectedIndex = 2;
+        });
+        _functions.showMessageWithAction(
+            scaffoldKey, context, LocaleKeys.register_message.tr());
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+        _functions.showMessageWithAction(
+            scaffoldKey, context, value['message']);
+      }
+    });
+  }
+
+  void mobileProcess() {
+    setState(() {
+      isLoading = true;
+    });
+    runTimer();
+    mobileRequest(user).then((value) {
+      if (value['status-code'] == 200) {
+        setState(() {
+          isLoading = false;
+          selectedIndex = 3;
+        });
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+      }
+      _functions.showMessageWithAction(scaffoldKey, context, value['message']);
+    });
+  }
+
+  void verifyOtpProcess(String code) {
+    setState(() {
+      isLoading = true;
+    });
+    runTimer();
+    Map<String, dynamic> map = {
+      'mobile': user.phone,
+      'otp': code,
+    };
+    verifyOtpRequest(map).then((value) {
+      if (value['status-code'] == 200) {
+        setState(() {
+          isLoading = false;
+          selectedIndex = 0;
+        });
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+      }
+      _functions.showMessageWithAction(scaffoldKey, context, value['message']);
+    });
+  }
+
+  void resetPasswordProcess() {
+    setState(() {
+      isLoading = true;
+    });
+    resetPasswordRequest(user).then((value) {
+      if (value['status-code'] == 200) {
+        setState(() {
+          isLoading = false;
+          selectedIndex = 5;
+        });
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+      }
+      _functions.showMessageWithAction(scaffoldKey, context, value['message']);
+    });
+  }
+
+  void confirmPasswordProcess(Map<String, dynamic> map) {
+    setState(() {
+      isLoading = true;
+    });
+    confirmPasswordRequest(map).then((value) {
+      if (value['status-code'] == 200) {
+        setState(() {
+          isLoading = false;
+          selectedIndex = 0;
+        });
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+      }
+      _functions.showMessageWithAction(scaffoldKey, context, value['message']);
+    });
   }
 }

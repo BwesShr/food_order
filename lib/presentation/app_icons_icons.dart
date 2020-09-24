@@ -24,10 +24,18 @@
 ///         Author:    Just Be Nice studio
 ///         License:   SIL (http://scripts.sil.org/OFL)
 ///         Homepage:  http://www.justbenicestudio.com/
+/// * Linecons, Copyright (C) 2013 by Designmodo
+///         Author:    Designmodo for Smashing Magazine
+///         License:   CC BY ()
+///         Homepage:  http://designmodo.com/linecons-free/
 /// * Material Design Icons, Copyright (C) Google, Inc
 ///         Author:    Google
 ///         License:   Apache 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
 ///         Homepage:  https://design.google.com/icons/
+/// * MFG Labs, Copyright (C) 2012 by Daniel Bruce
+///         Author:    MFG Labs
+///         License:   SIL (http://scripts.sil.org/OFL)
+///         Homepage:  http://www.mfglabs.com/
 ///
 import 'package:flutter/widgets.dart';
 
@@ -48,7 +56,10 @@ class AppIcons {
   static const IconData mail = IconData(0xe808, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData heart_empty_1 = IconData(0xe809, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData cash = IconData(0xe80a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData location = IconData(0xe80b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData filter = IconData(0xe80e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData add = IconData(0xe80f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData minus = IconData(0xe810, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData direction = IconData(0xf124, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData comment = IconData(0xf4ac, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

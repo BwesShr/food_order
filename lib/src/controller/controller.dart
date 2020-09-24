@@ -1,6 +1,6 @@
-import 'package:food_order/src/repository/settings_repo.dart' as settingRepo;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:food_order/src/repository/repository.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 class Controller extends ControllerMVC {
@@ -11,9 +11,9 @@ class Controller extends ControllerMVC {
 
   @override
   void initState() {
-    settingRepo.initSettings().then((setting) {
+    initSettings().then((_setting) {
       setState(() {
-        settingRepo.setting.value = setting;
+        appSetting.value = _setting;
       });
     });
     // settingRepo.setCurrentLocation().then((locationData) {
@@ -21,10 +21,10 @@ class Controller extends ControllerMVC {
     //     settingRepo.locationData = locationData;
     //   });
     // });
-//    userRepo.getCurrentUser().then((user) {
-//      setState(() {
-//        userRepo.currentUser.value = user;
-//      });
-//    });
+    getCurrentUser().then((_user) {
+      setState(() {
+        currentUser.value = _user;
+      });
+    });
   }
 }

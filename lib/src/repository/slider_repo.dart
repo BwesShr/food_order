@@ -1,42 +1,32 @@
-import 'package:food_order/src/model/home_slider.dart';
+import 'dart:convert';
 
-getPromolider() {
-  return [
-    new HomeSlider(
-      id: 1,
-      image:
-          'https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg',
-      url: null,
-    ),
-    new HomeSlider(
-      id: 2,
-      image:
-          'https://i0.wp.com/images-prod.healthline.com/hlcmsresource/images/AN_images/healthy-eating-ingredients-1296x728-header.jpg?w=1155&h=1528?fit=crop&w=1953&q=80',
-      url: null,
-    ),
-    new HomeSlider(
-      id: 3,
-      image:
-          'https://article.images.consumerreports.org/f_auto/prod/content/dam/CRO-Images-2020/Magazine/05May/CR-Health-Inlinehero-HealthyFastFood-3-20-v2',
-      url: null,
-    ),
-    new HomeSlider(
-      id: 4,
-      image:
-          'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/20190503-delish-pineapple-baked-salmon-horizontal-ehg-450-1557771120.jpg?fit=crop&w=1953&q=80',
-      url: null,
-    ),
-    new HomeSlider(
-      id: 5,
-      image:
-          'https://www.helpguide.org/wp-content/uploads/fast-foods-candy-cookies-pastries-768.jpg?fit=crop&w=1352&q=80',
-      url: null,
-    ),
-    new HomeSlider(
-      id: 6,
-      image:
-          'https://www.healthline.com/hlcmsresource/images/AN_images/AN138-Pizza-732x549-Thumb_0.jpg?fit=crop&w=1355&q=80',
-      url: null,
-    ),
-  ];
+import 'package:food_order/src/repository/static_data.dart';
+import 'package:food_order/src/utils/functions.dart';
+import 'package:http/http.dart';
+
+import '../models/model.dart';
+
+final _functions = Functions();
+
+Future<List<HomePromo>> getPromoSlider() async {
+  // final _functions = Functions();
+  // final client = new http.Client();
+
+  // final streamedRest =
+  //     await client.send(http.Request('get', Uri.parse(home_promo_url)));
+
+  // return streamedRest.stream
+  //     .transform(utf8.decoder)
+  //     .transform(json.decoder)
+  //     .map((data) => _functions.getData(data))
+  //     .expand((data) => (data as List))
+  //     .map((data) => HomePromo.fromJSON(data));
+
+  await Future.delayed(Duration(seconds: 3));
+  Response response = Response(homePromoData, 200);
+
+  var result = json.decode(response.body);
+  return (result['data'] as List)
+      .map((data) => HomePromo.fromJSON(data))
+      .toList();
 }

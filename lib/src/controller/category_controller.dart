@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_order/generated/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:food_order/src/model/food.dart';
-import 'package:food_order/src/repository/food_repo.dart';
+import 'package:food_order/src/repository/repository.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+
+import '../models/model.dart';
 
 class CategoryController extends ControllerMVC {
   GlobalKey<ScaffoldState> scaffoldKey;
@@ -20,11 +22,8 @@ class CategoryController extends ControllerMVC {
   }
 
   void listenForFoodsByCategory({int id, String message}) async {
-    // TODO: call get food category api
-    await Future.delayed(Duration(seconds: 2));
-    setState(() {
-      foods = getFoods();
-    });
+    final List<Food> _foods = await getFoodsByCategory(id);
+    setState(() => foods.addAll(_foods));
   }
 
   // void listenForFoodsByCategory({int id, String message}) async {

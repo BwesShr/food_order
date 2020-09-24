@@ -1,20 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/foundation.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:food_order/generated/locale_keys.g.dart';
 import 'package:food_order/presentation/app_icons_icons.dart';
 import 'package:food_order/src/controller/search_controller.dart';
-import 'package:food_order/src/model/food.dart';
-import 'package:food_order/src/route_generator.dart';
+import 'package:food_order/src/models/model.dart';
+import 'package:food_order/src/route/generated_route.dart';
 import 'package:food_order/src/utils/app_config.dart' as config;
-import 'package:food_order/src/utils/color_theme.dart';
+import 'package:food_order/src/utils/constants.dart';
 import 'package:food_order/src/utils/functions.dart';
-import 'package:food_order/src/widget/appbar.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-import 'package:food_order/src/widget/connectivity_check.dart';
-import 'package:food_order/src/widget/image_placeholder.dart';
-import 'package:food_order/src/widget/progress_dialog.dart';
-import 'package:food_order/src/widget/search_filter_widget.dart';
+import 'package:food_order/src/widgets/widget.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -41,6 +37,8 @@ class _SearchScreenState extends StateMVC<SearchScreen> {
   Widget build(BuildContext context) {
     final _appConfig = config.AppConfig(context);
 
+    // TODO: implement pagination
+
     return Container(
       color: Theme.of(context).backgroundColor,
       child: SafeArea(
@@ -51,46 +49,43 @@ class _SearchScreenState extends StateMVC<SearchScreen> {
           ),
           endDrawer: FilterDrawerWidget(
             controller: _controller,
-            categories:
-                _functions.stringToList(LocaleKeys.filter_categories.tr()),
-            types: _functions.stringToList(LocaleKeys.filter_types.tr()),
+            categories: _functions
+                .createStringFromList(LocaleKeys.filter_categories.tr()),
+            types:
+                _functions.createStringFromList(LocaleKeys.filter_types.tr()),
             onApplyPressed: () =>
                 _controller.listenForSearch(_searchController.text),
           ),
           body: ConnectivityCheck(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(
-                horizontal: _appConfig.horizontalSpace(),
-                vertical: _appConfig.verticalSpace(),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: SearchTextForm(
-                          searchController: _searchController,
-                          searchFocus: _searchFocus,
-                          onSubmitData: _controller.listenForSearch,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: SearchTextForm(
+                        searchController: _searchController,
+                        searchFocus: _searchFocus,
+                        onSubmitData: _controller.listenForSearch,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () =>
+                          _controller.scaffoldKey.currentState.openEndDrawer(),
+                      child: Container(
+                        padding: EdgeInsets.all(_appConfig.extraSmallSpace()),
+                        child: Icon(
+                          AppIcons.filter,
+                          size: _appConfig.appBarIconSize(),
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () => _controller.scaffoldKey.currentState
-                            .openEndDrawer(),
-                        child: Container(
-                          padding: EdgeInsets.all(_appConfig.extraSmallSpace()),
-                          child: Icon(
-                            AppIcons.filter,
-                            size: _appConfig.filterIconSize(),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  _controller.isLoading
+                    ),
+                  ],
+                ),
+                Expanded(
+                  child: _controller.isLoading
                       ? ProgressDialog()
                       : _controller.foods.length == 0
                           ? Container()
@@ -110,7 +105,8 @@ class _SearchScreenState extends StateMVC<SearchScreen> {
                                 return InkWell(
                                   onTap: () => Navigator.of(context).pushNamed(
                                       foodRoute,
-                                      arguments: {arg_food_id: food.id}),
+                                      arguments:
+                                          new RouteArgument(id: food.id)),
                                   child: Container(
                                     padding: EdgeInsets.symmetric(
                                         vertical: _appConfig.verticalSpace(),
@@ -131,7 +127,7 @@ class _SearchScreenState extends StateMVC<SearchScreen> {
                                             height: _appConfig.appWidth(25),
                                             width: _appConfig.appWidth(25),
                                             fit: BoxFit.cover,
-                                            imageUrl: food.image.thumb,
+                                            imageUrl: food.media.thumb,
                                             placeholder: (context, url) =>
                                                 ImagePlaceHolder(),
                                             errorWidget:
@@ -194,9 +190,9 @@ class _SearchScreenState extends StateMVC<SearchScreen> {
                                   ),
                                 );
                               },
-                            )
-                ],
-              ),
+                            ),
+                )
+              ],
             ),
           ),
         ),
@@ -229,7 +225,7 @@ class SearchTextForm extends StatelessWidget {
       onFieldSubmitted: onSubmitData,
       decoration: InputDecoration(
         filled: true,
-        fillColor: lightGreyColor,
+        fillColor: Theme.of(context).hintColor.withAlpha(8000),
         contentPadding: EdgeInsets.symmetric(
           horizontal: _appConfig.horizontalSpace(),
           vertical: _appConfig.verticalSpace(),

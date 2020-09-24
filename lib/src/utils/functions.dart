@@ -1,11 +1,9 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/painting/text_style.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:food_order/generated/locale_keys.g.dart';
-import 'package:food_order/src/model/cart.dart';
-import 'package:food_order/src/model/food.dart';
-import 'package:food_order/src/repository/settings_repo.dart';
+import 'package:food_order/src/models/model.dart';
+import 'package:food_order/src/repository/repository.dart';
 
 class Functions {
   // for mapping data retrieved form json array
@@ -25,6 +23,26 @@ class Functions {
     return data['data'] ?? new Map<String, dynamic>();
   }
 
+  showMessageWithAction(GlobalKey<ScaffoldState> scaffoldKey,
+      BuildContext context, String message,
+      {String buttonText, VoidCallback onPressed}) {
+    scaffoldKey.currentState?.showSnackBar(SnackBar(
+      duration: Duration(seconds: 5),
+      behavior: SnackBarBehavior.floating,
+      content: Text(message),
+      action: buttonText != null
+          ? SnackBarAction(
+              label: buttonText,
+              textColor: Theme.of(context).buttonColor,
+              onPressed: onPressed,
+            )
+          : SnackBarAction(
+              label: '',
+              onPressed: () {},
+            ),
+    ));
+  }
+
   String removeHtml(String description, int count) {
     description = description.replaceAll('<p>', '');
     description = description.replaceAll('</p>', '');
@@ -41,8 +59,18 @@ class Functions {
     return discount.toStringAsFixed(2);
   }
 
-  List<String> stringToList(String value) {
+  List<String> createStringFromList(String value) {
     return value.split(', ');
+  }
+
+  String createListFromString(List<String> list) {
+    String joinedString;
+    list.forEach((item) {
+      joinedString = (joinedString == null || joinedString == '')
+          ? item.toString()
+          : joinedString + ',' + item.toString();
+    });
+    return joinedString;
   }
 
   String getPrice(Cart cart) {
@@ -53,5 +81,14 @@ class Functions {
           cart.food.price - ((cart.food.discount * cart.food.price) / 100);
       return (price * cart.quantity).toStringAsFixed(2);
     }
+  }
+
+  Map<String, dynamic> getHeader() {
+    User _user = currentUser.value;
+
+    return {
+      HttpHeaders.contentTypeHeader: 'application/json',
+      'Authorization': 'Bearer ${_user.apiToken}'
+    };
   }
 }

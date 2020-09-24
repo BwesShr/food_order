@@ -1,26 +1,23 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:food_order/generated/locale_keys.g.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:food_order/src/controller/address_controller.dart';
-import 'package:food_order/src/model/address.dart';
+import 'package:food_order/src/models/route_argument.dart';
 import 'package:food_order/src/utils/app_config.dart' as config;
 import 'package:food_order/src/utils/constants.dart';
 import 'package:food_order/src/utils/validation.dart';
-import 'package:food_order/src/widget/appbar.dart';
-import 'package:food_order/src/widget/buttons/address_type_button.dart';
-import 'package:food_order/src/widget/connectivity_check.dart';
-import 'package:food_order/src/widget/progress_dialog.dart';
-import 'package:food_order/src/widget/text_input_form.dart';
+import 'package:food_order/src/widgets/widget.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 class AddAddressScreen extends StatefulWidget {
   AddAddressScreen({
     Key key,
-    this.addressId,
+    this.routeArgument,
   }) : super(key: key);
 
-  int addressId;
+  final RouteArgument routeArgument;
 
   @override
   _AddAddressScreenState createState() => _AddAddressScreenState();
@@ -43,9 +40,9 @@ class _AddAddressScreenState extends StateMVC<AddAddressScreen> {
 
   @override
   void initState() {
-    if (widget.addressId != 0) {
+    if (widget.routeArgument.id != 0) {
       _controller.isLoading = true;
-      _controller.listenAddress(widget.addressId).then((address) {
+      _controller.listenAddress(widget.routeArgument.id).then((address) {
         setState(() {
           _nameController.text = _controller.address.fullName;
           _mobileController.text = _controller.address.mobile;

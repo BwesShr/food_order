@@ -1,16 +1,17 @@
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:easy_localization_loader/easy_localization_loader.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:food_order/generated/locale_keys.g.dart';
-import 'package:food_order/src/model/setting.dart';
+import 'package:food_order/src/repository/repository.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 import 'src/controller/controller.dart';
-import 'src/repository/settings_repo.dart' as settingRepo;
-import 'src/route_generator.dart';
-import 'src/utils/color_theme.dart';
+import 'src/models/model.dart';
+import 'src/route/generated_route.dart';
+import 'src/utils/constants.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,38 +38,32 @@ class MyApp extends AppMVC {
           SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
             statusBarBrightness: Brightness.light,
             statusBarIconBrightness: Brightness.dark,
-            systemNavigationBarColor: whiteColor,
-            systemNavigationBarDividerColor: dividerColor,
+            systemNavigationBarColor: AppColors.whiteColor,
+            systemNavigationBarDividerColor: AppColors.dividerColor,
             systemNavigationBarIconBrightness: Brightness.dark,
           ));
           return ThemeData(
             fontFamily: 'AppFont',
             brightness: Brightness.light,
-            scaffoldBackgroundColor: backgroundColor,
-            backgroundColor: backgroundColor,
-            primaryColor: whiteColor,
-            accentColor: blackColor,
-            hintColor: greyColor,
-            cursorColor: blackColor,
-            buttonColor: primaryColor,
-            dividerColor: dividerColor,
-            splashColor: greyColor.withOpacity(0.5),
-            focusColor: greyColor.withOpacity(0.5),
-            iconTheme: IconThemeData(
-              color: blackColor,
-              size: 15.0,
+            scaffoldBackgroundColor: AppColors.backgroundColor,
+            backgroundColor: AppColors.backgroundColor,
+            primaryColor: AppColors.whiteColor,
+            accentColor: AppColors.blackColor,
+            hintColor: AppColors.greyColor,
+            cursorColor: AppColors.blackColor,
+            buttonColor: AppColors.primaryColor,
+            appBarTheme: AppBarTheme(
+              color: Colors.transparent,
+              elevation: 0.0,
             ),
-            buttonTheme: ButtonThemeData(
-              buttonColor: primaryColor,
-              focusColor: greyColor,
-              hoverColor: greyColor,
-              disabledColor: greyColor,
-              splashColor: greyColor,
+            iconTheme: IconThemeData(
+              color: AppColors.blackColor,
+              size: 15.0,
             ),
             textTheme: TextTheme(
               headline1: TextStyle(
                 fontSize: 25.0,
-                color: blackColor,
+                color: AppColors.blackColor,
                 fontWeight: FontWeight.w700,
               ),
               headline2: TextStyle(
@@ -79,7 +74,7 @@ class MyApp extends AppMVC {
                 fontSize: 16.0,
               ),
               button: TextStyle(
-                color: whiteColor,
+                color: AppColors.whiteColor,
                 fontWeight: FontWeight.w500,
               ),
               bodyText1: TextStyle(
@@ -90,46 +85,41 @@ class MyApp extends AppMVC {
               ),
               caption: TextStyle(
                 fontSize: 12.0,
-                color: greyColor,
+                color: AppColors.greyColor,
               ),
             ),
           );
         } else {
           SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-            systemNavigationBarDividerColor: dividerColor,
+            systemNavigationBarDividerColor: AppColors.dividerColor,
             statusBarBrightness: Brightness.light,
             statusBarIconBrightness: Brightness.dark,
-            systemNavigationBarColor: blackColor,
+            systemNavigationBarColor: AppColors.blackColor,
             systemNavigationBarIconBrightness: Brightness.light,
           ));
           return ThemeData(
             fontFamily: 'AppFont',
-            primaryColor: blackColor,
+            primaryColor: AppColors.blackColor,
             brightness: Brightness.dark,
-            scaffoldBackgroundColor: blackColor,
-            backgroundColor: blackColor,
-            accentColor: whiteColor,
-            hintColor: greyColor,
-            cursorColor: whiteColor,
-            buttonColor: primaryColor,
-            dividerColor: dividerColor,
-            splashColor: greyColor.withOpacity(0.3),
-            focusColor: greyColor.withOpacity(0.3),
-            iconTheme: IconThemeData(
-              color: whiteColor,
-              size: 15.0,
+            scaffoldBackgroundColor: AppColors.blackColor,
+            backgroundColor: AppColors.blackColor,
+            accentColor: AppColors.whiteColor,
+            hintColor: AppColors.greyColor,
+            cursorColor: AppColors.whiteColor,
+            buttonColor: AppColors.primaryColor,
+            dividerColor: AppColors.dividerColor,
+            appBarTheme: AppBarTheme(
+              color: Colors.transparent,
+              elevation: 0.0,
             ),
-            buttonTheme: ButtonThemeData(
-              buttonColor: primaryColor,
-              focusColor: greyColor,
-              hoverColor: greyColor,
-              disabledColor: greyColor,
-              splashColor: greyColor,
+            iconTheme: IconThemeData(
+              color: AppColors.whiteColor,
+              size: 15.0,
             ),
             textTheme: TextTheme(
               headline1: TextStyle(
                 fontSize: 20.0,
-                color: whiteColor,
+                color: AppColors.whiteColor,
                 fontWeight: FontWeight.w700,
               ),
               headline2: TextStyle(
@@ -140,7 +130,7 @@ class MyApp extends AppMVC {
                 fontSize: 16.0,
               ),
               button: TextStyle(
-                color: whiteColor,
+                color: AppColors.whiteColor,
                 fontWeight: FontWeight.w500,
               ),
               bodyText1: TextStyle(
@@ -151,7 +141,7 @@ class MyApp extends AppMVC {
               ),
               caption: TextStyle(
                 fontSize: 12.0,
-                color: greyColor,
+                color: AppColors.greyColor,
               ),
             ),
           );
@@ -159,17 +149,17 @@ class MyApp extends AppMVC {
       },
       themedWidgetBuilder: (context, theme) {
         return ValueListenableBuilder(
-          valueListenable: settingRepo.setting,
+          valueListenable: appSetting,
           builder: (context, Setting _setting, _) {
             return MaterialApp(
               title: LocaleKeys.app_name.tr(),
+              theme: theme,
+              locale: context.locale,
               initialRoute: splashRoute,
+              onGenerateRoute: generatedRoute,
               debugShowCheckedModeBanner: false,
-              onGenerateRoute: RouteGenerator.generateRoute,
               localizationsDelegates: context.localizationDelegates,
               supportedLocales: context.supportedLocales,
-              locale: context.locale,
-              theme: theme,
             );
           },
         );

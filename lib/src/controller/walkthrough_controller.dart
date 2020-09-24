@@ -1,10 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:food_order/src/model/walkthrough.dart';
-import 'package:food_order/src/repository/walkthrough_repo.dart';
+import 'package:food_order/src/repository/repository.dart';
 import 'package:food_order/src/utils/save_data.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
-import '../route_generator.dart';
+import '../models/model.dart';
+
+import '../route/generated_route.dart';
 
 class WalkthroughController extends ControllerMVC {
   GlobalKey<ScaffoldState> scaffoldKey;
@@ -22,21 +24,20 @@ class WalkthroughController extends ControllerMVC {
     for (Walkthrough walkthrough in datas) {
       setState(() => walkthroughs.add(walkthrough));
     }
-    print('length: ${walkthroughs.length}');
   }
 
   void finishWalkthrough() {
     _saveData.saveBool(_saveData.APP_FIRST_RUN, false);
-    Navigator.of(context).pushReplacementNamed(homeRoute, arguments: {
-      arg_current_tab: 0,
+    Navigator.of(context).pushReplacementNamed(homeRoute, arguments: 0);
+  }
+
+  void updateIndex(int index) {
+    setState(() {
+      pageIndex = index;
     });
   }
 
-  void updatePageIndex(int index) {
-    pageIndex = index;
-  }
-
-  int getPageIndex() {
-    return pageIndex;
+  bool checkIndex() {
+    return pageIndex < (walkthroughs.length - 1) ? true : false;
   }
 }

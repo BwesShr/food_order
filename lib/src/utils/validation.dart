@@ -44,7 +44,7 @@ String passwordConfirmValidator(String value, String password) {
   } else if (value.length < 6) {
     return LocaleKeys.vaid_password.tr();
   } else if (value != password) {
-    return LocaleKeys.vaid_password.tr();
+    return LocaleKeys.vaid_confirm_password.tr();
   } else {
     return null;
   }

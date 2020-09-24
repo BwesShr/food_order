@@ -1,25 +1,24 @@
 import 'package:flutter/gestures.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:food_order/generated/locale_keys.g.dart';
 import 'package:food_order/presentation/app_icons_icons.dart';
 import 'package:food_order/src/controller/user_controller.dart';
 import 'package:food_order/src/utils/app_config.dart' as config;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:food_order/src/utils/validation.dart';
-import 'package:food_order/src/widget/buttons/primary_button.dart';
-import 'package:food_order/src/widget/login/login_text_input.dart';
+import 'package:food_order/src/widgets/widget.dart';
 
-class LoginWidget extends StatefulWidget {
-  LoginWidget({
+class LoginScreen extends StatefulWidget {
+  LoginScreen({
     Key key,
     @required this.controller,
     @required this.onSignUpClicked,
     @required this.onResetPassClicked,
-    @required this.onLoginClicked,
   }) : super(key: key);
 
   final UserController controller;
-  final VoidCallback onLoginClicked;
   final VoidCallback onResetPassClicked;
   final VoidCallback onSignUpClicked;
 
@@ -27,7 +26,7 @@ class LoginWidget extends StatefulWidget {
   State<StatefulWidget> createState() => _LoginWidgetSate();
 }
 
-class _LoginWidgetSate extends State<LoginWidget> {
+class _LoginWidgetSate extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _emailFocus = FocusNode();
@@ -42,6 +41,18 @@ class _LoginWidgetSate extends State<LoginWidget> {
 
     _emailValidated = false;
     _passwordValidated = false;
+    if (widget.controller.user.email != null) {
+      setState(() {
+        _emailController.text = widget.controller.user.email;
+        _emailValidated = true;
+      });
+    }
+    if (widget.controller.user.password != null) {
+      setState(() {
+        _passwordController.text = widget.controller.user.password;
+        _passwordValidated = true;
+      });
+    }
   }
 
   @override
@@ -59,6 +70,7 @@ class _LoginWidgetSate extends State<LoginWidget> {
       alignment: Alignment.bottomCenter,
       child: Form(
         key: widget.controller.loginFormKey,
+        autovalidate: widget.controller.autoValidate,
         child: ListView(
           shrinkWrap: true,
           children: <Widget>[
@@ -109,11 +121,7 @@ class _LoginWidgetSate extends State<LoginWidget> {
               ),
               child: PrimaryButton(
                 text: LocaleKeys.action_login.tr(),
-                onPressed: () {
-                  widget.controller.user.email = _emailController.text;
-                  widget.controller.user.password = _passwordController.text;
-                  widget.onLoginClicked();
-                },
+                onPressed: validate,
               ),
             ),
             SizedBox(height: _appConfig.smallSpace()),
@@ -158,5 +166,19 @@ class _LoginWidgetSate extends State<LoginWidget> {
         ),
       ),
     );
+  }
+
+  void validate() {
+    final form = widget.controller.loginFormKey.currentState;
+    if (form.validate()) {
+      SystemChannels.textInput.invokeMethod('TextInput.hide');
+      setState(() => widget.controller.autoValidate = false);
+      widget.controller.user.email = _emailController.text;
+      widget.controller.user.password = _passwordController.text;
+      widget.controller.loginProcess();
+      form.save();
+    } else {
+      setState(() => widget.controller.autoValidate = true);
+    }
   }
 }

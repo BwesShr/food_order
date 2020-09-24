@@ -1,11 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_order/generated/locale_keys.g.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:food_order/src/model/cart.dart';
-import 'package:food_order/src/repository/cart_repo.dart';
+import 'package:food_order/src/repository/repository.dart';
+import 'package:food_order/src/utils/functions.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
-import '../route_generator.dart';
+import '../models/model.dart';
+import '../route/generated_route.dart';
 
 class CartController extends ControllerMVC {
   GlobalKey<ScaffoldState> scaffoldKey;
@@ -18,24 +20,27 @@ class CartController extends ControllerMVC {
   double subTotal = 0.0;
   double total = 0.0;
   bool isLoading;
+  final _functions = Functions();
 
   CartController() {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
-    isLoading = true;
+    isLoading = false;
   }
 
   Future<void> refreshCarts() async {
-    listenForCarts(message: LocaleKeys.carts_refreshed_successfuly.tr());
+    listenForCarts();
   }
 
-  void listenForCarts({String message}) async {
-    // TODO: call get user carts api
-
-    await Future.delayed(Duration(seconds: 2));
+  void listenForCarts() async {
     setState(() {
-      carts = getCart();
+      isLoading = true;
+    });
+    final List<Cart> _carts = await getCart();
+    setState(() {
+      carts.addAll(_carts);
       isLoading = false;
     });
+    print('length: ${carts.length}');
   }
 
   // void listenForCarts({String message}) async {
@@ -169,5 +174,12 @@ class CartController extends ControllerMVC {
 
       Navigator.of(context).pushNamed(checkoutRoute);
     }
+  }
+
+  void userLogin() async {
+    final message = await Navigator.of(context).pushNamed(loginRoute);
+    setState(() {
+      _functions.showMessageWithAction(scaffoldKey, context, message);
+    });
   }
 }

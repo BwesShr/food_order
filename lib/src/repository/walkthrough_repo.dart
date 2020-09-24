@@ -1,4 +1,4 @@
-import 'package:food_order/src/model/walkthrough.dart';
+import '../models/model.dart';
 
 Future<List<Walkthrough>> getWalkthroughs() async {
   return [

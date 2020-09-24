@@ -12,6 +12,7 @@ abstract class LocaleKeys {
   static String action_add_cart = 'action_button.action_add_cart';
   static String action_next = 'action_button.action_next';
   static String action_skip = 'action_button.action_skip';
+  static String action_login_register = 'action_button.action_login_register';
   static String action_login = 'action_button.action_login';
   static String action_register = 'action_button.action_register';
   static String action_forgot_password = 'action_button.action_forgot_password';
@@ -42,7 +43,7 @@ abstract class LocaleKeys {
   static String tab_home = 'tab_item.tab_home';
   static String tab_search = 'tab_item.tab_search';
   static String tab_cart = 'tab_item.tab_cart';
-  static String tab_history = 'tab_item.tab_history';
+  static String tab_message = 'tab_item.tab_message';
   static String tab_profile = 'tab_item.tab_profile';
 
   /// menu item
@@ -88,11 +89,13 @@ abstract class LocaleKeys {
   static String title_checkout = 'title.title_checkout';
   static String title_select_address = 'title.title_select_address';
   static String title_my_address = 'title.title_my_address';
+  static String title_edit_profile = 'title.title_edit_profile';
   static String title_add_address = 'title.title_add_address';
   static String title_payment_method = 'title.title_payment_method';
   static String title_address_type = 'title.title_address_type';
 
   /// subtitle
+  static String subtitle_login_register = 'subtitle.subtitle_login_register';
   static String subtitle_phone = 'subtitle.subtitle_phone';
   static String subtitle_reset_pass = 'subtitle.subtitle_reset_pass';
   static String subtitle_code_verify = 'subtitle.subtitle_code_verify';
@@ -124,15 +127,20 @@ abstract class LocaleKeys {
 
   /// message
   static String welcome_message = 'message.welcome_message';
+  static String register_message = 'message.register_message';
+  static String logout_message = 'message.logout_message';
   static String trending_food_refreshed_successfuly =
       'message.trending_food_refreshed_successfuly';
   static String food_refreshed_successfuly =
       'message.food_refreshed_successfuly';
   static String added_to_cart_message = 'message.added_to_cart_message';
+  static String added_to_wishlist_message = 'message.added_to_wishlist_message';
   static String category_refreshed_successfuly =
       'message.category_refreshed_successfuly';
   static String carts_refreshed_successfuly =
       'message.carts_refreshed_successfuly';
+  static String orders_refreshed_successfuly =
+      'message.orders_refreshed_successfuly';
   static String the_food_was_removed_from_your_cart =
       'message.the_food_was_removed_from_your_cart';
   static String not_registered_message = 'message.not_registered_message';
@@ -146,6 +154,7 @@ abstract class LocaleKeys {
   static String order_successful_message = 'message.order_successful_message';
 
   /// error message
+  static String connection_timeout = 'error_message.connection_timeout';
   static String verify_internet_connection =
       'error_message.verify_internet_connection';
   static String verify_email_settings = 'error_message.verify_email_settings';
